@@ -126,7 +126,7 @@ namespace LocalFilesDatabase
         }
 
         /// <summary>
-        /// Crea una imagen Bitmap del thumbnail de un fichero
+        /// Obtiene el thumbnail de un fichero
         /// </summary>
         /// <param name="fileName">Path del fichero</param>
         /// <returns>Bitmap</returns>
@@ -142,6 +142,25 @@ namespace LocalFilesDatabase
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Error en thumbnail: {0}", ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Crea una imagen Bitmap del thumbnail de un fichero
+        /// </summary>
+        /// <param name="fileName">Path del fichero</param>
+        /// <returns>Bitmap</returns>
+        public static List<BitmapImage> CreatePagesBitmapImage(string fileName)
+        {
+            try
+            {
+                List<BitmapImage> images = ZipHelper.Instance.UncompressToListBitmapImages(fileName);
+                return images;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error generando imagenes: {0}", ex.Message);
                 return null;
             }
         }

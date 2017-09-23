@@ -105,7 +105,7 @@ namespace LocalFilesDatabase
             settings.ColorScheme = MetroDialogColorScheme.Theme;
             settings.AffirmativeButtonText = "OK";
             if (System.IO.File.Exists(App.ViewModel.SelectedFile.Path)){
-                Process.Start(App.ViewModel.SelectedFile.Path);
+                await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path,this);
             }
             else
                 await this.ShowMessageAsync("ABRIR FICHERO", "EL FICHERO NO SE ENCUENTRA DISPONIBLE.");
@@ -124,6 +124,11 @@ namespace LocalFilesDatabase
                 await this.ShowMessageAsync("ABRIR DIRECTORIO", "EL DIRECTORIO NO SE ENCUENTRA DISPONIBLE.");
         }
 
+        /// <summary>
+        /// Evento elementos de lista ficheros recientes abiertos
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonfast_Click(object sender, RoutedEventArgs e)
         {
             String path = ((Button)sender).Content.ToString();

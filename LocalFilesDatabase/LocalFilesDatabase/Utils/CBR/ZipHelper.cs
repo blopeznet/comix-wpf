@@ -4,6 +4,7 @@ using System.Linq;
 using SevenZip;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+using System.Windows.Threading;
 
 namespace LocalFilesDatabase.Utils
 {
@@ -175,11 +176,7 @@ namespace LocalFilesDatabase.Utils
                 BitmapImage bitmap = null;                
                 List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
 
-                String filenamepng = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).FirstOrDefault().FileName;
-                String filename = System.IO.Path.GetFileNameWithoutExtension(inputFile);
-                String ext = System.IO.Path.GetExtension(filenamepng);
-                string destPath = System.IO.Path.GetTempPath() + filename + ext;
-
+                String filenamepng = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).FirstOrDefault().FileName;                
                 using (MemoryStream ms = new MemoryStream())
                 {
                     temp.ExtractFile(filenamepng, ms);
@@ -202,6 +199,63 @@ namespace LocalFilesDatabase.Utils
                 String uri = DirectoryHelper.Combine(CBRFolders.Dependencies, "NotFound.jpg");
                 var bmp = new BitmapImage(new Uri(uri,UriKind.Relative));
                 return bmp;
+            }
+            finally
+            {
+                ReleaseExtractor(temp);
+            }
+        }
+
+        /// <summary>
+		/// self uncompress a content to List to BitmapImage
+		/// </summary>
+		/// <param name="inputFile"></param>
+		/// <returns></returns>
+        public List<BitmapImage> UncompressToListBitmapImages(string inputFile)
+        {
+            SevenZipExtractor temp = null;
+
+            try
+            {
+                temp = GetExtractor(inputFile);
+                BitmapImage bitmap = null;
+                List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
+                List<ArchiveFileInfo> filenamespng = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).ToList();
+                List<BitmapImage> pages = new List<BitmapImage>();
+                int processed = 1;
+                App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    App.ViewModel.WorkingMsg = String.Format("GENERANDO {0} DE {1} PAGINAS",processed,filenamespng.Count-1);
+                }));
+
+                foreach (ArchiveFileInfo file in filenamespng)
+                {
+                    String filenamepng = file.FileName;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        temp.ExtractFile(filenamepng, ms);
+                        bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        ms.Position = 0;
+                        bitmap.StreamSource = ms;
+                        bitmap.DecodePixelWidth = 1368;
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+                        pages.Add(bitmap);
+                        App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+                        {
+                            App.ViewModel.WorkingMsg = String.Format("GENERANDO {0} DE {1} PAGINAS", processed, filenamespng.Count - 1);
+                        }));
+                        processed += 1;
+                    }
+                }                                
+                return pages;
+            }
+            catch (Exception err)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al generar páginas {0}", err.Message);
+                return null;
             }
             finally
             {

@@ -10,6 +10,7 @@ using LocalFilesDatabase.Entities;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
 
 namespace LocalFilesDatabase.ViewModel
 {
@@ -228,6 +229,25 @@ namespace LocalFilesDatabase.ViewModel
                 SelectedFile = Files[0];
             }
         }
+
+        public async Task<bool> ShowReader(String path,MetroWindow w)
+        {
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+                IsWorking = true;
+                WorkingMsg = String.Format("CARGANDO PAGINAS...");
+            }));
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
+                List<BitmapImage> pages = MainUtils.CreatePagesBitmapImage(path);
+                IsWorking = false;
+                WorkingMsg = String.Empty;
+                ReaderWindow rwindow = new ReaderWindow();
+                rwindow.LoadPages(pages,w);
+                rwindow.ShowDialog();
+            }));
+            
+            return true;
+        }
+
 
         private bool _IsDataAvaliable;
         public bool IsDataAvaliable

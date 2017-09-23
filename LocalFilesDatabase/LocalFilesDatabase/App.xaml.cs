@@ -51,6 +51,7 @@ namespace LocalFilesDatabase
 
                    MainWindow m = new LocalFilesDatabase.MainWindow();
                    m.Show();
+                   App.Current.MainWindow = m;
                    App.ViewModel.IsWorking = true;
                    App.ViewModel.WorkingMsg = ("LAUNCHING APP");
                    App.ViewModel.RecentFiles = MainUtils.ReadRecents();

@@ -179,11 +179,12 @@
                 </ListView.ItemsPanel>
             </ListView>
             <Grid x:Name="GridSeparator" Grid.Row="1" Grid.Column="1"/>
-            <Grid x:Name="GridFile" Margin="0,0,0,-50" Grid.Column="1" Grid.Row="2" 
+            <Grid x:Name="GridFile" Margin="0,0,0,0" Grid.Column="1" Grid.Row="2" 
                   Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}"
                    Background="{StaticResource BackgroundBrush}">
                 <Grid Background="#FF000000" Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}"/>
-                <metrocontrols:FlipView MouseOverGlowEnabled="False" Grid.Row="2" BorderThickness="0" Margin="0,6,0,0" ItemsSource="{Binding ItemsSource, ElementName=ListViewFiles}"                                             
+                <metrocontrols:FlipView IsBannerEnabled="False"
+            MouseHoverBorderEnabled="False" Grid.Row="2" BorderThickness="0" Margin="0,6,0,0" ItemsSource="{Binding ItemsSource, ElementName=ListViewFiles}"                                             
                                             SelectedItem="{Binding SelectedItem, ElementName=ListViewFiles}" VerticalAlignment="Stretch">
                     <metrocontrols:FlipView.ItemTemplate>
                         <DataTemplate>
