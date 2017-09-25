@@ -112,6 +112,7 @@
     <Compile Include="Common\PathToFolderConverter.cs" />
     <Compile Include="Common\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Common\BooleanToVisibilityConverter .cs" />
+    <Compile Include="Entities\ComicTemp.cs" />
     <Compile Include="Entities\ItemElement.cs" />
     <Compile Include="Reader\ReaderWindow.xaml.cs">
       <DependentUpon>ReaderWindow.xaml</DependentUpon>

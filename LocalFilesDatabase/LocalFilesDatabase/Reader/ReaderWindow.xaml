@@ -28,43 +28,19 @@
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                     <Grid Margin="{TemplateBinding Padding}">
                         <Grid x:Name="ControlGrid" Panel.ZIndex="7">
-                            <!--
-                            <Button x:Name="PART_BackButton"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Style="{DynamicResource ControlButton}">
-                                <Path Canvas.Left="15.9063"
-                                  Canvas.Top="14.75"
-                                  Width="16"
-                                  Height="18"
-                                  Data="F1 M 22.6563,23.75L 24.6563,25.75L 31.9063,32.75L 25.4063,32.75L 15.9063,23.75L 25.4063,14.75L 31.9063,14.75L 24.6563,21.75L 22.6563,23.75 Z "
-                                  Fill="{DynamicResource BlackBrush}"
-                                  Stretch="Fill" />
-                            </Button>
-                            <Button x:Name="PART_ForwardButton"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Style="{DynamicResource ControlButton}">
-                                <Path Canvas.Left="15.9063"
-                                  Canvas.Top="14.75"
-                                  Width="16"
-                                  Height="18"
-                                  Data="F1 M 25.1563,23.75L 23.1563,21.75L 15.9063,14.75L 22.4063,14.75L 31.9063,23.75L 22.4063,32.75L 15.9063,32.75L 23.1563,25.75L 25.1563,23.75 Z "
-                                  Fill="{DynamicResource BlackBrush}"
-                                  Stretch="Fill" />
-                            </Button>
-                            -->
                             <Button x:Name="PART_BackButton"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
-                                Width="60"
+                                Width="200"
+                                Background="Transparent"
                                 Height="800"
                                 Style="{DynamicResource ControlButton}">
                                 <Path Canvas.Left="15.9063"
                                   Canvas.Top="14.75"
                                   Width="16"
                                   Height="18"
+                                  Opacity="0.1"
                                   Data="F1 M 22.6563,23.75L 24.6563,25.75L 31.9063,32.75L 25.4063,32.75L 15.9063,23.75L 25.4063,14.75L 31.9063,14.75L 24.6563,21.75L 22.6563,23.75 Z "
                                   Fill="{DynamicResource BlackBrush}"
                                   Stretch="Fill" />
@@ -73,13 +49,15 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
-                                Width="60"
+                                Width="200"
                                 Height="800"
+                                Background="Transparent"
                                 Style="{DynamicResource ControlButton}">
                                 <Path Canvas.Left="15.9063"
                                   Canvas.Top="14.75"
                                   Width="16"
                                   Height="18"
+                                  Opacity="0.1"
                                   Data="F1 M 25.1563,23.75L 23.1563,21.75L 15.9063,14.75L 22.4063,14.75L 31.9063,23.75L 22.4063,32.75L 15.9063,32.75L 23.1563,25.75L 25.1563,23.75 Z "
                                   Fill="{DynamicResource BlackBrush}"
                                   Stretch="Fill" />
@@ -237,7 +215,6 @@
             <RowDefinition x:Name="RowMenu" Height="Auto"/>
             <RowDefinition x:Name="RowContent"/>
         </Grid.RowDefinitions>
-
         <Grid x:Name="GridMenu" Margin="0,12,0,0" Height="80">
             <StackPanel Orientation="Horizontal" Margin="6"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,12,6">
@@ -278,68 +255,30 @@
             VerticalAlignment="Stretch">
             <metrocontrols:FlipView.ItemTemplate>
                 <DataTemplate>
-                    <ScrollViewer x:Name="scrollView" Loaded="scrollView_Loaded"
+                    <Grid>
+                        <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <ScrollViewer x:Name="scrollView" Loaded="scrollView_Loaded"
                                   local:TouchScrolling.IsEnabled="True" CanContentScroll="False"                                   
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid>
-                        <Image Source="{Binding}"
+                            <Grid>
+                                <Image Source="{Binding Image}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                ,ConverterParameter=inv}"
                                />
-                        <Image Source="{Binding}"
+                                <Image Source="{Binding Image}"
                                Height="{Binding HeightDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                }"
                                />
-                        </Grid>
-                    </ScrollViewer>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
                 </DataTemplate>
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
-
-        <Grid x:Name="LoadingGrid" Background="#CC141414" Visibility="{Binding Main.IsWorking, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="myText" FontSize="74" FontWeight="Bold" Width="250">
-                    <TextBlock.Foreground>
-                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                            <GradientStop Color="{StaticResource BackgroundColor}" Offset="0"/>
-                            <GradientStop x:Name="WhiteOffset" Color="{StaticResource BackgroundColor}" Offset="1"/>
-                            <GradientStop x:Name="GrayOffset" Color="{StaticResource AccentColor}" Offset="1"/>
-                        </LinearGradientBrush>
-                    </TextBlock.Foreground>
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard Storyboard.TargetProperty="Offset" Duration="0:0:1" RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetName="WhiteOffset" From="0" To="1" />
-                                    <DoubleAnimation Storyboard.TargetName="GrayOffset" From="0" To="1" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers><Run Text="COMIX"/></TextBlock>
-                <Border Opacity="0.2" Width="250" Height="70" Margin="0,-30,0,0">
-                    <Border.Background>
-                        <VisualBrush Visual="{Binding ElementName=myText}">
-                            <VisualBrush.Transform>
-                                <ScaleTransform ScaleX="1" ScaleY="-1" CenterY="40"/>
-                            </VisualBrush.Transform>
-                        </VisualBrush>
-                    </Border.Background>
-                    <Border.OpacityMask>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Black"/>
-                            <GradientStop Offset="0.8" Color="Transparent"/>
-                        </LinearGradientBrush>
-                    </Border.OpacityMask>
-                </Border>
-                <Label Height="28" Margin="19,0,17,15" x:Name="label2" HorizontalAlignment="Center" VerticalAlignment="Bottom"   
-                  Content="{Binding Main.WorkingMsg, Source={StaticResource Locator}}" Foreground="{StaticResource AccentBrush}"/>
-                <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"/>
-            </StackPanel>
-        </Grid>
-
     </Grid>
 </metrocontrols:MetroWindow>

@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using LocalFilesDatabase.Entities;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,11 +80,11 @@ namespace LocalFilesDatabase
             }
         }
 
-        public void LoadPages(List<BitmapImage> pages,MetroWindow mainwreference)
+        public void LoadPages(List<ComicTemp> pages,MetroWindow mainwreference)
         {            
             _mainWindowReference = mainwreference;
             Isfullscreen = false;
-            IsFit = false;
+            IsFit = false;            
             FvPages.ItemsSource = pages;
         }
 

@@ -237,7 +237,7 @@ namespace LocalFilesDatabase.ViewModel
                 WorkingMsg = String.Format("CARGANDO PAGINAS...");
             }));
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                List<BitmapImage> pages = MainUtils.CreatePagesBitmapImage(path);
+                List<ComicTemp> pages = MainUtils.CreatePagesComic(path);
                 IsWorking = false;
                 WorkingMsg = String.Empty;
                 ReaderWindow rwindow = new ReaderWindow();

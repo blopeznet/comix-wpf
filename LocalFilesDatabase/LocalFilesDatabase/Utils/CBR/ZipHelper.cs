@@ -5,6 +5,8 @@ using SevenZip;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Windows.Threading;
+using LocalFilesDatabase.Entities;
+using System.ComponentModel;
 
 namespace LocalFilesDatabase.Utils
 {
@@ -211,46 +213,48 @@ namespace LocalFilesDatabase.Utils
 		/// </summary>
 		/// <param name="inputFile"></param>
 		/// <returns></returns>
-        public List<BitmapImage> UncompressToListBitmapImages(string inputFile)
+        public List<ComicTemp> UncompressToListPages(string inputFile)
         {
             SevenZipExtractor temp = null;
 
             try
             {
                 temp = GetExtractor(inputFile);
-                BitmapImage bitmap = null;
-                List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
-                List<ArchiveFileInfo> filenamespng = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).ToList();
-                List<BitmapImage> pages = new List<BitmapImage>();
-                int processed = 1;
+                
+
+                List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();                                                
                 App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                 {
-                    App.ViewModel.WorkingMsg = String.Format("GENERANDO {0} DE {1} PAGINAS",processed,filenamespng.Count-1);
+                    App.ViewModel.WorkingMsg = String.Format("GENERANDO PAGINAS...");
                 }));
 
-                foreach (ArchiveFileInfo file in filenamespng)
+                List<ComicTemp> pages = new List<ComicTemp>();
+
+                foreach (ArchiveFileInfo file in list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).ToList())
                 {
-                    String filenamepng = file.FileName;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        temp.ExtractFile(filenamepng, ms);
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        ms.Position = 0;
-                        bitmap.StreamSource = ms;
-                        bitmap.DecodePixelWidth = 1368;
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.EndInit();
-                        bitmap.Freeze();
-                        pages.Add(bitmap);
-                        App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            App.ViewModel.WorkingMsg = String.Format("GENERANDO {0} DE {1} PAGINAS", processed, filenamespng.Count - 1);
-                        }));
-                        processed += 1;
-                    }
-                }                                
-                return pages;
+                    ComicTemp tmppng = new ComicTemp() { Source = file.FileName };
+                    pages.Add(tmppng);
+                }
+
+                foreach (ComicTemp p in pages.Take(4))                                    
+                    UncompressImage(temp, p);
+                
+               
+                BackgroundWorker worker = new BackgroundWorker();
+
+                worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                {
+                 SevenZipExtractor tmpextractor = GetExtractor(inputFile);
+                 foreach (ComicTemp p in ((List<ComicTemp>)args.Argument).Skip(4))
+                 {
+                  UncompressImage(tmpextractor, p);
+                 }
+                 ReleaseExtractor(tmpextractor);
+
+                };
+                                
+                worker.RunWorkerAsync(pages);                
+                return pages.ToList();
             }
             catch (Exception err)
             {
@@ -261,6 +265,26 @@ namespace LocalFilesDatabase.Utils
             {
                 ReleaseExtractor(temp);
             }
+        }
+
+        
+
+        private void UncompressImage(SevenZipExtractor extractor,ComicTemp tmp)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {                
+                    tmp.Loaded = true;
+                    extractor.ExtractFile(tmp.Source, ms);
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    ms.Position = 0;
+                    bitmap.StreamSource = ms;
+                    bitmap.DecodePixelWidth = 1368;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    bitmap.Freeze();                
+                    tmp.Image = bitmap;                                        
+            }            
         }
 
         #endregion

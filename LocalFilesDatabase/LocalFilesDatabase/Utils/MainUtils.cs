@@ -151,11 +151,11 @@ namespace LocalFilesDatabase
         /// </summary>
         /// <param name="fileName">Path del fichero</param>
         /// <returns>Bitmap</returns>
-        public static List<BitmapImage> CreatePagesBitmapImage(string fileName)
+        public static List<ComicTemp> CreatePagesComic(string fileName)
         {
             try
             {
-                List<BitmapImage> images = ZipHelper.Instance.UncompressToListBitmapImages(fileName);
+                List<ComicTemp> images = ZipHelper.Instance.UncompressToListPages(fileName);
                 return images;
             }
             catch (Exception ex)
