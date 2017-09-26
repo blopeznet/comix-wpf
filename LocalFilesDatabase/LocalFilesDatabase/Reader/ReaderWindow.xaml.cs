@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -27,7 +28,13 @@ namespace LocalFilesDatabase
         public ReaderWindow()
         {
             InitializeComponent();
+            this.Loaded += ReaderWindow_Loaded;
         }
+
+        private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateTopBar();
+         }
 
         private MetroWindow _mainWindowReference;
 
@@ -93,6 +100,25 @@ namespace LocalFilesDatabase
             Isfullscreen = !Isfullscreen;
         }
 
+        private bool showappbar = true;
+
+        private void UpdateTopBar()
+        {
+            showappbar = !showappbar;
+            if (showappbar)
+            {
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbShowTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
+            }
+            else
+            {
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbHideTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
+            }
+        }
+
         private void UpdateScreen(bool fullscreen)
         {
             if (fullscreen)
@@ -110,7 +136,6 @@ namespace LocalFilesDatabase
                 this.Topmost = true;
                 this.ResizeMode = ResizeMode.NoResize;
                 this.IgnoreTaskbarOnMaximize = true;               
-                this.GridMenu.Height = 25;
             }
             else
             {
@@ -122,7 +147,6 @@ namespace LocalFilesDatabase
                 this.Topmost = false;
                 this.ResizeMode = ResizeMode.CanResize;
                 this.IgnoreTaskbarOnMaximize = false;
-                this.GridMenu.Height = 80;
             }
         }
 
@@ -130,7 +154,7 @@ namespace LocalFilesDatabase
         {
             if (isfit)
             {
-                HeightDisplay = this.RowContent.ActualHeight;
+                HeightDisplay = this.RowContent.ActualHeight+80;
             }
             else
             {                      
@@ -170,6 +194,16 @@ namespace LocalFilesDatabase
         {
             _currentScroll = ((ScrollViewer)sender);
            
+        }
+
+        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateTopBar();
+        }
+
+        private void GridMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UpdateTopBar();
         }
     }
 }

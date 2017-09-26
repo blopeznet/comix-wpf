@@ -17,6 +17,19 @@
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Storyboard x:Key="sbShowTopBar">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,-82,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,6,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="sbHideTopBar">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,6,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,-82,0,0" />
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+        
         <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
             <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -215,34 +228,6 @@
             <RowDefinition x:Name="RowMenu" Height="Auto"/>
             <RowDefinition x:Name="RowContent"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="GridMenu" Margin="0,12,0,0" Height="80">
-            <StackPanel Orientation="Horizontal" Margin="6"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,12,6">
-                <StackPanel Orientation="Vertical">
-                    <Button Foreground="White" FontSize="10" Content="AJUSTAR" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
-                    <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
-                            FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow}">
-                    <Button Foreground="White" FontSize="10" Content="NORMAL" HorizontalAlignment="Center" Click="buttonFullScreen_Click" Style="{StaticResource ButtonClear}"/>
-                    <Button x:Name="buttonNormalScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
-                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow,ConverterParameter=inv}">
-                    <Button Foreground="White" FontSize="10" Content="COMPLETA" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonFullScreen_Click"/>
-                    <Button x:Name="buttonFullScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE2B4;" 
-                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
-                </StackPanel>
-                <StackPanel>
-                    <Button Foreground="White" FontSize="10" Content="CERRAR" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
-                    <Button x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-
         <metrocontrols:FlipView x:Name="FvPages"
                                 Template="{StaticResource FlipViewTemplate}"
             MouseOverGlowEnabled="False" 
@@ -258,7 +243,7 @@
                     <Grid>
                         <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <ScrollViewer x:Name="scrollView" Loaded="scrollView_Loaded"
+                        <ScrollViewer x:Name="scrollView" Loaded="scrollView_Loaded"                                     
                                   local:TouchScrolling.IsEnabled="True" CanContentScroll="False"                                   
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -280,5 +265,39 @@
                 </DataTemplate>
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
+        <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Mouse.MouseDown="GridMenu_MouseDown">
+            <StackPanel Orientation="Horizontal" Margin="6"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,12,-4">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
+                    <Button Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow}">
+                    <Button x:Name="buttonNormalScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
+                    <Button Foreground="White" FontSize="12" Content="Normal" HorizontalAlignment="Center" Click="buttonFullScreen_Click" Style="{StaticResource ButtonClear}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow,ConverterParameter=inv}">
+                    <Button x:Name="buttonFullScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE2B4;" 
+                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
+                    <Button Foreground="White" FontSize="12" Content="Completa" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonFullScreen_Click"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
+                    <Button Foreground="White" FontSize="12" Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
+                </StackPanel>
+                <Grid Width="20"/>
+                <Button x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
+                        BorderThickness="0" Background="Transparent" Height="100" Width="50" 
+                        Margin="0,-6,0,0" VerticalContentAlignment="Bottom" Foreground="White" 
+                        FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Center" 
+                        Click="buttonHideMenu_Click"/>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </metrocontrols:MetroWindow>
