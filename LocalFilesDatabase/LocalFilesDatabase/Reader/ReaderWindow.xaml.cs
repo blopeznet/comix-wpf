@@ -33,8 +33,9 @@ namespace LocalFilesDatabase
 
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            showappbar = App.usefullscreen;
             UpdateTopBar();
-         }
+        }
 
         private MetroWindow _mainWindowReference;
         private List<ComicTemp> _pages;
@@ -54,20 +55,6 @@ namespace LocalFilesDatabase
             }
         }
 
-        private bool _Isfullscreen = false;
-        public bool Isfullscreen {
-            get => _Isfullscreen;
-            set
-            {
-                bool change = _Isfullscreen!=value;
-
-                _Isfullscreen = value;
-                NotifyPropertyChanged("Isfullscreen");
-                if (change)
-                UpdateScreen(_Isfullscreen);
-            }
-        }
-
         private bool _IsFit;
         public bool IsFit
         {
@@ -79,7 +66,16 @@ namespace LocalFilesDatabase
                 UpdateAdjust(_IsFit);
             }
         }
-
+        private void UpdateAdjust(bool isfit)
+        {
+            if (isfit)
+            {
+                HeightDisplay = this.RowContent.ActualHeight + 80;
+            }
+            else
+            {
+            }
+        }
         private Double _HeightDisplay;
         public double HeightDisplay
         {
@@ -95,32 +91,25 @@ namespace LocalFilesDatabase
         {            
             _mainWindowReference = mainwreference;
             _pages = pages;
-            Isfullscreen = false;
+            Isfullscreen = App.usefullscreen;
             IsFit = false;            
             FvPages.ItemsSource = pages;
         }
 
-        private void buttonFullScreen_Click(object sender, RoutedEventArgs e)
-        {            
-            Isfullscreen = !Isfullscreen;
-        }
+#region full screen window
 
-        private bool showappbar = false;
-
-        private void UpdateTopBar()
+        private bool _Isfullscreen = false;
+        public bool Isfullscreen
         {
-            showappbar = !showappbar;
-            if (showappbar)
+            get => _Isfullscreen;
+            set
             {
-                Storyboard myStoryboard = (Storyboard)this.Resources["sbShowTopBar"];
-                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
-                myStoryboard.Begin();
-            }
-            else
-            {
-                Storyboard myStoryboard = (Storyboard)this.Resources["sbHideTopBar"];
-                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
-                myStoryboard.Begin();
+                bool change = _Isfullscreen != value;
+
+                _Isfullscreen = value;
+                NotifyPropertyChanged("Isfullscreen");
+                if (change)
+                    UpdateScreen(_Isfullscreen);
             }
         }
 
@@ -158,16 +147,27 @@ namespace LocalFilesDatabase
             }
         }
 
-        private void UpdateAdjust(bool isfit)
+        #endregion
+
+#region Appbar
+        private bool showappbar = false;
+        private void UpdateTopBar()
         {
-            if (isfit)
+            showappbar = !showappbar;
+            if (showappbar)
             {
-                HeightDisplay = this.RowContent.ActualHeight+80;
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbShowTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
             }
             else
-            {                      
+            {
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbHideTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
             }
         }
+#endregion
 
         #region InotifyPropertyChanged
 

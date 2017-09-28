@@ -42,21 +42,16 @@ namespace LocalFilesDatabase.ViewModel
         /// <returns></returns>
         public async Task<bool> AddNewSnap(String path)
         {
-
             //Create Snap
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background,new Action(() =>{
-                WorkingMsg = "OBTENIENDO CARPETAS PARA SNAP...";
-                IsWorking = true;
-            }));
+            WorkingMsg = "OBTENIENDO CARPETAS PARA SNAP...";
+            IsWorking = true;
+            await Task.Delay(1);
             Snap newsnap = MainUtils.GenerateNewSnap();
             String snapid = newsnap.SnapId;
             //Get Folders
             List<ItemFolder> resultfolders = MainUtils.GenerateSearch(path, snapid);
-            await Task.Delay(1);
             //Generate thumbnails  
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background,new Action(() =>{
-                WorkingMsg = "GUARDANDO SNAP...";
-            }));
+            WorkingMsg = "GUARDANDO SNAP...";
             DBService.Instance.AddSnap(newsnap);
             int totalfolders = resultfolders.Count-1;
             int processedfolders = 1;
@@ -68,33 +63,28 @@ namespace LocalFilesDatabase.ViewModel
                 processedfiles = 1;
                 foreach (ItemInfo file in f.Files)
                 {
-                    file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path));                    
-                    processedfiles += 1;                                        
                     App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                        WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders, processedfiles, totalfiles);
+                        file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path));
                     }));
+                    processedfiles += 1;                                        
+                    WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders, processedfiles, totalfiles);
                 }
                 DBService.Instance.AddItemFiles(f.Files);
                 DBService.Instance.AddItemFolder(f);
                 processedfolders += 1;
             }
             
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                WorkingMsg = String.Empty;
-                IsWorking = false;
-            }));
-
+            WorkingMsg = String.Empty;
+            IsWorking = false;
             return true;
 
-        }
+        }       
 
         public async Task<bool> LoadData(String path)
         {
 
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                IsWorking = true;
-                WorkingMsg = String.Format("CARGANDO MINIATURAS...");
-            }));
+            IsWorking = true;
+            WorkingMsg = String.Format("CARGANDO MINIATURAS...");
             await Task.Delay(1);
             DBService.Instance.Path = path;
             Files = new List<ItemInfo>();
@@ -117,14 +107,9 @@ namespace LocalFilesDatabase.ViewModel
             }
             RaisePropertyChanged("Files");
             IsDataAvaliable = true;
-
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                RecentFiles = MainUtils.LogRecents(path);
-                WorkingMsg = String.Empty;
-                IsWorking = false;                
-            }));
-
-            
+            RecentFiles = MainUtils.LogRecents(path);
+            WorkingMsg = String.Empty;
+            IsWorking = false;                                        
             return true;
         }
 
@@ -182,6 +167,30 @@ namespace LocalFilesDatabase.ViewModel
             }
         }
 
+        public async void OpenFileDialogForSave()
+        {            
+            System.Windows.Forms.SaveFileDialog dialogfile = new System.Windows.Forms.SaveFileDialog();
+            dialogfile.Filter = "Database File (.db)|*.db";
+            dialogfile.FileName = DateTime.Now.ToString("yyyyMMdd_hhss") + ".db";
+            System.Windows.Forms.DialogResult resultsave = dialogfile.ShowDialog();
+            if (resultsave == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();                    
+                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    IsWorking = true;
+                    WorkingMsg = "GENERANDO LIBRERIA...";
+                    String path = dialog.SelectedPath;
+                    DBService.Instance.Path = dialogfile.FileName;
+                    await AddNewSnap(path);
+                    await LoadData(DBService.Instance.Path);
+                    IsWorking = false;
+                    WorkingMsg = String.Empty;
+                }
+            }
+        }
+
         public async Task<bool> SearchCollectionIntoDatabase()
         {
             IsWorking = true;
@@ -232,19 +241,20 @@ namespace LocalFilesDatabase.ViewModel
 
         public async Task<bool> ShowReader(String path,MetroWindow w)
         {
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                IsWorking = true;
-                WorkingMsg = String.Format("CARGANDO PAGINAS...");
+            IsWorking = true;
+            WorkingMsg = String.Format("CARGANDO PAGINAS...");
+            await Task.Delay(1);
+            List<ComicTemp> pages = new List<ComicTemp>();
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                pages = MainUtils.CreatePagesComic(path);
             }));
-            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                List<ComicTemp> pages = MainUtils.CreatePagesComic(path);
-                IsWorking = false;
-                WorkingMsg = String.Empty;
-                ReaderWindow rwindow = new ReaderWindow();
-                rwindow.LoadPages(pages,w);
-                rwindow.ShowDialog();
-            }));
-            
+            IsWorking = false;
+            WorkingMsg = String.Empty;
+            await Task.Delay(1);
+            ReaderWindow rwindow = new ReaderWindow();
+            rwindow.LoadPages(pages,w);
+            rwindow.Show();            
             return true;
         }
 

@@ -122,7 +122,6 @@
     <Compile Include="Utils\CBR\SevenZipService.cs" />
     <Compile Include="Utils\CommonApplicationData.cs" />
     <Compile Include="Utils\DBService.cs" />
-    <Compile Include="Utils\DispatcherHelper.cs" />
     <Compile Include="Utils\MainUtils.cs" />
     <Compile Include="Utils\TaskBarcs.cs" />
     <Compile Include="Utils\WindowsThumbnailProvider.cs" />

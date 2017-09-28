@@ -8,6 +8,8 @@
         x:Class="LocalFilesDatabase.MainWindow"
         mc:Ignorable="d"
         BorderBrush="Black"
+        SaveWindowPosition="False"
+        WindowStartupLocation="CenterScreen"
         Background="{StaticResource BackgroundBrush}"
         Title="COMIX" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
@@ -169,8 +171,7 @@
                 </ListView.Visibility>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <!--Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ScrollContentPresenter}}}"-->
-                        <WrapPanel Background="{StaticResource BackgroundBrush}" 
+                        <WrapPanel Background="Transparent" 
                                    MinWidth="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                    Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                    MaxWidth="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"

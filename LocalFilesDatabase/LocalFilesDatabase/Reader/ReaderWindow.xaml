@@ -10,6 +10,8 @@
         mc:Ignorable="d"        
         BorderBrush="Black"     
         x:Name="CurrentReaderWindow"
+        SaveWindowPosition="False"
+        WindowStartupLocation="CenterScreen"    
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -277,18 +279,6 @@
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
                             FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
                     <Button Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow}">
-                    <Button x:Name="buttonNormalScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
-                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
-                    <Button Foreground="White" FontSize="12" Content="Normal" HorizontalAlignment="Center" Click="buttonFullScreen_Click" Style="{StaticResource ButtonClear}"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Visibility="{Binding Isfullscreen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=CurrentReaderWindow,ConverterParameter=inv}">
-                    <Button x:Name="buttonFullScreen" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE2B4;" 
-                            FontSize="18" Margin="4" Click="buttonFullScreen_Click"/>
-                    <Button Foreground="White" FontSize="12" Content="Completa" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonFullScreen_Click"/>
                 </StackPanel>
                 <StackPanel>
                     <Button x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>

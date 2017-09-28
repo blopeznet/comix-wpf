@@ -4,10 +4,12 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,40 +31,72 @@ namespace LocalFilesDatabase
     {
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
         }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Isfullscreen = App.usefullscreen;
+        }
+
+
+        #region full screen window
+
+        private bool _Isfullscreen = false;
+        public bool Isfullscreen
+        {
+            get => _Isfullscreen;
+            set
+            {
+                bool change = _Isfullscreen != value;
+
+                _Isfullscreen = value;
+                NotifyPropertyChanged("Isfullscreen");
+                if (change)
+                    UpdateScreen(_Isfullscreen);
+            }
+        }
+
+        public void UpdateScreen(bool fullscreen)
+        {
+
+            if (fullscreen)
+            {
+                this.Hide();
+                Taskbar tb = new Taskbar();
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
+                var rect = screen.WorkingArea;
+                this.Top = rect.Top - 2;
+                this.Left = rect.Left - 2;
+                this.Width = screen.WorkingArea.Width + 3;
+                if (!tb.AutoHide)
+                    this.Height = screen.WorkingArea.Height + tb.Size.Height + 2;
+                else
+                    this.Height = screen.WorkingArea.Height + 4;
+                this.Topmost = false;
+                this.ResizeMode = ResizeMode.CanMinimize;
+                this.IgnoreTaskbarOnMaximize = false;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.UseNoneWindowStyle = false;
+                this.IsCloseButtonEnabled = true;
+                this.IsMinButtonEnabled = true;
+                this.ShowTitleBar = true;
+                this.Show();
+            }            
+        }
+
+        #endregion
+
 
         private void ButtonOpen_Click(object sender, RoutedEventArgs e)
         {
             App.ViewModel.OpenFileDialog();
         }       
 
-        private async void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            using (var dialogfile = new System.Windows.Forms.SaveFileDialog())
-            {
-                dialogfile.Filter = "Database File (.db)|*.db";
-                dialogfile.FileName = DateTime.Now.ToString("yyyyMMdd_hhss")+".db";
-                System.Windows.Forms.DialogResult resultsave = dialogfile.ShowDialog();
-                if (resultsave == System.Windows.Forms.DialogResult.OK)
-                {
-                    using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
-                    {
-                        System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                        if (result == System.Windows.Forms.DialogResult.OK)
-                        {
-                            String path = dialog.SelectedPath;
-                            DBService.Instance.Path = dialogfile.FileName;
-                            await
-                                App.ViewModel.AddNewSnap(path);
-                            await
-                                App.ViewModel.LoadData(DBService.Instance.Path);
-                        }
-                    }
-
-                }
-            }
-
+            App.ViewModel.OpenFileDialogForSave();
         }        
 
         private async void buttonLaunchSearch_Click(object sender, RoutedEventArgs e)
@@ -150,5 +184,23 @@ namespace LocalFilesDatabase
             }
             
         }
+
+        #region InotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+
     }
 }

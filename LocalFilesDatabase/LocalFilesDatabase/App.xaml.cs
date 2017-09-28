@@ -18,52 +18,28 @@ namespace LocalFilesDatabase
     {
         public App()
         {
-
         }
 
+        public static bool usefullscreen = false;
+
         protected override void OnStartup(StartupEventArgs e)
-        {
-            
+        {         
             base.OnStartup(e);
         }
 
 
-        [STAThread]
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            Launch();
-        }
-
-         static void Launch()
-        {
-
-            System.Threading.Thread t = new System.Threading.Thread(async () => await LoadMain());
-            t.SetApartmentState(System.Threading.ApartmentState.STA);
-            t.IsBackground = true;
-            t.Start();
-        }
-
-        public static async Task LoadMain()
-        {
-            await Application.Current.Dispatcher.Invoke(
-               async () =>
-               {
-
-                   MainWindow m = new LocalFilesDatabase.MainWindow();
-                   m.Show();
-                   App.Current.MainWindow = m;
-                   App.ViewModel.IsWorking = true;
-                   App.ViewModel.WorkingMsg = ("LAUNCHING APP");
-                   App.ViewModel.RecentFiles = MainUtils.ReadRecents();
-                   for (int i = 0; i < 10; i++)
-                   {
-                       App.ViewModel.WorkingMsg = "Loading recents...";
-                       await Task.Delay(1);
-                   }
-                   App.ViewModel.WorkingMsg = String.Empty;
-                   App.ViewModel.IsWorking = false;
-               });
-
+            App.ViewModel.IsWorking = true;
+            App.ViewModel.WorkingMsg = ("LAUNCHING APP");
+            App.ViewModel.RecentFiles = MainUtils.ReadRecents();
+            for (int i = 0; i < 10; i++)
+            {
+                App.ViewModel.WorkingMsg = "Loading recents...";
+                await Task.Delay(100);
+            }
+            App.ViewModel.WorkingMsg = String.Empty;
+            App.ViewModel.IsWorking = false;
         }
         
         public static MainViewModel ViewModel
@@ -72,6 +48,15 @@ namespace LocalFilesDatabase
             {
                 MainViewModel vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).Main;
                 return vm;
+            }
+        }
+
+        private async void GridCover_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2) {
+
+                Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.Grid)sender).DataContext);
+                await App.ViewModel.ShowReader(info.Path,(MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow);
             }
         }
     }

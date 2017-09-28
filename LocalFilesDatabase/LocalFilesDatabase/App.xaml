@@ -5,6 +5,7 @@
              xmlns:Converters="clr-namespace:LocalFilesDatabase.Common.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d1p1:Ignorable="d" 
+             StartupUri="MainWindow.xaml"
              Startup="Application_Startup"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   <Application.Resources>
@@ -168,7 +169,7 @@
                         </Setter>
                     </Style>
                     <DataTemplate x:Key="CoverTemplate">
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
+                        <Grid HorizontalAlignment="Stretch" x:Name="GridCover" DataContext="{Binding}" MouseDown="GridCover_MouseDown" VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
                             <Image Width="83" Height="128" Margin="2" Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"/>
                         </Grid>
                     </DataTemplate>
