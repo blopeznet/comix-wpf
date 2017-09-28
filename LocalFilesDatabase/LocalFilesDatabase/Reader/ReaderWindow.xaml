@@ -9,9 +9,7 @@
         x:Class="LocalFilesDatabase.ReaderWindow"
         mc:Ignorable="d"        
         BorderBrush="Black"     
-        x:Name="CurrentReaderWindow"
-        SaveWindowPosition="False"
-        WindowStartupLocation="CenterScreen"    
+        x:Name="CurrentReaderWindow"            
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
