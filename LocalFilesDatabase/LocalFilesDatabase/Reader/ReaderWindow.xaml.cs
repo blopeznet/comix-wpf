@@ -37,6 +37,7 @@ namespace LocalFilesDatabase
          }
 
         private MetroWindow _mainWindowReference;
+        private List<ComicTemp> _pages;
 
         private ScrollBarVisibility _ShowScrollBar= ScrollBarVisibility.Hidden;
         public ScrollBarVisibility ShowScrollBar
@@ -53,13 +54,16 @@ namespace LocalFilesDatabase
             }
         }
 
-        private bool _Isfullscreen;
+        private bool _Isfullscreen = false;
         public bool Isfullscreen {
             get => _Isfullscreen;
             set
             {
+                bool change = _Isfullscreen!=value;
+
                 _Isfullscreen = value;
                 NotifyPropertyChanged("Isfullscreen");
+                if (change)
                 UpdateScreen(_Isfullscreen);
             }
         }
@@ -90,6 +94,7 @@ namespace LocalFilesDatabase
         public void LoadPages(List<ComicTemp> pages,MetroWindow mainwreference)
         {            
             _mainWindowReference = mainwreference;
+            _pages = pages;
             Isfullscreen = false;
             IsFit = false;            
             FvPages.ItemsSource = pages;
@@ -100,7 +105,7 @@ namespace LocalFilesDatabase
             Isfullscreen = !Isfullscreen;
         }
 
-        private bool showappbar = true;
+        private bool showappbar = false;
 
         private void UpdateTopBar()
         {
@@ -121,8 +126,10 @@ namespace LocalFilesDatabase
 
         private void UpdateScreen(bool fullscreen)
         {
+
             if (fullscreen)
             {
+                this.Hide();
                 Taskbar tb = new Taskbar();
                 System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
                 var rect = screen.WorkingArea;
@@ -135,18 +142,19 @@ namespace LocalFilesDatabase
                     this.Height = screen.WorkingArea.Height + 4;
                 this.Topmost = true;
                 this.ResizeMode = ResizeMode.NoResize;
-                this.IgnoreTaskbarOnMaximize = true;               
+                this.IgnoreTaskbarOnMaximize = true;
+                this.WindowStyle = WindowStyle.None;
+                this.UseNoneWindowStyle = true;
+                this.IsCloseButtonEnabled = false;
+                this.Show();
             }
             else
             {
-                                
-                this.Top = _mainWindowReference.Top;
-                this.Left = _mainWindowReference.Left;
-                this.Width = _mainWindowReference.Width;
-                this.Height = _mainWindowReference.Height;
-                this.Topmost = false;
-                this.ResizeMode = ResizeMode.CanResize;
-                this.IgnoreTaskbarOnMaximize = false;
+                this.Hide();
+                ReaderWindow r = new ReaderWindow();
+                r.LoadPages(_pages, _mainWindowReference);
+                r.Show();
+                this.Close();
             }
         }
 
@@ -204,6 +212,12 @@ namespace LocalFilesDatabase
         private void GridMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             UpdateTopBar();
+        }
+
+        private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+                UpdateTopBar();
         }
     }
 }

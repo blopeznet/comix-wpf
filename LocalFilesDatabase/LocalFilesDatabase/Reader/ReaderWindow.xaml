@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalFilesDatabase"
         xmlns:metrocontrols="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:Converters="clr-namespace:LocalFilesDatabase.Common.Converters" x:Class="LocalFilesDatabase.ReaderWindow"
-        mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        WindowState="Normal"
-        ShowTitleBar="False"
-        WindowStyle="None"
-        UseNoneWindowStyle="True"
-        IsCloseButtonEnabled="False"
+        xmlns:Converters="clr-namespace:LocalFilesDatabase.Common.Converters" 
+        x:Class="LocalFilesDatabase.ReaderWindow"
+        mc:Ignorable="d"        
+        BorderBrush="Black"     
         x:Name="CurrentReaderWindow"
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
@@ -20,14 +16,22 @@
         <Storyboard x:Key="sbShowTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,-82,0,0" />
-                <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,6,0,0" />
+                <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
+                <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="sbHideTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,6,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,-82,0,0" />
             </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
+                <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         
         <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
@@ -247,7 +251,7 @@
                                   local:TouchScrolling.IsEnabled="True" CanContentScroll="False"                                   
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid>
+                            <Grid x:Name="ImageGrid" MouseDown="ImageGrid_MouseDown">
                                 <Image Source="{Binding Image}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
@@ -265,9 +269,9 @@
                 </DataTemplate>
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
-        <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Mouse.MouseDown="GridMenu_MouseDown">
+        <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
             <StackPanel Orientation="Horizontal" Margin="6"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,12,-4">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
                     <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
@@ -291,12 +295,12 @@
                     <Button Foreground="White" FontSize="12" Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
                 </StackPanel>
                 <Grid Width="20"/>
-                <Button x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
-                        BorderThickness="0" Background="Transparent" Height="100" Width="50" 
-                        Margin="0,-6,0,0" VerticalContentAlignment="Bottom" Foreground="White" 
-                        FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Center" 
-                        Click="buttonHideMenu_Click"/>
             </StackPanel>
+            <Button x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
+                        BorderThickness="0" Background="Transparent" Height="100" Width="50" 
+                        Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="White" 
+                        FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
+                        Click="buttonHideMenu_Click"/>
         </Grid>
 
     </Grid>
