@@ -92,6 +92,8 @@ namespace LocalFilesDatabase
             _mainWindowReference = mainwreference;
             _pages = pages;
             Isfullscreen = App.usefullscreen;
+            if (!Isfullscreen)            
+                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187,20,4));            
             IsFit = false;            
             FvPages.ItemsSource = pages;
         }
