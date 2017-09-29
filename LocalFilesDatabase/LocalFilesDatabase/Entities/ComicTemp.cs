@@ -11,6 +11,7 @@ namespace LocalFilesDatabase.Entities
 {
     public class ComicTemp : ViewModelBase
     {
+        public int NoPage { get; set; }
         public String Source { get; set; }
         private BitmapImage image;
         public bool Loaded { get; set; }

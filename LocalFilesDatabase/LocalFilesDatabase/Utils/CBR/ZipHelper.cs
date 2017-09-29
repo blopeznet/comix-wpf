@@ -223,11 +223,14 @@ namespace LocalFilesDatabase.Utils
                 List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
                 App.ViewModel.WorkingMsg = String.Format("GENERANDO PAGINAS...");
                 List<ComicTemp> pages = new List<ComicTemp>();
+                int pageno = 1;
                 foreach (ArchiveFileInfo file in list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).ToList())
                 {
-                    ComicTemp tmppng = new ComicTemp() { Source = file.FileName };
+                    ComicTemp tmppng = new ComicTemp() { Source = file.FileName, NoPage = pageno };
                     pages.Add(tmppng);
+                    pageno += 1;
                 }
+                App.ViewModel.TotalPagesLoaded = pageno-1;
 
                 foreach (ComicTemp p in pages.Take(4))
                     UncompressImage(temp, p);

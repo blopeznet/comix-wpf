@@ -22,6 +22,10 @@
                 <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
             </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
+                <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="sbHideTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
@@ -29,6 +33,10 @@
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,-82,0,0" />
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
+                <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
                 <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
@@ -270,7 +278,37 @@
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
         <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
-            <StackPanel Orientation="Horizontal" Margin="6"/>
+            <StackPanel Orientation="Horizontal" Margin="6" x:Name="MenuButtonsLeft">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12">
+                    <Image Width="59" Height="60" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
+                    <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
+                </StackPanel>
+                <!--<Button x:Name="buttonPrev" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            FontSize="28" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
+                    <Button.Background>
+                        <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
+                        </ImageBrush>
+                    </Button.Background>    
+                </Button>-->
+                <Grid>
+                    <Slider Style="{DynamicResource FlatSlider}" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="12" Width="300" Margin="16" VerticalAlignment="Center" HorizontalAlignment="Left"></Slider>
+                    <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
+                        <Run Text="Página "></Run>
+                        <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
+                        <Run Text=" / "></Run>
+                        <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
+                    </TextBlock>
+                </Grid>
+                <!--<Button x:Name="buttonNext" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            FontSize="28" FontWeight="Bold" Margin="4" Click="buttonNext_Click">
+                    <Button.Background>
+                        <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
+                        </ImageBrush>
+                    </Button.Background>
+                </Button>-->
+            </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
                     <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 

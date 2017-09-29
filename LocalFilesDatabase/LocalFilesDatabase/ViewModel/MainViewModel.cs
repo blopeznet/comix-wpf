@@ -252,13 +252,12 @@ namespace LocalFilesDatabase.ViewModel
             IsWorking = false;
             WorkingMsg = String.Empty;
             await Task.Delay(1);
-            ReaderWindow rwindow = new ReaderWindow();
+            ReaderWindow rwindow = new ReaderWindow();            
             rwindow.LoadPages(pages,w);
             rwindow.Show();            
             return true;
         }
-
-
+   
         private bool _IsDataAvaliable;
         public bool IsDataAvaliable
         {
@@ -325,6 +324,17 @@ namespace LocalFilesDatabase.ViewModel
             {
                 _SelectedSnap = value;
                 RaisePropertyChanged("SelectedSnap");
+            }
+        }
+
+        private Int32 _TotalPagesLoaded;
+        public Int32 TotalPagesLoaded
+        {
+            get => _TotalPagesLoaded;
+            set
+            {
+                _TotalPagesLoaded = value;
+                RaisePropertyChanged("TotalPagesLoaded");
             }
         }
 

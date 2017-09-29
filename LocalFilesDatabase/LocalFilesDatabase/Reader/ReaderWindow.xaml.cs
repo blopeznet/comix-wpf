@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace LocalFilesDatabase
 {
@@ -38,7 +39,7 @@ namespace LocalFilesDatabase
         }
 
         private MetroWindow _mainWindowReference;
-        private List<ComicTemp> _pages;
+        public List<ComicTemp> _pages;
 
         private ScrollBarVisibility _ShowScrollBar= ScrollBarVisibility.Hidden;
         public ScrollBarVisibility ShowScrollBar
@@ -220,6 +221,43 @@ namespace LocalFilesDatabase
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
                 UpdateTopBar();
+        }
+
+        //TODO: Meotodo siguiente terminar
+        private async void buttonNext_Click(object sender, RoutedEventArgs e)
+        {
+            int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
+            if (current <= App.ViewModel.Files.Count - 2)
+            {
+                ItemInfo next = App.ViewModel.Files[current+1];
+                if (next != null)
+                {
+                    App.ViewModel.SelectedFile = next;
+                    await UpdateReader(next.Path);
+                }
+            }              
+        }
+
+        //TODO: Metodo cargar anterior
+        private async void buttonPrev_Click(object sender, RoutedEventArgs e)
+        {            
+        }
+
+        //TODO: Metodo actualizar comic actual sin cerrar
+        public async Task<bool> UpdateReader(String path)
+        {
+            App.ViewModel.IsWorking = true;
+            App.ViewModel.WorkingMsg = String.Format("CARGANDO PAGINAS...");
+            await Task.Delay(1);
+            List<ComicTemp> pages = new List<ComicTemp>();
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                _pages = MainUtils.CreatePagesComic(path);
+            }));
+            App.ViewModel.IsWorking = false;
+            App.ViewModel.WorkingMsg = String.Empty;
+            await Task.Delay(1);                        
+            return true;
         }
     }
 }
