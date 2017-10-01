@@ -27,26 +27,28 @@ namespace LocalFilesDatabase
     /// </summary>
     public partial class ReaderWindow : MetroWindow,INotifyPropertyChanged
     {
-        public ReaderWindow()
-        {
-            InitializeComponent();
-            this.Loaded += ReaderWindow_Loaded;
-        }
 
-        private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            showappbar = App.usefullscreen;
-            if (IsFit)
-                HeightDisplay = this.RowContent.ActualHeight + 80;
-            else
-                WidthDisplay = this.Width;
-            UpdateTopBar();
-        }
 
+        #region Internal Variables
+
+        /// <summary>
+        /// Window reference
+        /// </summary>
         private MetroWindow _mainWindowReference;
+        /// <summary>
+        /// Pages to show
+        /// </summary>
         public List<ComicTemp> _pages;
 
-        private ScrollBarVisibility _ShowScrollBar= ScrollBarVisibility.Hidden;
+        /// <summary>
+        /// Scrollviewer
+        /// </summary>
+        private ScrollViewer _currentScroll;
+
+        /// <summary>
+        /// Show or hide scrollbar
+        /// </summary>
+        private ScrollBarVisibility _ShowScrollBar = ScrollBarVisibility.Hidden;
         public ScrollBarVisibility ShowScrollBar
         {
             get
@@ -61,6 +63,9 @@ namespace LocalFilesDatabase
             }
         }
 
+        /// <summary>
+        /// Flag adjust by width or by height
+        /// </summary>
         private bool _IsFit;
         public bool IsFit
         {
@@ -72,17 +77,10 @@ namespace LocalFilesDatabase
                 UpdateAdjust(_IsFit);
             }
         }
-        private void UpdateAdjust(bool isfit)
-        {
-            if (isfit)
-            {
-                HeightDisplay = this.RowContent.ActualHeight + 80;
-            }
-            else
-            {
-                WidthDisplay = this.ActualWidth;
-            }
-        }
+
+        /// <summary>
+        /// Height adjust image
+        /// </summary>
         private Double _HeightDisplay;
         public double HeightDisplay
         {
@@ -94,17 +92,9 @@ namespace LocalFilesDatabase
             }
         }
 
-        private Double _VerticalOffsetDisplay;
-        public double VerticalOffsetDisplay
-        {
-            get => _VerticalOffsetDisplay;
-            set
-            {
-                _VerticalOffsetDisplay = value;
-                NotifyPropertyChanged("VerticalOffsetDisplay");
-            }
-        }
-
+        /// <summary>
+        /// Width adjust image
+        /// </summary>
         private Double _WidthDisplay;
         public double WidthDisplay
         {
@@ -116,6 +106,111 @@ namespace LocalFilesDatabase
             }
         }
 
+
+        #endregion
+
+        public ReaderWindow()
+        {
+            InitializeComponent();
+            this.Loaded += ReaderWindow_Loaded;            
+        }
+
+        /// <summary>
+        /// Control with keyboard
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left 
+                || e.Key == Key.Right|| e.Key == Key.PageDown || e.Key == Key.PageUp)
+            {
+
+                ScrollViewer sv = FindChild<ScrollViewer>(FvPages);
+
+                if (sv != null)
+                {
+                    if (e.Key == Key.Down)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset + 10);
+                        return;
+                    }
+
+                    if (e.Key == Key.Up)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset - 10);
+                        return;
+                    }
+
+                    if (e.Key == Key.PageUp)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset - 30);
+                        return;
+                    }
+
+                    if (e.Key == Key.PageDown)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset + 30);
+                        return;
+                    }
+
+                    if (e.Key == Key.Left && FvPages.SelectedIndex >= 1)
+                    {
+                        FvPages.SelectedIndex -= 1;
+                        _currentScroll = sv;
+                        ResetScroll(false);
+                        return;
+                    }
+
+                    if (e.Key == Key.Left && FvPages.SelectedIndex <= FvPages.Items.Count - 2)
+                    {
+                        FvPages.SelectedIndex += 1;
+                        _currentScroll = sv;
+                        ResetScroll(true);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event Load initial appearance window reader
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            showappbar = App.usefullscreen;
+            if (IsFit)
+                HeightDisplay = this.RowContent.ActualHeight + 80;
+            else
+                WidthDisplay = this.Width;
+            UpdateTopBar();
+        }
+
+        #region Methods
+
+        /// <summary>
+        /// Method update adjust by width or height
+        /// </summary>
+        /// <param name="isfit"></param>
+        private void UpdateAdjust(bool isfit)
+        {
+            if (isfit)
+            {
+                HeightDisplay = this.RowContent.ActualHeight + 80;
+            }
+            else
+            {
+                WidthDisplay = this.ActualWidth;
+            }
+        }        
+
+        /// <summary>
+        /// LOad initial pages
+        /// </summary>
+        /// <param name="pages">Pages to load</param>
+        /// <param name="mainwreference">Window reference</param>
         public void LoadPages(List<ComicTemp> pages,MetroWindow mainwreference)
         {            
             _mainWindowReference = mainwreference;                  
@@ -127,8 +222,13 @@ namespace LocalFilesDatabase
             FvPages.ItemsSource = pages;
         }
 
-#region full screen window
+        #endregion
 
+        #region full screen window
+
+        /// <summary>
+        /// Bool know is fullscreen
+        /// </summary>
         private bool _Isfullscreen = false;
         public bool Isfullscreen
         {
@@ -144,6 +244,10 @@ namespace LocalFilesDatabase
             }
         }
 
+        /// <summary>
+        /// Method update screen to full
+        /// </summary>
+        /// <param name="fullscreen"></param>
         private void UpdateScreen(bool fullscreen)
         {
 
@@ -180,8 +284,16 @@ namespace LocalFilesDatabase
 
         #endregion
 
-#region Appbar
+        #region Appbar
+
+        /// <summary>
+        /// Flag for show/hide appbar
+        /// </summary>
         private bool showappbar = false;
+
+        /// <summary>
+        /// Method show or hide appbar
+        /// </summary>
         private void UpdateTopBar()
         {
             showappbar = !showappbar;
@@ -198,7 +310,33 @@ namespace LocalFilesDatabase
                 myStoryboard.Begin();
             }
         }
-#endregion
+
+        /// <summary>
+        ///Show hide appbar
+        /// </summary>        
+        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateTopBar();
+        }
+
+        /// <summary>
+        ///Show hide appbar
+        /// </summary>
+        private void GridMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UpdateTopBar();
+        }
+
+        /// <summary>
+        ///Show hide appbar
+        /// </summary>
+        private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+                UpdateTopBar();
+        }
+
+        #endregion
 
         #region InotifyPropertyChanged
 
@@ -217,33 +355,28 @@ namespace LocalFilesDatabase
 
         #endregion
 
+        /// <summary>
+        /// Button for close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCerrar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Button for adjust image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAdjust_Click(object sender, RoutedEventArgs e)
         {
             IsFit = !IsFit;            
-        }
+        }        
 
-        private ScrollViewer _currentScroll;
 
-        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateTopBar();
-        }
-
-        private void GridMenu_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            UpdateTopBar();
-        }
-
-        private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-                UpdateTopBar();
-        }
+        #region Load previous/next file
 
         private async void buttonNext_Click(object sender, RoutedEventArgs e)
         {
@@ -326,12 +459,50 @@ namespace LocalFilesDatabase
         private async void PART_BackButton_FIRST_Click(object sender, RoutedEventArgs e)
         {
             await LoadPrev();
-        }        
+        }
+
+        #endregion
+
+        private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        #region Reset scroll when load page
+
+        private void ResetScroll(bool top)
+        {
+            _currentScroll = FindChild<ScrollViewer>(FvPages);
+            if (_currentScroll != null)
+            {
+                App.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (_currentScroll != null && _currentScroll.VerticalOffset != 0)
+                    {
+                        if (top)
+                            _currentScroll.ScrollToVerticalOffset(0);
+                        else
+                            _currentScroll.ScrollToVerticalOffset(Double.PositiveInfinity);
+                    }
+                }));
+            }
+        }
+
+        private void PART_BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetScroll(false);
+
+        }
+
+        private void PART_ForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetScroll(true);
+        }
 
         /// <summary>
         /// Looks for a child control within a parent by name
         /// </summary>
-        public static DependencyObject FindChild(DependencyObject parent, string name)
+        public DependencyObject FindChild(DependencyObject parent, string name)
         {
             // confirm parent and name are valid.
             if (parent == null || string.IsNullOrEmpty(name)) return null;
@@ -378,39 +549,6 @@ namespace LocalFilesDatabase
             return foundChild as T;
         }
 
-        
-        private void ResetScroll(bool top)
-        {
-            _currentScroll = FindChild<ScrollViewer>(FvPages);
-            if (_currentScroll != null)
-            {
-                App.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    if (_currentScroll != null && _currentScroll.VerticalOffset != 0)
-                    {
-                        if (top)
-                            _currentScroll.ScrollToVerticalOffset(0);
-                        else
-                            _currentScroll.ScrollToVerticalOffset(Double.PositiveInfinity);
-                    }
-                }));
-            }
-        }
-
-        private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
-
-        private void PART_BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetScroll(false);
-
-        }
-
-        private void PART_ForwardButton_Click(object sender, RoutedEventArgs e)
-        {
-            ResetScroll(true);
-        }
+        #endregion
     }
 }

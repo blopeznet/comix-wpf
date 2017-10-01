@@ -344,6 +344,7 @@
             <RowDefinition x:Name="RowContent"/>
         </Grid.RowDefinitions>
         <metrocontrols:FlipView x:Name="FvPages"    
+                                KeyDown="OnButtonKeyDown"
                                 SelectionChanged="FvPages_SelectionChanged"
             Template="{StaticResource FlipViewTemplate}"            
             MouseOverGlowEnabled="False" 
@@ -360,7 +361,8 @@
                         <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <ScrollViewer x:Name="scrollView" Style="{StaticResource ScrollviewerNoCacheTemplate}"                                 
-                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="True"                                      
+                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="True"  
+                                  Focusable="False"
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid x:Name="ImageGrid" MouseDown="ImageGrid_MouseDown">
