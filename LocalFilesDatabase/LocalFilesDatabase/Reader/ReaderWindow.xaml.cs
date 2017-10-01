@@ -35,6 +35,10 @@ namespace LocalFilesDatabase
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
             showappbar = App.usefullscreen;
+            if (IsFit)
+                HeightDisplay = this.RowContent.ActualHeight + 80;
+            else
+                WidthDisplay = this.Width;
             UpdateTopBar();
         }
 
@@ -75,6 +79,7 @@ namespace LocalFilesDatabase
             }
             else
             {
+                WidthDisplay = this.ActualWidth;
             }
         }
         private Double _HeightDisplay;
@@ -88,9 +93,20 @@ namespace LocalFilesDatabase
             }
         }
 
+        private Double _WidthDisplay;
+        public double WidthDisplay
+        {
+            get => _WidthDisplay;
+            set
+            {
+                _WidthDisplay = value;
+                NotifyPropertyChanged("WidthDisplay");
+            }
+        }
+
         public void LoadPages(List<ComicTemp> pages,MetroWindow mainwreference)
         {            
-            _mainWindowReference = mainwreference;
+            _mainWindowReference = mainwreference;                  
             _pages = pages;
             Isfullscreen = App.usefullscreen;
             if (!Isfullscreen)            
@@ -223,41 +239,87 @@ namespace LocalFilesDatabase
                 UpdateTopBar();
         }
 
-        //TODO: Meotodo siguiente terminar
         private async void buttonNext_Click(object sender, RoutedEventArgs e)
         {
-            int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
-            if (current <= App.ViewModel.Files.Count - 2)
-            {
-                ItemInfo next = App.ViewModel.Files[current+1];
-                if (next != null)
-                {
-                    App.ViewModel.SelectedFile = next;
-                    await UpdateReader(next.Path);
-                }
-            }              
+            await LoadPrev();
         }
 
-        //TODO: Metodo cargar anterior
         private async void buttonPrev_Click(object sender, RoutedEventArgs e)
-        {            
+        {
+            await LoadPrev();
         }
 
-        //TODO: Metodo actualizar comic actual sin cerrar
-        public async Task<bool> UpdateReader(String path)
+        private async Task<bool> LoadNext()
         {
+            try
+            {
+                int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
+                if (current <= App.ViewModel.Files.Count - 2)
+                {
+                    ItemInfo next = App.ViewModel.Files[current + 1];
+                    if (next != null)
+                        return await UpdateReader(next);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al cargar siguiente {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        private async Task<bool> LoadPrev()
+        {
+            try
+            {
+                int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
+                if (current >= 2)
+                {
+                    ItemInfo next = App.ViewModel.Files[current - 1];
+                    if (next != null)
+                        await UpdateReader(next);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al cargar anterior {0}", ex.Message);
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateReader(ItemInfo replace)
+        {
+
             App.ViewModel.IsWorking = true;
+            App.ViewModel.SelectedFile = replace;            
+            _pages.Clear();
+            FvPages.ItemsSource = _pages;
             App.ViewModel.WorkingMsg = String.Format("CARGANDO PAGINAS...");
             await Task.Delay(1);
             List<ComicTemp> pages = new List<ComicTemp>();
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                _pages = MainUtils.CreatePagesComic(path);
+                _pages = MainUtils.CreatePagesComic(replace.Path);
+                FvPages.ItemsSource = _pages;
             }));
             App.ViewModel.IsWorking = false;
             App.ViewModel.WorkingMsg = String.Empty;
             await Task.Delay(1);                        
             return true;
+        }       
+
+        private async void PART_ForwardButton_LAST_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadNext();
+        }
+
+        private async void PART_BackButton_FIRST_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadPrev();
         }
     }
 }
