@@ -41,7 +41,69 @@
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        
+        <Style TargetType="ScrollViewer" x:Key="ScrollviewerNoCacheTemplate">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA3AEB9" Offset="0"/>
+                        <GradientStop Color="#FF8399A9" Offset="0.375"/>
+                        <GradientStop Color="#FF718597" Offset="0.375"/>
+                        <GradientStop Color="#FF617584" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Border CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                                  Cursor="{TemplateBinding Cursor}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"/>
+
+                                <Rectangle Grid.Column="1" Grid.Row="1" Fill="#FFE9EEF4"/>
+
+                                <ScrollBar x:Name="VerticalScrollBar" Width="18"                                     
+                                     IsTabStop="False"
+                                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                     Grid.Column="1" Grid.Row="0" Orientation="Vertical"
+                                     ViewportSize="{TemplateBinding ViewportHeight}"
+                                     Maximum="{TemplateBinding ScrollableHeight}"
+                                     Minimum="0"                                     
+                                     Value="{TemplateBinding VerticalOffset}"
+                                     Margin="0,-1,-1,-1"/>
+                                <ScrollBar x:Name="HorizontalScrollBar" Height="18"
+                                     IsTabStop="False"
+                                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                     Grid.Column="0" Grid.Row="1" Orientation="Horizontal"
+                                     ViewportSize="{TemplateBinding ViewportWidth}"
+                                     Maximum="{TemplateBinding ScrollableWidth}"
+                                     Minimum="0"
+                                     Value="{TemplateBinding HorizontalOffset}"
+                                     Margin="-1,0,-1,-1"/>
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
             <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -76,6 +138,7 @@
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
                                 Width="200"
+                                    Click="PART_BackButton_Click"
                                 Background="Transparent"
                                 Height="800"
                                 Style="{DynamicResource ControlButton}">
@@ -113,7 +176,8 @@
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
                                 Width="200"
-                                Height="800"
+                                Height="800"         
+                                    Click="PART_ForwardButton_Click"
                                 Background="Transparent"
                                     Visibility="Visible"
                                 Style="{DynamicResource ControlButton}">
@@ -166,7 +230,7 @@
                                IsTabStop="False" />
                         </Grid>
                         <metrocontrols:TransitioningContentControl x:Name="PART_Presenter"
-                                                          Panel.ZIndex="1"
+                                                          Panel.ZIndex="1"                                                                                                                       
                                                           Content="{TemplateBinding SelectedItem}"
                                                           ContentTemplate="{TemplateBinding ItemTemplate}"
                                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -279,13 +343,14 @@
             <RowDefinition x:Name="RowMenu" Height="Auto"/>
             <RowDefinition x:Name="RowContent"/>
         </Grid.RowDefinitions>
-        <metrocontrols:FlipView x:Name="FvPages"
+        <metrocontrols:FlipView x:Name="FvPages"    
+                                SelectionChanged="FvPages_SelectionChanged"
             Template="{StaticResource FlipViewTemplate}"            
             MouseOverGlowEnabled="False" 
             IsBannerEnabled="False"
             MouseHoverBorderEnabled="False"
             BorderThickness="0" 
-            Grid.Row="1"
+            Grid.Row="1"                                
             Margin="0,6,0,0"   
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
@@ -294,8 +359,8 @@
                     <Grid>
                         <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <ScrollViewer x:Name="scrollView" Loaded="scrollView_Loaded"                                     
-                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="False"                                   
+                        <ScrollViewer x:Name="scrollView" Style="{StaticResource ScrollviewerNoCacheTemplate}"                                 
+                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="True"                                      
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid x:Name="ImageGrid" MouseDown="ImageGrid_MouseDown">
@@ -352,7 +417,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
                     <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="⭠⭢" 
                             FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
                     <Button Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
                 </StackPanel>

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -90,6 +91,17 @@ namespace LocalFilesDatabase
             {
                 _HeightDisplay = value;
                 NotifyPropertyChanged("HeightDisplay");
+            }
+        }
+
+        private Double _VerticalOffsetDisplay;
+        public double VerticalOffsetDisplay
+        {
+            get => _VerticalOffsetDisplay;
+            set
+            {
+                _VerticalOffsetDisplay = value;
+                NotifyPropertyChanged("VerticalOffsetDisplay");
             }
         }
 
@@ -217,12 +229,6 @@ namespace LocalFilesDatabase
 
         private ScrollViewer _currentScroll;
 
-        private void scrollView_Loaded(object sender, RoutedEventArgs e)
-        {
-            _currentScroll = ((ScrollViewer)sender);
-           
-        }
-
         private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
         {
             UpdateTopBar();
@@ -241,7 +247,7 @@ namespace LocalFilesDatabase
 
         private async void buttonNext_Click(object sender, RoutedEventArgs e)
         {
-            await LoadPrev();
+            await LoadNext();
         }
 
         private async void buttonPrev_Click(object sender, RoutedEventArgs e)
@@ -320,6 +326,91 @@ namespace LocalFilesDatabase
         private async void PART_BackButton_FIRST_Click(object sender, RoutedEventArgs e)
         {
             await LoadPrev();
+        }        
+
+        /// <summary>
+        /// Looks for a child control within a parent by name
+        /// </summary>
+        public static DependencyObject FindChild(DependencyObject parent, string name)
+        {
+            // confirm parent and name are valid.
+            if (parent == null || string.IsNullOrEmpty(name)) return null;
+
+            if (parent is FrameworkElement && (parent as FrameworkElement).Name == name) return parent;
+
+            DependencyObject result = null;
+
+            if (parent is FrameworkElement) (parent as FrameworkElement).ApplyTemplate();
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                result = FindChild(child, name);
+                if (result != null) break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Looks for a child control within a parent by type
+        /// </summary>
+        public T FindChild<T>(DependencyObject parent)
+            where T : DependencyObject
+        {
+            // confirm parent is valid.
+            if (parent == null) return null;
+            if (parent is T) return parent as T;
+
+            DependencyObject foundChild = null;
+
+            if (parent is FrameworkElement) (parent as FrameworkElement).ApplyTemplate();
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                foundChild = FindChild<T>(child);
+                if (foundChild != null) break;
+            }
+
+            return foundChild as T;
+        }
+
+        
+        private void ResetScroll(bool top)
+        {
+            _currentScroll = FindChild<ScrollViewer>(FvPages);
+            if (_currentScroll != null)
+            {
+                App.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (_currentScroll != null && _currentScroll.VerticalOffset != 0)
+                    {
+                        if (top)
+                            _currentScroll.ScrollToVerticalOffset(0);
+                        else
+                            _currentScroll.ScrollToVerticalOffset(Double.PositiveInfinity);
+                    }
+                }));
+            }
+        }
+
+        private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        private void PART_BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetScroll(false);
+
+        }
+
+        private void PART_ForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResetScroll(true);
         }
     }
 }
