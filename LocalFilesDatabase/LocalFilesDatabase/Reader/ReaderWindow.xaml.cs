@@ -115,6 +115,9 @@ namespace LocalFilesDatabase
             this.Loaded += ReaderWindow_Loaded;            
         }
 
+
+        bool fullscreenactive = false;
+
         /// <summary>
         /// Control with keyboard
         /// </summary>
@@ -123,13 +126,39 @@ namespace LocalFilesDatabase
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left 
-                || e.Key == Key.Right|| e.Key == Key.PageDown || e.Key == Key.PageUp)
+                || e.Key == Key.Right|| e.Key == Key.PageDown || e.Key == Key.PageUp
+                || e.Key == Key.F11)
             {
 
                 ScrollViewer sv = FindChild<ScrollViewer>(FvPages);
 
                 if (sv != null)
                 {
+                    if (e.Key == Key.F11)
+                    {
+                        fullscreenactive = !fullscreenactive;
+                        if (fullscreenactive)
+                        {
+
+                            Isfullscreen = true;
+                            this.GridMenu.Background = new SolidColorBrush(Colors.Black);
+                            UpdateAdjust(false);
+                            showappbar = true;
+                            UpdateTopBar();
+                            this.GridMenu.Visibility = Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            Isfullscreen = false;
+                            this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
+                            UpdateAdjust(true);
+                            showappbar = false;
+                            UpdateTopBar();
+                            this.GridMenu.Visibility = Visibility.Visible;
+                        }
+                    }
+
+
                     if (e.Key == Key.Down)
                     {
                         sv.ScrollToVerticalOffset(sv.VerticalOffset + 10);
@@ -142,31 +171,33 @@ namespace LocalFilesDatabase
                         return;
                     }
 
-                    if (e.Key == Key.PageUp)
+                    if (e.Key == Key.Left)
                     {
                         sv.ScrollToVerticalOffset(sv.VerticalOffset - 30);
                         return;
                     }
 
-                    if (e.Key == Key.PageDown)
+                    if (e.Key == Key.Down)
                     {
                         sv.ScrollToVerticalOffset(sv.VerticalOffset + 30);
                         return;
                     }
 
-                    if (e.Key == Key.Left && FvPages.SelectedIndex >= 1)
+                    if (e.Key == Key.PageUp && FvPages.SelectedIndex >= 1)
                     {
-                        FvPages.SelectedIndex -= 1;
-                        _currentScroll = sv;
-                        ResetScroll(false);
+                        FvPages.Visibility = Visibility.Collapsed;
+                        PART_BackButton_Click(null, null);
+                        FvPages.Visibility = Visibility.Visible;
+                        FvPages.SelectedIndex -= 1;                        
                         return;
                     }
 
-                    if (e.Key == Key.Left && FvPages.SelectedIndex <= FvPages.Items.Count - 2)
+                    if (e.Key == Key.PageDown && FvPages.SelectedIndex <= FvPages.Items.Count - 2)
                     {
-                        FvPages.SelectedIndex += 1;
-                        _currentScroll = sv;
-                        ResetScroll(true);
+                        FvPages.Visibility = Visibility.Collapsed;
+                        PART_ForwardButton_Click(null, null);
+                        FvPages.Visibility = Visibility.Visible;
+                        FvPages.SelectedIndex += 1;                        
                         return;
                     }
                 }
@@ -333,7 +364,10 @@ namespace LocalFilesDatabase
         private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-                UpdateTopBar();
+            {
+                IsFit = !IsFit;
+                UpdateAdjust(IsFit);
+            }
         }
 
         #endregion

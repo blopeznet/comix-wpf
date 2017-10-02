@@ -47,15 +47,15 @@
             <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
             <Setter Property="Padding" Value="4"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush">
-                <Setter.Value>
+            <Setter Property="BorderBrush" Value="Transparent">
+                <!--<Setter.Value>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFA3AEB9" Offset="0"/>
                         <GradientStop Color="#FF8399A9" Offset="0.375"/>
                         <GradientStop Color="#FF718597" Offset="0.375"/>
                         <GradientStop Color="#FF617584" Offset="1"/>
                     </LinearGradientBrush>
-                </Setter.Value>
+                </Setter.Value>-->
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
@@ -346,7 +346,8 @@
         <metrocontrols:FlipView x:Name="FvPages"    
                                 KeyDown="OnButtonKeyDown"
                                 SelectionChanged="FvPages_SelectionChanged"
-            Template="{StaticResource FlipViewTemplate}"            
+            Template="{StaticResource FlipViewTemplate}"     
+            BorderBrush="Transparent"
             MouseOverGlowEnabled="False" 
             IsBannerEnabled="False"
             MouseHoverBorderEnabled="False"
@@ -361,7 +362,7 @@
                         <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <ScrollViewer x:Name="scrollView" Style="{StaticResource ScrollviewerNoCacheTemplate}"                                 
-                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="True"  
+                                  local:TouchScrolling.IsEnabled="True" CanContentScroll="True"                                       
                                   Focusable="False"
                                   ScrollViewer.VerticalScrollBarVisibility="{Binding ShowScrollBar, ElementName=CurrentReaderWindow}"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -384,6 +385,15 @@
                 </DataTemplate>
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
+
+        <Grid Grid.RowSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,12,0">
+        <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
+                        <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
+                        <Run Text="/"></Run>
+                        <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
+        </TextBlock>
+        </Grid>
+        
         <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
             <StackPanel Orientation="Horizontal" Margin="6" x:Name="MenuButtonsLeft">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12">
@@ -408,7 +418,7 @@
                     </TextBlock>
                 </Grid>
                 <Button x:Name="buttonNext" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
                             FontSize="28" FontWeight="Bold" Margin="4" Click="buttonNext_Click">
                     <Button.Background>
                         <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
@@ -418,18 +428,18 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
-                    <Button x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                    <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="⭠⭢" 
                             FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
-                    <Button Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
+                    <Button Focusable="False" Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
                 </StackPanel>
                 <StackPanel>
-                    <Button x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
-                    <Button Foreground="White" FontSize="12" Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
+                    <Button Focusable="False"  x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
+                    <Button Focusable="False" Foreground="White" FontSize="12" Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
                 </StackPanel>
                 <Grid Width="20"/>
             </StackPanel>
-            <Button x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
+            <Button Focusable="False"  x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
                         BorderThickness="0" Background="Transparent" Height="100" Width="50" 
                         Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="White" 
                         FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
