@@ -2,6 +2,7 @@
 using LocalFilesDatabase.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,23 @@ namespace LocalFilesDatabase
 {
     public static class MainUtils
     {
+        
+        public static bool SaveFileAndOpen(BitmapImage img)
+        {
+            
+                string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)+"\\"+ Guid.NewGuid() + ".jpg";                
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                Guid photoID = System.Guid.NewGuid();
+                String photolocation = fileName;  //file name 
+
+                encoder.Frames.Add(BitmapFrame.Create((BitmapImage)img));
+
+                using (var filestream = new FileStream(fileName, FileMode.Create))
+                    encoder.Save(filestream);
+
+                Process.Start(fileName);
+                return true;                        
+        }
 
         #region Converters
 

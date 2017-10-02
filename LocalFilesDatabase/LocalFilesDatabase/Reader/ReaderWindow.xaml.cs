@@ -584,5 +584,12 @@ namespace LocalFilesDatabase
         }
 
         #endregion
+
+        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (((ComicTemp)FvPages.SelectedItem).Image!=null)
+             MainUtils.SaveFileAndOpen(((ComicTemp)FvPages.SelectedItem).Image);            
+        }
+
     }
 }
