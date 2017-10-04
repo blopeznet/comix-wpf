@@ -177,7 +177,7 @@
                         </Grid>
                     </DataTemplate>
                     <Storyboard x:Key="sbStart">
-                        <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="249" Duration="0:0:1"/>
+                        <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="249" Duration="0:0:0.5"/>
                     </Storyboard>
 
                     <!--Scrollbar Thumbs-->
