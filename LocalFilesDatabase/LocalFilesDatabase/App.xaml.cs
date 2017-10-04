@@ -32,6 +32,8 @@ namespace LocalFilesDatabase
         {
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = ("LAUNCHING APP");
+            App.ViewModel.usefullscreen = false;
+            App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Auto;
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
@@ -55,13 +57,14 @@ namespace LocalFilesDatabase
             }
         }
 
-        private async void GridCover_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private async void Comic_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2) {
 
                 Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.Grid)sender).DataContext);
+                if (System.IO.File.Exists(info.Path))
                 await App.ViewModel.ShowReader(info.Path,(MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow);
-            }
+            }            
         }
     }
 }

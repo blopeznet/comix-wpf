@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
+using System.Windows.Controls;
 
 namespace LocalFilesDatabase.ViewModel
 {
@@ -295,6 +296,24 @@ namespace LocalFilesDatabase.ViewModel
             {
                 _SearchString = value;
                 RaisePropertyChanged("SearchString");
+            }
+        }
+
+        /// <summary>
+        /// Show or hide scrollbar
+        /// </summary>
+        private ScrollBarVisibility _ShowScrollBar = ScrollBarVisibility.Visible;
+        public ScrollBarVisibility ShowScrollBar
+        {
+            get
+            {
+                return _ShowScrollBar;
+            }
+
+            set
+            {
+                _ShowScrollBar = value;
+                RaisePropertyChanged("ShowScrollBar");
             }
         }
 

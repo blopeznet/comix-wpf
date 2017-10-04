@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -31,15 +32,18 @@ namespace LocalFilesDatabase
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
             this.Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Isfullscreen = App.ViewModel.usefullscreen;
-        }
-
+            Isfullscreen = App.ViewModel.usefullscreen;            
+            if (!Isfullscreen)
+                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
+            else
+                this.GridMenu.Background = new SolidColorBrush(Colors.Black);
+        }        
 
         #region full screen window
 
@@ -60,6 +64,8 @@ namespace LocalFilesDatabase
 
         public void UpdateScreen(bool fullscreen)
         {
+            if (!Isfullscreen)
+                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
 
             if (fullscreen)
             {
@@ -74,12 +80,13 @@ namespace LocalFilesDatabase
                     this.Height = screen.WorkingArea.Height + tb.Size.Height + 2;
                 else
                     this.Height = screen.WorkingArea.Height + 4;
+                GridMenu.Background = new SolidColorBrush(Colors.Black);
                 this.Topmost = false;
                 this.ResizeMode = ResizeMode.CanMinimize;
                 this.IgnoreTaskbarOnMaximize = false;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.UseNoneWindowStyle = false;
-                this.IsCloseButtonEnabled = true;
+                this.UseNoneWindowStyle = true;
+                this.IsCloseButtonEnabled = false;
                 this.IsMinButtonEnabled = true;
                 this.ShowTitleBar = true;
                 this.Show();
@@ -184,6 +191,77 @@ namespace LocalFilesDatabase
             }
             
         }
+
+        /// <summary>
+        /// Button for close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonCerrar_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        #region Appbar
+
+        /// <summary>
+        /// Flag for show/hide appbar
+        /// </summary>
+        private bool showappbar = false;
+
+        /// <summary>
+        ///Show hide appbar
+        /// </summary>
+        private void GridMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            UpdateTopBar();
+        }
+
+        /// <summary>
+        /// Seleccionar comic flipview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Comic_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2)
+            {
+
+                Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.StackPanel)sender).DataContext);
+                if (System.IO.File.Exists(info.Path))
+                    await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow);
+            }
+        }
+
+        /// <summary>
+        ///Show hide appbar
+        /// </summary>        
+        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateTopBar();
+        }
+
+        /// <summary>
+        /// Method show or hide appbar
+        /// </summary>
+        private void UpdateTopBar()
+        {
+            showappbar = !showappbar;
+            if (showappbar)
+            {
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbShowTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
+            }
+            else
+            {
+                Storyboard myStoryboard = (Storyboard)this.Resources["sbHideTopBar"];
+                Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
+                myStoryboard.Begin();
+            }
+        }
+
+        #endregion
 
         #region InotifyPropertyChanged
 

@@ -44,25 +44,7 @@ namespace LocalFilesDatabase
         /// Scrollviewer
         /// </summary>
         private ScrollViewer _currentScroll;
-
-        /// <summary>
-        /// Show or hide scrollbar
-        /// </summary>
-        private ScrollBarVisibility _ShowScrollBar = ScrollBarVisibility.Hidden;
-        public ScrollBarVisibility ShowScrollBar
-        {
-            get
-            {
-                return _ShowScrollBar;
-            }
-
-            set
-            {
-                _ShowScrollBar = value;
-                NotifyPropertyChanged("ShowScrollBar");
-            }
-        }
-
+        
         /// <summary>
         /// Flag adjust by width or by height
         /// </summary>
@@ -125,7 +107,7 @@ namespace LocalFilesDatabase
             {
 
                 Isfullscreen = true;
-                this.GridMenu.Background = new SolidColorBrush(Colors.Black);
+                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
                 UpdateAdjust(false);
                 showappbar = true;
                 UpdateTopBar();
@@ -133,7 +115,7 @@ namespace LocalFilesDatabase
             else
             {
                 Isfullscreen = false;
-                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
+                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
                 UpdateAdjust(true);
                 showappbar = false;
                 UpdateTopBar();
@@ -252,7 +234,7 @@ namespace LocalFilesDatabase
             _pages = pages;
             Isfullscreen = App.ViewModel.usefullscreen;
             if (!Isfullscreen)
-                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
+                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
             IsFit = false;
             FvPages.ItemsSource = pages;
         }
