@@ -20,7 +20,7 @@ namespace LocalFilesDatabase
         {
         }
 
-        public static bool usefullscreen = false;
+        
 
         protected override void OnStartup(StartupEventArgs e)
         {         
@@ -33,6 +33,10 @@ namespace LocalFilesDatabase
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = ("LAUNCHING APP");
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
+            if (App.ViewModel.RecentFiles.Count > 0){
+                if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
+                    await App.ViewModel.OpenFileLogic(App.ViewModel.RecentFiles[0]);
+            }
             for (int i = 0; i < 10; i++)
             {
                 App.ViewModel.WorkingMsg = "Loading recents...";

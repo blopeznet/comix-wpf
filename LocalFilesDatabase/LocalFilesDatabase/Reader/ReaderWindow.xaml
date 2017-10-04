@@ -401,7 +401,7 @@
                     <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
                 </StackPanel>
                 <Button x:Name="buttonPrev" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
                             FontSize="28" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
                     <Button.Background>
                         <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
@@ -409,7 +409,7 @@
                     </Button.Background>    
                 </Button>
                 <Grid>
-                    <Slider Style="{DynamicResource FlatSlider}" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="12" Width="300" Margin="16" VerticalAlignment="Center" HorizontalAlignment="Left"></Slider>
+                    <Slider Style="{DynamicResource FlatSlider}" Focusable="False" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="12" Width="250" Margin="16" VerticalAlignment="Center" HorizontalAlignment="Left"></Slider>
                     <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
                         <Run Text="Página "></Run>
                         <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
@@ -428,6 +428,13 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
+                    <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  x:Name="buttonFull" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content=""
+                            FontSize="18" Margin="4" Click="buttonFull_Click"/>
+                    <Button Focusable="False" Foreground="White" FontSize="12" Content="Modo" HorizontalAlignment="Center" Click="buttonFull_Click" Style="{StaticResource ButtonClear}"
+                            Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
                     <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
                             FontSize="18" Margin="4" Click="buttonSave_Click"/>
@@ -435,13 +442,13 @@
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
                     <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="⭠⭢" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content=""  
                             FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
                     <Button Focusable="False" Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
                 </StackPanel>
                 <StackPanel>
-                    <Button Focusable="False"  x:Name="buttonCerrar" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
-                    <Button Focusable="False" Foreground="White" FontSize="12" Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
+                    <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
+                    <Button Focusable="False" Foreground="White" FontSize="12"  Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
                 </StackPanel>
                 <Grid Width="20"/>
             </StackPanel>
@@ -492,7 +499,5 @@
                 <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"/>
             </StackPanel>
         </Grid>
-
-
     </Grid>
 </metrocontrols:MetroWindow>

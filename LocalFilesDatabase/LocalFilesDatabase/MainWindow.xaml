@@ -138,14 +138,6 @@
             </ListView>
             <Rectangle x:Name="RectangleVerticalSeparator" Fill="{StaticResource AccentBrush}" Grid.RowSpan="3" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right"
                  Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}"/>
-            <Grid Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="50">
-                <Grid.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Offset="0.2" Color="#FF141414"/>
-                        <GradientStop Offset="0.8" Color="Black"/>
-                    </LinearGradientBrush>
-                </Grid.Background>
-            </Grid>
             <ListView x:Name="ListViewFiles" Grid.Column="1" 
                   SelectedIndex="0"
                   Grid.Row="0"

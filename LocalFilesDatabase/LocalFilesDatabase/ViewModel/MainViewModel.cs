@@ -157,14 +157,19 @@ namespace LocalFilesDatabase.ViewModel
             string path = openFileDialog.FileName;
             if (!String.IsNullOrEmpty(path) && res == System.Windows.Forms.DialogResult.OK)
             {
-
-                IsWorking = true;
-                WorkingMsg = "CARGANDO LIBRERIA...";
-                await LoadData(path);
-                IsDataAvaliable = true;
-                WorkingMsg = String.Empty;
-                IsWorking = false;
+                await OpenFileLogic(path);
             }
+        }
+
+        public async Task<bool> OpenFileLogic(String path)
+        {
+            IsWorking = true;
+            WorkingMsg = "CARGANDO LIBRERIA...";
+            await LoadData(path);
+            IsDataAvaliable = true;
+            WorkingMsg = String.Empty;
+            IsWorking = false;
+            return true;
         }
 
         public async void OpenFileDialogForSave()
@@ -290,6 +295,18 @@ namespace LocalFilesDatabase.ViewModel
             {
                 _SearchString = value;
                 RaisePropertyChanged("SearchString");
+            }
+        }
+
+        private bool _usefullscreen = false;
+        public bool usefullscreen
+        {
+            get => _usefullscreen;
+            set
+            {
+
+                _usefullscreen = value;
+                RaisePropertyChanged("usefullscreen");
             }
         }
 

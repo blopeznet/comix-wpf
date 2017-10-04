@@ -21,11 +21,11 @@ using System.Windows.Threading;
 
 namespace LocalFilesDatabase
 {
-    
+
     /// <summary>
     /// Lógica de interacción para ReaderWindow.xaml
     /// </summary>
-    public partial class ReaderWindow : MetroWindow,INotifyPropertyChanged
+    public partial class ReaderWindow : MetroWindow, INotifyPropertyChanged
     {
 
 
@@ -112,11 +112,34 @@ namespace LocalFilesDatabase
         public ReaderWindow()
         {
             InitializeComponent();
-            this.Loaded += ReaderWindow_Loaded;            
+            this.Loaded += ReaderWindow_Loaded;
         }
 
 
         bool fullscreenactive = false;
+
+        private void UpdateFullScreen()
+        {
+            fullscreenactive = !fullscreenactive;
+            if (fullscreenactive)
+            {
+
+                Isfullscreen = true;
+                this.GridMenu.Background = new SolidColorBrush(Colors.Black);
+                UpdateAdjust(false);
+                showappbar = true;
+                UpdateTopBar();
+            }
+            else
+            {
+                Isfullscreen = false;
+                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
+                UpdateAdjust(true);
+                showappbar = false;
+                UpdateTopBar();
+                this.GridMenu.Visibility = Visibility.Visible;
+            }
+        }
 
         /// <summary>
         /// Control with keyboard
@@ -125,8 +148,8 @@ namespace LocalFilesDatabase
         /// <param name="e"></param>
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left 
-                || e.Key == Key.Right|| e.Key == Key.PageDown || e.Key == Key.PageUp
+            if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left
+                || e.Key == Key.Right || e.Key == Key.PageDown || e.Key == Key.PageUp
                 || e.Key == Key.F11)
             {
 
@@ -134,28 +157,9 @@ namespace LocalFilesDatabase
 
                 if (sv != null)
                 {
-                    if (e.Key == Key.F11)
+                    if (e.Key == Key.F11 && App.ViewModel.usefullscreen==false)
                     {
-                        fullscreenactive = !fullscreenactive;
-                        if (fullscreenactive)
-                        {
-
-                            Isfullscreen = true;
-                            this.GridMenu.Background = new SolidColorBrush(Colors.Black);
-                            UpdateAdjust(false);
-                            showappbar = true;
-                            UpdateTopBar();
-                            this.GridMenu.Visibility = Visibility.Collapsed;
-                        }
-                        else
-                        {
-                            Isfullscreen = false;
-                            this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
-                            UpdateAdjust(true);
-                            showappbar = false;
-                            UpdateTopBar();
-                            this.GridMenu.Visibility = Visibility.Visible;
-                        }
+                        UpdateFullScreen();
                     }
 
 
@@ -188,7 +192,7 @@ namespace LocalFilesDatabase
                         FvPages.Visibility = Visibility.Collapsed;
                         PART_BackButton_Click(null, null);
                         FvPages.Visibility = Visibility.Visible;
-                        FvPages.SelectedIndex -= 1;                        
+                        FvPages.SelectedIndex -= 1;
                         return;
                     }
 
@@ -197,7 +201,7 @@ namespace LocalFilesDatabase
                         FvPages.Visibility = Visibility.Collapsed;
                         PART_ForwardButton_Click(null, null);
                         FvPages.Visibility = Visibility.Visible;
-                        FvPages.SelectedIndex += 1;                        
+                        FvPages.SelectedIndex += 1;
                         return;
                     }
                 }
@@ -211,7 +215,7 @@ namespace LocalFilesDatabase
         /// <param name="e"></param>
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            showappbar = App.usefullscreen;
+            showappbar = App.ViewModel.usefullscreen;
             if (IsFit)
                 HeightDisplay = this.RowContent.ActualHeight + 80;
             else
@@ -235,21 +239,21 @@ namespace LocalFilesDatabase
             {
                 WidthDisplay = this.ActualWidth;
             }
-        }        
+        }
 
         /// <summary>
         /// LOad initial pages
         /// </summary>
         /// <param name="pages">Pages to load</param>
         /// <param name="mainwreference">Window reference</param>
-        public void LoadPages(List<ComicTemp> pages,MetroWindow mainwreference)
-        {            
-            _mainWindowReference = mainwreference;                  
+        public void LoadPages(List<ComicTemp> pages, MetroWindow mainwreference)
+        {
+            _mainWindowReference = mainwreference;
             _pages = pages;
-            Isfullscreen = App.usefullscreen;
-            if (!Isfullscreen)            
-                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187,20,4));            
-            IsFit = false;            
+            Isfullscreen = App.ViewModel.usefullscreen;
+            if (!Isfullscreen)
+                this.GridMenu.Background = new SolidColorBrush(Color.FromRgb(187, 20, 4));
+            IsFit = false;
             FvPages.ItemsSource = pages;
         }
 
@@ -406,8 +410,8 @@ namespace LocalFilesDatabase
         /// <param name="e"></param>
         private void buttonAdjust_Click(object sender, RoutedEventArgs e)
         {
-            IsFit = !IsFit;            
-        }        
+            IsFit = !IsFit;
+        }
 
 
         #region Load previous/next file
@@ -468,7 +472,7 @@ namespace LocalFilesDatabase
         {
 
             App.ViewModel.IsWorking = true;
-            App.ViewModel.SelectedFile = replace;            
+            App.ViewModel.SelectedFile = replace;
             _pages.Clear();
             FvPages.ItemsSource = _pages;
             App.ViewModel.WorkingMsg = String.Format("CARGANDO PAGINAS...");
@@ -481,9 +485,9 @@ namespace LocalFilesDatabase
             }));
             App.ViewModel.IsWorking = false;
             App.ViewModel.WorkingMsg = String.Empty;
-            await Task.Delay(1);                        
+            await Task.Delay(1);
             return true;
-        }       
+        }
 
         private async void PART_ForwardButton_LAST_Click(object sender, RoutedEventArgs e)
         {
@@ -499,7 +503,7 @@ namespace LocalFilesDatabase
 
         private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         #region Reset scroll when load page
@@ -587,9 +591,13 @@ namespace LocalFilesDatabase
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            if (((ComicTemp)FvPages.SelectedItem).Image!=null)
-             MainUtils.SaveFileAndOpen(((ComicTemp)FvPages.SelectedItem).Image);            
+            if (((ComicTemp)FvPages.SelectedItem).Image != null)
+                MainUtils.SaveFileAndOpen(((ComicTemp)FvPages.SelectedItem).Image);
         }
 
+        private void buttonFull_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateFullScreen();
+        }
     }
 }
