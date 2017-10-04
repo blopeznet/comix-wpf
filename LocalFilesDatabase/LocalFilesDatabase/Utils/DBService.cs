@@ -127,7 +127,7 @@ namespace LocalFilesDatabase
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Fichero</returns>
-        public ItemInfo GetItemFile(String id)
+        public bool UpdateItemFile(String path,int newreadedpages)
         {
             if (String.IsNullOrEmpty(Path))
                 throw new Exception("Database path not exist");
@@ -135,8 +135,10 @@ namespace LocalFilesDatabase
             using (var db = new LiteDatabase(Path))
             {
                 var items = db.GetCollection<ItemInfo>("items");
-                ItemInfo item = items.FindById(id);
-                return item;
+                ItemInfo item = items.Find(x=>x.Path == path).FirstOrDefault();
+                item.CurrentPages = newreadedpages;
+                return items.Upsert(item);
+                //return items.Update(item);
             }
         }
 
@@ -169,7 +171,7 @@ namespace LocalFilesDatabase
             using (var db = new LiteDatabase(Path))
             {
                 var items = db.GetCollection<ItemInfo>("items");                
-                return items.Find(Query.EQ("SourceFolderPath", SourceFolderPath)).ToList();
+                return items.Find(Query.EQ("SourceFolderPath", SourceFolderPath)).OrderBy(x => x.Path).ToList();
             }
         }
 
@@ -202,7 +204,7 @@ namespace LocalFilesDatabase
             using (var db = new LiteDatabase(Path))
             {
                 var items = db.GetCollection<ItemFolder>("folders");
-                return items.FindAll().ToList();
+                return items.FindAll().OrderBy(x=>x.Path).ToList();
             }
         }
 
@@ -219,7 +221,7 @@ namespace LocalFilesDatabase
             using (var db = new LiteDatabase(Path))
             {
                 var items = db.GetCollection<ItemFolder>("folders");
-                return items.Find(Query.EQ("SnapId", SnapId)).ToList();
+                return items.Find(Query.EQ("SnapId", SnapId)).OrderBy(x => x.Path).ToList();
             }
         }
 
@@ -236,7 +238,7 @@ namespace LocalFilesDatabase
             using (var db = new LiteDatabase(Path))
             {                
                 var items = db.GetCollection<ItemFolder>("folders");
-                return items.Find(Query.Contains("Path", foldernamefilter)).ToList();
+                return items.Find(Query.Contains("Path", foldernamefilter)).OrderBy(x => x.Path).ToList();
             }
         }
 

@@ -129,11 +129,11 @@ namespace LocalFilesDatabase
         /// </summary>
         /// <param name="fileName">Path del fichero</param>
         /// <returns>Bitmap</returns>
-        public static BitmapImage CreateThumbnailBitmapImage(string fileName)
+        public static BitmapImage CreateThumbnailBitmapImage(string fileName,ItemInfo info)
         {
             try
             {
-                BitmapImage thumbnail = ZipHelper.Instance.UncompressToBitmapImage(fileName);
+                BitmapImage thumbnail = ZipHelper.Instance.UncompressToBitmapImage(fileName,info);
                 return thumbnail;
             }
             catch (Exception ex)
@@ -216,11 +216,21 @@ namespace LocalFilesDatabase
         /// <returns>GUID en String</returns>
         public static String GenerateUniqueId()
         {
-            Guid g = Guid.NewGuid();
+            Guid g = Guid.NewGuid();            
             string GuidString = Convert.ToBase64String(g.ToByteArray());
             GuidString = GuidString.Replace("=", "");
             GuidString = GuidString.Replace("+", "");
             return GuidString;
+        }
+
+        /// <summary>
+        /// Genera un GUID unico
+        /// </summary>
+        /// <returns>GUID en String</returns>
+        public static Guid GenerateUniqueIdAsGUID()
+        {
+            Guid g = Guid.NewGuid();
+            return g;
         }
 
         /// <summary>
@@ -276,6 +286,8 @@ namespace LocalFilesDatabase
             String snapid = MainUtils.GenerateUniqueId();
             //Create Snap
             Snap snap = new Snap();
+            Guid id = Guid.NewGuid();
+            snap.Id = MainUtils.GenerateUniqueIdAsGUID();
             snap.CreationDate = DateTime.Now;
             snap.LastUpdateDate = DateTime.Now;
             snap.Description = String.Format("Snap created at {0}", DateTime.Now);
@@ -297,6 +309,7 @@ namespace LocalFilesDatabase
                 List<ItemFolder> tmpfolders = new List<ItemFolder>();
                 int currentlevel = 0;
                 ItemFolder folder = new ItemFolder();
+                folder.Id = MainUtils.GenerateUniqueIdAsGUID();
                 folder.Level = currentlevel;
                 folder.Path = path;
                 folder.SnapId = snapid;

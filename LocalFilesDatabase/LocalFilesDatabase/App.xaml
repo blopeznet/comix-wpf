@@ -191,9 +191,9 @@
                                         Background="{StaticResource AccentBrush2}"
                                         Foreground="{StaticResource HeaderColorBrush}"
                                         Focusable="False" IsHitTestVisible="False"
-                                        Value="0"                                             
+                                        Value="{Binding CurrentPages}"                                             
                                         Minimum="0" 
-                                        Maximum="25" 
+                                        Maximum="{Binding TotalPages}" 
                                         VerticalAlignment="Bottom" 
                                         HorizontalAlignment="Stretch"
                                         Margin="2">

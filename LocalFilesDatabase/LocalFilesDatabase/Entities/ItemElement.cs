@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace LocalFilesDatabase.Entities
 
     public class Snap : ViewModelBase
     {
+        [BsonId]
+        public Guid Id { get; set; }
+
         private String _SnapId;
         public string SnapId
         {
@@ -80,6 +84,9 @@ namespace LocalFilesDatabase.Entities
 
     public class ItemFolder :ViewModelBase
     {
+        [BsonId]
+        public Guid Id { get; set; }
+
         private String _SnapId;
         public string SnapId
         {
@@ -171,6 +178,8 @@ namespace LocalFilesDatabase.Entities
 
     public class ItemInfo :ViewModelBase
     {
+        [BsonId]
+        public Guid Id { get; set; }
 
         private String _SnapId;
         public string SnapId
@@ -257,6 +266,28 @@ namespace LocalFilesDatabase.Entities
             {
                 _Size = value;
                 RaisePropertyChanged("Size");
+            }
+        }
+
+        private Int32 _CurrentPages;
+        public Int32 CurrentPages
+        {
+            get => _CurrentPages;
+            set
+            {
+                _CurrentPages = value;
+                RaisePropertyChanged("CurrentPages");
+            }
+        }
+
+        private Int32 _TotalPages;
+        public Int32 TotalPages
+        {
+            get => _TotalPages;
+            set
+            {
+                _TotalPages = value;
+                RaisePropertyChanged("TotalPages");
             }
         }
 

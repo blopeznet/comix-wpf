@@ -260,10 +260,15 @@
                                 </Grid>
                                 <Grid Grid.Column="2" Margin="12">
                                     <StackPanel>
-                                    <TextBlock Text="{Binding DisplayName}" Foreground="White" FontSize="22" FontWeight="Bold" TextWrapping="Wrap" Margin="6"/>
-                                    <TextBlock Text="{Binding Size, Converter={StaticResource BytesToMbStringConverter}}" Foreground="#FF2F8E47" FontSize="14" Margin="2" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding SourceFolderPath, Converter={StaticResource PathToFolderConverter}}" Foreground="White" 
+                                        <TextBlock Text="{Binding DisplayName}" Foreground="White" FontSize="22" FontWeight="Bold" TextWrapping="Wrap" Margin="6"/>
+                                        <TextBlock Margin="6" Text="{Binding Size, Converter={StaticResource BytesToMbStringConverter}}" Foreground="#FF2F8E47" FontSize="14" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding SourceFolderPath, Converter={StaticResource PathToFolderConverter}}" Foreground="White" 
                                                FontSize="14" Margin="6" FontWeight="Bold" MaxWidth="195" TextWrapping="Wrap" HorizontalAlignment="Left"/>
+                                        <TextBlock FontSize="14" Foreground="LightGray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6">
+                                            <Run Text="{Binding CurrentPages}"></Run>
+                                            <Run Text="/"></Run>
+                                            <Run Text="{Binding TotalPages}"></Run>
+                                        </TextBlock>
                                     </StackPanel>
                                 </Grid>
                             </Grid>

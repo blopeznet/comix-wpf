@@ -168,7 +168,7 @@ namespace LocalFilesDatabase.Utils
 		/// </summary>
 		/// <param name="inputFile"></param>
 		/// <returns></returns>
-        public BitmapImage UncompressToBitmapImage(string inputFile)
+        public BitmapImage UncompressToBitmapImage(string inputFile,ItemInfo info)
         {
             SevenZipExtractor temp = null;
 
@@ -177,7 +177,7 @@ namespace LocalFilesDatabase.Utils
                 temp = GetExtractor(inputFile);
                 BitmapImage bitmap = null;
                 List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
-
+                info.TotalPages = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).Count();
                 String filenamepng = list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).FirstOrDefault().FileName;
                 using (MemoryStream ms = new MemoryStream())
                 {

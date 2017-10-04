@@ -64,8 +64,9 @@ namespace LocalFilesDatabase.ViewModel
                 processedfiles = 1;
                 foreach (ItemInfo file in f.Files)
                 {
+                    file.Id = MainUtils.GenerateUniqueIdAsGUID();
                     App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
-                        file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path));
+                        file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path,file));
                     }));
                     processedfiles += 1;                                        
                     WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders, processedfiles, totalfiles);

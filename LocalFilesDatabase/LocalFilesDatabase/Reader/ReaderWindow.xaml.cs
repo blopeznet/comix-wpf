@@ -499,7 +499,10 @@ namespace LocalFilesDatabase
 
         private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+           DBService.Instance.UpdateItemFile(App.ViewModel.SelectedFile.Path,FvPages.SelectedIndex+1);
+           ItemInfo info = App.ViewModel.Files.Where(f => f.Path == App.ViewModel.SelectedFile.Path).FirstOrDefault();
+           if (info != null)
+                info.CurrentPages = FvPages.SelectedIndex + 1;             
         }
 
         #region Reset scroll when load page
