@@ -65,25 +65,25 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
                     <TextBlock Foreground="White" MaxWidth="240" Margin="2,0,0,-2" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" Text="ELEMENTOS"/>
                     <TextBlock Foreground="White" Opacity="0.7" MaxWidth="240" Margin="4,0,0,-2" FontSize="16" TextWrapping="Wrap" Text="{Binding Main.SelectedFolder, Converter={StaticResource FolderDescriptionConverter}, Source={StaticResource Locator}}"/>
-                    <TextBlock MaxHeight="20" Foreground="#FF2F8E47" FontWeight="Bold" Margin="4,0,2,-2" MaxWidth="470" TextTrimming="WordEllipsis" FontSize="16" Text="{Binding Main.SelectedFolder, Source={StaticResource Locator},Converter={StaticResource PathToFolderConverter}}"/>
+                    <TextBlock MaxHeight="20" Foreground="{StaticResource AccentBrush2}" FontWeight="Bold" Margin="4,0,2,-2" MaxWidth="470" TextTrimming="WordEllipsis" FontSize="16" Text="{Binding Main.SelectedFolder, Source={StaticResource Locator},Converter={StaticResource PathToFolderConverter}}"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4" Orientation="Horizontal">
                     <StackPanel>
-                        <Button Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE132;" FontSize="18" Margin="4" Click="ButtonOpen_Click"/>
+                        <Button Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE132;" FontSize="16" Margin="4" Click="ButtonOpen_Click"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Abrir" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="18" Margin="4" Click="ButtonClose_Click"/>
+                        <Button Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="18" Margin="4" Click="ButtonClose_Click"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Cerrar" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel>
-                        <Button Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE109;" FontSize="18" Margin="4" Click="ButtonAdd_Click"/>
+                        <Button Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE109;" FontSize="18" Margin="4" Click="ButtonAdd_Click"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Nuevo" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="18" Margin="4" Click="ButtonDelete_Click"/>
+                        <Button Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="18" Margin="4" Click="ButtonDelete_Click"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Eliminar" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </StackPanel>
@@ -118,14 +118,14 @@
                     </Border>
                     <StackPanel VerticalAlignment="Center" Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
                         <ToggleButton x:Name="SearchToggleButton"  IsChecked="{Binding Main.SearchModeOn, Mode=TwoWay, Source={StaticResource Locator}}" 
-                                      Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                                      Content="&#xE1A3;" FontSize="18" Margin="4" Style="{DynamicResource MetroCircleToggleButtonStyle}"/>
+                                      Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                                      Content="&#xE1A3;" FontSize="16" Margin="4" Style="{DynamicResource MetroCircleToggleButtonStyle}"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Buscar" 
                                    HorizontalAlignment="Center"
                                    />
                     </StackPanel>
                     <StackPanel>
-                        <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
+                        <Button Focusable="False"  x:Name="buttonCerrar"  Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="16" Margin="4" Click="buttonCerrar_Click"/>
                         <Button Focusable="False" Foreground="White" FontSize="12"  Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
                     </StackPanel>
                 </StackPanel>

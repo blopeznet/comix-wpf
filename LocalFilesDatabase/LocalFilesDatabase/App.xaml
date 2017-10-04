@@ -7,6 +7,7 @@
              d1p1:Ignorable="d" 
              StartupUri="MainWindow.xaml"
              Startup="Application_Startup"
+             xmlns:metrocontrols="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   <Application.Resources>
     <ResourceDictionary>
@@ -27,7 +28,8 @@
                     <SolidColorBrush x:Key="BackgroundBrush" Color="#FF141414"/>
                     <SolidColorBrush x:Key="AccentBrush" Color="#FFE50914"/>
                     <SolidColorBrush x:Key="HeaderColorBrush" Color="#BB1404"/>
-                    
+                    <SolidColorBrush x:Key="AccentBrush2" Color="#FF2F8E47"/>
+
                     <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
                     <Converters:InvBooleanConverter x:Key="InvBooleanConverter"/>
@@ -174,6 +176,29 @@
                     <DataTemplate x:Key="CoverTemplate">
                         <Grid HorizontalAlignment="Stretch" x:Name="GridCover" DataContext="{Binding}" MouseDown="Comic_MouseDown" VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
                             <Image Width="83" Height="128" Margin="2" Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"/>
+                            <Grid x:Name="PART_PagesProgressGrid"
+                          Height="12" Margin="2"
+                          VerticalAlignment="Bottom"
+                          Panel.ZIndex="6"
+                          Background="Transparent"
+                          Opacity="0.85">
+                                <Label x:Name="PART_BannerLabel"                               
+                               FontSize="12"                                       
+                               Foreground="{DynamicResource WhiteBrush}"
+                               IsTabStop="False" />
+                                <metrocontrols:MetroProgressBar
+                                        Height="1"         
+                                        Background="{StaticResource AccentBrush2}"
+                                        Foreground="{StaticResource HeaderColorBrush}"
+                                        Focusable="False" IsHitTestVisible="False"
+                                        Value="0"                                             
+                                        Minimum="0" 
+                                        Maximum="25" 
+                                        VerticalAlignment="Bottom" 
+                                        HorizontalAlignment="Stretch"
+                                        Margin="2">
+                                </metrocontrols:MetroProgressBar>
+                            </Grid>
                         </Grid>
                     </DataTemplate>
                     <Storyboard x:Key="sbStart">

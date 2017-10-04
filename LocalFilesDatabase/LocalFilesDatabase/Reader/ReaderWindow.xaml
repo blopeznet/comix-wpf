@@ -102,7 +102,7 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                 <Border x:Name="PART_HoverBorder"
-                    BorderBrush="Transparent"
+                    BorderBrush="Transparent"                    
                     BorderThickness="{TemplateBinding MouseHoverBorderThickness}"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                     <Grid Margin="{TemplateBinding Padding}">
@@ -112,6 +112,7 @@
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
                                 Width="200"
+                                Focusable="False"
                                 Background="Transparent"
                                 Height="800"
                                 Click="PART_BackButton_FIRST_Click"
@@ -128,6 +129,7 @@
                             <Button x:Name="PART_BackButton"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
+                                Focusable="False"
                                 Opacity="0.1"
                                 Width="200"
                                     Click="PART_BackButton_Click"
@@ -149,6 +151,7 @@
                                 Opacity="0.1"
                                 Width="200"
                                 Height="800"
+                                Focusable="False"
                                 Click="PART_ForwardButton_LAST_Click"
                                 Background="Transparent"
                                     Visibility="Visible"
@@ -168,7 +171,8 @@
                                 VerticalAlignment="Center"
                                 Opacity="0.1"
                                 Width="200"
-                                Height="800"         
+                                Height="800"      
+                                    Focusable="False"
                                     Click="PART_ForwardButton_Click"
                                 Background="Transparent"
                                     Visibility="Visible"
@@ -185,6 +189,7 @@
                             <Button x:Name="PART_UpButton"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
+                                    Focusable="False"
                                 Style="{DynamicResource ControlButton}"
                                 Visibility="Hidden">
                                 <Path Canvas.Left="15.9063"
@@ -198,6 +203,7 @@
                             <Button x:Name="PART_DownButton"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
+                                    Focusable="False"
                                 Style="{DynamicResource ControlButton}"
                                 Visibility="Hidden">
                                 <Path Canvas.Left="15.9063"
@@ -221,7 +227,7 @@
                                Foreground="{DynamicResource WhiteBrush}"
                                IsTabStop="False" />
                         </Grid>
-                        <metrocontrols:TransitioningContentControl x:Name="PART_Presenter"
+                        <metrocontrols:TransitioningContentControl x:Name="PART_Presenter"                                                                    
                                                           Panel.ZIndex="1"                                                                                                                       
                                                           Content="{TemplateBinding SelectedItem}"
                                                           ContentTemplate="{TemplateBinding ItemTemplate}"
@@ -365,7 +371,7 @@
                                Converter={StaticResource BooleanToVisibilityConverter}
                                ,ConverterParameter=inv}"
                                />
-                                <Image Source="{Binding Image}"
+                                <Image Source="{Binding Image}" 
                                Height="{Binding HeightDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
@@ -392,9 +398,9 @@
                     <Image Width="59" Height="60" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
                     <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
                 </StackPanel>
-                <Button x:Name="buttonPrev" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                <Button x:Name="buttonPrev" Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
-                            FontSize="28" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
+                            FontSize="18" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
                     <Button.Background>
                         <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
                         </ImageBrush>
@@ -409,37 +415,37 @@
                         <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
                     </TextBlock>
                 </Grid>
-                <Button x:Name="buttonNext" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                <Button x:Name="buttonNext" Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
-                            FontSize="28" FontWeight="Bold" Margin="4" Click="buttonNext_Click">
+                            FontSize="18" FontWeight="Bold" Margin="4" Click="buttonNext_Click">
                     <Button.Background>
                         <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
                         </ImageBrush>
                     </Button.Background>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,6,36,-4" x:Name="MenuButtonsRight">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,18,36,-4" x:Name="MenuButtonsRight">
                 <StackPanel Orientation="Vertical">
-                    <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  x:Name="buttonFull" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                    <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  x:Name="buttonFull" Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content=""
-                            FontSize="18" Margin="4" Click="buttonFull_Click"/>
+                            FontSize="16" Margin="4" Click="buttonFull_Click"/>
                     <Button Focusable="False" Foreground="White" FontSize="12" Content="Modo" HorizontalAlignment="Center" Click="buttonFull_Click" Style="{StaticResource ButtonClear}"
                             Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                    <Button Focusable="False"  x:Name="buttonSave" Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
-                            FontSize="18" Margin="4" Click="buttonSave_Click"/>
+                            FontSize="16" Margin="4" Click="buttonSave_Click"/>
                     <Button Focusable="False" Foreground="White" FontSize="12" Content="Guardar" HorizontalAlignment="Center" Click="buttonSave_Click" Style="{StaticResource ButtonClear}"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical">
-                    <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                    <Button Focusable="False"  x:Name="buttonAdjust" Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content=""  
-                            FontSize="18" Margin="4" Click="buttonAdjust_Click"/>
+                            FontSize="16" Margin="4" Click="buttonAdjust_Click"/>
                     <Button Focusable="False" Foreground="White" FontSize="12" Content="Ajustar" HorizontalAlignment="Center" Click="buttonAdjust_Click" Style="{StaticResource ButtonClear}"/>
                 </StackPanel>
                 <StackPanel>
-                    <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="18" Margin="4" Click="buttonCerrar_Click"/>
+                    <Button Focusable="False"  x:Name="buttonCerrar"  Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="16" Margin="4" Click="buttonCerrar_Click"/>
                     <Button Focusable="False" Foreground="White" FontSize="12"  Content="Cerrar" HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonCerrar_Click"/>
                 </StackPanel>
                 <Grid Width="20"/>
@@ -449,6 +455,26 @@
                         Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="White" 
                         FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
                         Click="buttonHideMenu_Click"/>
+        </Grid>
+
+        <Grid x:Name="MenuGrid" Background="#CC141414" Mouse.MouseDown="GridMenu_MouseDown"
+              Visibility="{Binding showappbar, ElementName=CurrentReaderWindow,Converter={StaticResource BooleanToVisibilityConverter}}" 
+              Grid.Row="1"
+              Grid.RowSpan="2" 
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+
+            <Button x:Name="ButtonThumbnail" Focusable="False" Click="ButtonThumbnail_Click"  BorderThickness="2" metrocontrols:ButtonHelper.CornerRadius="10" Style="{StaticResource ButtonClear}" Background="{StaticResource HeaderColorBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12">
+                <StackPanel Orientation="Vertical">
+                    <Image Width="230" Height="230" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
+                    <TextBlock MaxWidth="300" Margin="12" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
+                    <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{StaticResource AccentBrush2}" VerticalAlignment="Bottom" Margin="0,0,0,0">
+                        <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
+                        <Run Text="/"></Run>
+                        <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
+                    </TextBlock>
+                </StackPanel>
+            </Button>
         </Grid>
 
         <Grid x:Name="LoadingGrid" Background="#CC141414" Visibility="{Binding Main.IsWorking, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

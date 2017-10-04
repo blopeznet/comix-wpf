@@ -32,8 +32,8 @@ namespace LocalFilesDatabase
         {
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = ("LAUNCHING APP");
-            App.ViewModel.usefullscreen = false;
-            App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Auto;
+            App.ViewModel.usefullscreen = true;
+            App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Hidden;
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))

@@ -199,9 +199,13 @@ namespace LocalFilesDatabase
         {
             showappbar = App.ViewModel.usefullscreen;
             if (IsFit)
-                HeightDisplay = this.RowContent.ActualHeight + 80;
+            {
+                HeightDisplay = CurrentReaderWindow.Height - 32;
+            }
             else
-                WidthDisplay = this.Width;
+            {
+                WidthDisplay = this.CurrentReaderWindow.ActualWidth;
+            }
             UpdateTopBar();
         }
 
@@ -215,7 +219,7 @@ namespace LocalFilesDatabase
         {
             if (isfit)
             {
-                HeightDisplay = this.RowContent.ActualHeight + 80;
+                HeightDisplay = CurrentReaderWindow.Height - 32;
             }
             else
             {
@@ -260,7 +264,7 @@ namespace LocalFilesDatabase
                     UpdateScreen(_Isfullscreen);
             }
         }
-
+        
         /// <summary>
         /// Method update screen to full
         /// </summary>
@@ -306,7 +310,17 @@ namespace LocalFilesDatabase
         /// <summary>
         /// Flag for show/hide appbar
         /// </summary>
-        private bool showappbar = false;
+        private bool _showappbar = false;
+        public bool showappbar {
+            get => _showappbar;
+            set
+            {
+                _showappbar = value;
+                NotifyPropertyChanged("showappbar");
+            }
+        }
+
+
 
         /// <summary>
         /// Method show or hide appbar
@@ -580,6 +594,11 @@ namespace LocalFilesDatabase
         private void buttonFull_Click(object sender, RoutedEventArgs e)
         {
             UpdateFullScreen();
+        }
+
+        private void ButtonThumbnail_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateTopBar();
         }
     }
 }
