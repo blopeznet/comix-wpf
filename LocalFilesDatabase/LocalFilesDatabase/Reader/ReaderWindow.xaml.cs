@@ -415,11 +415,13 @@ namespace LocalFilesDatabase
 
         private async void buttonNext_Click(object sender, RoutedEventArgs e)
         {
+            UpdateTopBar();
             await LoadNext();
         }
 
         private async void buttonPrev_Click(object sender, RoutedEventArgs e)
         {
+            UpdateTopBar();
             await LoadPrev();
         }
 
@@ -470,6 +472,7 @@ namespace LocalFilesDatabase
 
             App.ViewModel.IsWorking = true;
             App.ViewModel.SelectedFile = replace;
+            FvPages.Visibility = Visibility.Collapsed;
             _pages.Clear();
             FvPages.ItemsSource = _pages;
             App.ViewModel.WorkingMsg = String.Format("CARGANDO PAGINAS...");
@@ -478,8 +481,12 @@ namespace LocalFilesDatabase
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 _pages = MainUtils.CreatePagesComic(replace.Path, replace.CurrentPages);
+                int moveto = replace.CurrentPages - 1;
+                if (moveto == -1)
+                    moveto = 0;                
                 FvPages.ItemsSource = _pages;
-                FvPages.SelectedIndex = replace.CurrentPages - 1;
+                FvPages.SelectedIndex = moveto;
+                FvPages.Visibility = Visibility.Visible;
             }));
             App.ViewModel.IsWorking = false;
             App.ViewModel.WorkingMsg = String.Empty;
