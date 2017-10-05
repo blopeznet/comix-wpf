@@ -62,6 +62,42 @@ namespace LocalFilesDatabase
         }
 
         /// <summary>
+        /// Añadir ultimo comic abierto a db
+        /// </summary>
+        /// <param name="newsnap">new snap</param>
+        public void SaveLastComic(ItemInfo newitem)
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemInfo>("history");
+                ItemInfo old = items.FindAll().FirstOrDefault();
+                if (old!=null)
+                 items.Delete(old.Id);
+                items.Insert(newitem);
+            }
+        }
+
+        /// <summary>
+        /// Obtener ultimo comic abierto a db
+        /// </summary>
+        /// <param name="newsnap">new snap</param>
+        public ItemInfo GetLastComic()
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemInfo>("history");
+                ItemInfo old = items.FindAll().FirstOrDefault();                
+                return old;                
+            }
+        }
+
+        /// <summary>
         /// Añadir una lista de elementos fichero
         /// </summary>
         /// <param name="newitems">elementos a añadir</param>

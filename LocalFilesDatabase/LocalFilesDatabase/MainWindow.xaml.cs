@@ -146,6 +146,7 @@ namespace LocalFilesDatabase
             settings.ColorScheme = MetroDialogColorScheme.Theme;
             settings.AffirmativeButtonText = "OK";
             if (System.IO.File.Exists(App.ViewModel.SelectedFile.Path)){
+                DBService.Instance.SaveLastComic(App.ViewModel.SelectedFile);
                 await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path,this,App.ViewModel.SelectedFile.CurrentPages);
             }
             else

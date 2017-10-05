@@ -481,11 +481,12 @@ namespace LocalFilesDatabase
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 _pages = MainUtils.CreatePagesComic(replace.Path, replace.CurrentPages);
+                DBService.Instance.SaveLastComic(replace);
                 int moveto = replace.CurrentPages - 1;
                 if (moveto == -1)
                     moveto = 0;                
                 FvPages.ItemsSource = _pages;
-                FvPages.SelectedIndex = moveto;
+                FvPages.SelectedIndex = moveto;                
                 FvPages.Visibility = Visibility.Visible;
             }));
             App.ViewModel.IsWorking = false;

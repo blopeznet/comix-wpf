@@ -1,4 +1,6 @@
-﻿using LocalFilesDatabase.ViewModel;
+﻿using LocalFilesDatabase.Entities;
+using LocalFilesDatabase.ViewModel;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -37,7 +39,15 @@ namespace LocalFilesDatabase
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
+                {
                     await App.ViewModel.OpenFileLogic(App.ViewModel.RecentFiles[0]);
+                    ItemInfo last = DBService.Instance.GetLastComic();
+                    if (last != null)
+                    {
+                        App.ViewModel.SelectedFile = last;
+                        await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path, (MetroWindow)App.Current.MainWindow, App.ViewModel.SelectedFile.CurrentPages);
+                    }
+                }
             }
             for (int i = 0; i < 10; i++)
             {
@@ -63,7 +73,10 @@ namespace LocalFilesDatabase
 
                 Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.Grid)sender).DataContext);
                 if (System.IO.File.Exists(info.Path))
-                await App.ViewModel.ShowReader(info.Path,(MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow,info.CurrentPages);
+                {
+                    DBService.Instance.SaveLastComic(info);
+                    await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow, info.CurrentPages);
+                }
             }            
         }
     }
