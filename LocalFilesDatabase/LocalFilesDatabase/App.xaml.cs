@@ -32,8 +32,8 @@ namespace LocalFilesDatabase
         {
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = ("LAUNCHING APP");
-            App.ViewModel.usefullscreen = true;
-            App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Hidden;
+            App.ViewModel.usefullscreen = false;
+            App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Auto;
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
@@ -63,7 +63,7 @@ namespace LocalFilesDatabase
 
                 Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.Grid)sender).DataContext);
                 if (System.IO.File.Exists(info.Path))
-                await App.ViewModel.ShowReader(info.Path,(MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow);
+                await App.ViewModel.ShowReader(info.Path,(MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow,info.CurrentPages);
             }            
         }
     }

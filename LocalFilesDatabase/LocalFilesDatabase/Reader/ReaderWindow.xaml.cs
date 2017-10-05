@@ -197,7 +197,7 @@ namespace LocalFilesDatabase
         /// <param name="e"></param>
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            showappbar = App.ViewModel.usefullscreen;
+            showappbar = true;
             if (IsFit)
             {
                 HeightDisplay = CurrentReaderWindow.Height - 32;
@@ -232,7 +232,7 @@ namespace LocalFilesDatabase
         /// </summary>
         /// <param name="pages">Pages to load</param>
         /// <param name="mainwreference">Window reference</param>
-        public void LoadPages(List<ComicTemp> pages, MetroWindow mainwreference)
+        public void LoadPages(List<ComicTemp> pages, MetroWindow mainwreference,int firstpage)
         {
             _mainWindowReference = mainwreference;
             _pages = pages;
@@ -241,6 +241,7 @@ namespace LocalFilesDatabase
                 this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
             IsFit = false;
             FvPages.ItemsSource = pages;
+            FvPages.SelectedIndex = firstpage-1;
         }
 
         #endregion
@@ -297,7 +298,7 @@ namespace LocalFilesDatabase
             {
                 this.Hide();
                 ReaderWindow r = new ReaderWindow();
-                r.LoadPages(_pages, _mainWindowReference);
+                r.LoadPages(_pages, _mainWindowReference,FvPages.SelectedIndex);
                 r.Show();
                 this.Close();
             }
@@ -427,7 +428,7 @@ namespace LocalFilesDatabase
             try
             {
                 int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
-                if (current <= App.ViewModel.Files.Count - 2)
+                if (current <= App.ViewModel.Files.Count - 1)
                 {
                     ItemInfo next = App.ViewModel.Files[current + 1];
                     if (next != null)
@@ -445,9 +446,9 @@ namespace LocalFilesDatabase
         private async Task<bool> LoadPrev()
         {
             try
-            {
+            {                
                 int current = Array.IndexOf(App.ViewModel.Files.ToArray(), App.ViewModel.SelectedFile);
-                if (current >= 2)
+                if (current >= 1)
                 {
                     ItemInfo next = App.ViewModel.Files[current - 1];
                     if (next != null)
@@ -476,8 +477,9 @@ namespace LocalFilesDatabase
             List<ComicTemp> pages = new List<ComicTemp>();
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                _pages = MainUtils.CreatePagesComic(replace.Path);
+                _pages = MainUtils.CreatePagesComic(replace.Path, replace.CurrentPages);
                 FvPages.ItemsSource = _pages;
+                FvPages.SelectedIndex = replace.CurrentPages - 1;
             }));
             App.ViewModel.IsWorking = false;
             App.ViewModel.WorkingMsg = String.Empty;

@@ -169,12 +169,20 @@ namespace LocalFilesDatabase
         /// </summary>
         /// <param name="fileName">Path del fichero</param>
         /// <returns>Bitmap</returns>
-        public static List<ComicTemp> CreatePagesComic(string fileName)
+        public static List<ComicTemp> CreatePagesComic(string fileName,int firstpage)
         {
             try
             {
-                List<ComicTemp> images = ZipHelper.Instance.UncompressToListPages(fileName);
-                return images;
+                if (firstpage == 0)
+                {
+                    List<ComicTemp> images = ZipHelper.Instance.UncompressToListPages(fileName);
+                    return images;
+                }
+                else
+                {
+                    List<ComicTemp> images = ZipHelper.Instance.UncompressToListPages(fileName,firstpage);
+                    return images;
+                }
             }
             catch (Exception ex)
             {

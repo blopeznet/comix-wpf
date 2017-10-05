@@ -69,7 +69,7 @@ namespace LocalFilesDatabase.ViewModel
                         file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path,file));
                     }));
                     processedfiles += 1;                                        
-                    WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders, processedfiles, totalfiles);
+                    WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders+1, processedfiles, totalfiles+1);
                 }
                 DBService.Instance.AddItemFiles(f.Files);
                 DBService.Instance.AddItemFolder(f);
@@ -246,7 +246,7 @@ namespace LocalFilesDatabase.ViewModel
             }
         }
 
-        public async Task<bool> ShowReader(String path,MetroWindow w)
+        public async Task<bool> ShowReader(String path,MetroWindow w,int firstpage)
         {
             IsWorking = true;
             WorkingMsg = String.Format("CARGANDO PAGINAS...");
@@ -254,13 +254,13 @@ namespace LocalFilesDatabase.ViewModel
             List<ComicTemp> pages = new List<ComicTemp>();
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
-                pages = MainUtils.CreatePagesComic(path);
+                pages = MainUtils.CreatePagesComic(path,firstpage);
             }));
             IsWorking = false;
             WorkingMsg = String.Empty;
             await Task.Delay(1);
             ReaderWindow rwindow = new ReaderWindow();            
-            rwindow.LoadPages(pages,w);
+            rwindow.LoadPages(pages,w,firstpage);
             rwindow.Show();            
             return true;
         }

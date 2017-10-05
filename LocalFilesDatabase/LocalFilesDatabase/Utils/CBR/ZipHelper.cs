@@ -243,6 +243,7 @@ namespace LocalFilesDatabase.Utils
                     SevenZipExtractor tmpextractor = GetExtractor(inputFile);
                     foreach (ComicTemp p in ((List<ComicTemp>)args.Argument).Skip(4))
                     {
+                        if (!p.Loaded)
                         UncompressImage(tmpextractor, p);
 
                     }
@@ -265,6 +266,62 @@ namespace LocalFilesDatabase.Utils
         }
 
 
+        /// <summary>
+		/// self uncompress a content to List to BitmapImage
+		/// </summary>
+		/// <param name="inputFile"></param>
+		/// <returns></returns>
+        public List<ComicTemp> UncompressToListPages(string inputFile,int firstpage)
+        {
+            SevenZipExtractor temp = null;
+
+            try
+            {
+                temp = GetExtractor(inputFile);
+                List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.FileName).ToList();
+                App.ViewModel.WorkingMsg = String.Format("GENERANDO PAGINAS...");
+                List<ComicTemp> pages = new List<ComicTemp>();
+                int pageno = 1;
+                foreach (ArchiveFileInfo file in list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))).ToList())
+                {
+                    ComicTemp tmppng = new ComicTemp() { Source = file.FileName, NoPage = pageno };
+                    pages.Add(tmppng);
+                    pageno += 1;
+                }
+                App.ViewModel.TotalPagesLoaded = pageno - 1;
+
+                List<ComicTemp> pges = pages.Where(p => ((p.NoPage >= firstpage - 2) && (p.NoPage <= firstpage + 2))).ToList();
+                foreach (ComicTemp p in pges)
+                    UncompressImage(temp, p);
+
+                BackgroundWorker worker = new BackgroundWorker();
+
+                worker.DoWork += delegate (object s, DoWorkEventArgs args)
+                {
+                    SevenZipExtractor tmpextractor = GetExtractor(inputFile);
+                    foreach (ComicTemp p in ((List<ComicTemp>)args.Argument))
+                    {
+                        if (!p.Loaded)
+                            UncompressImage(tmpextractor, p);
+
+                    }
+                    ReleaseExtractor(tmpextractor);
+
+                };
+
+                worker.RunWorkerAsync(pages);
+                return pages.ToList();
+            }
+            catch (Exception err)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al generar páginas {0}", err.Message);
+                return null;
+            }
+            finally
+            {
+                ReleaseExtractor(temp);
+            }
+        }
 
         private void UncompressImage(SevenZipExtractor extractor, ComicTemp tmp)
         {

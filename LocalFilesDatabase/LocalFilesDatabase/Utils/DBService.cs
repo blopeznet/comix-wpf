@@ -143,6 +143,24 @@ namespace LocalFilesDatabase
         }
 
         /// <summary>
+        /// Obtener un elemento fichero por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Fichero</returns>
+        public ItemInfo GetItemFile(String path)
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemInfo>("items");
+                ItemInfo item = items.Find(x => x.Path == path).FirstOrDefault();                
+                return item;
+            }
+        }
+
+        /// <summary>
         /// Obtener todos los elementos fichero
         /// </summary>
         /// <returns>Lista de ficheros</returns>

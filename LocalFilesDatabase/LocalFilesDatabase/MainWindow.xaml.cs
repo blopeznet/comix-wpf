@@ -146,7 +146,7 @@ namespace LocalFilesDatabase
             settings.ColorScheme = MetroDialogColorScheme.Theme;
             settings.AffirmativeButtonText = "OK";
             if (System.IO.File.Exists(App.ViewModel.SelectedFile.Path)){
-                await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path,this);
+                await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path,this,App.ViewModel.SelectedFile.CurrentPages);
             }
             else
                 await this.ShowMessageAsync("ABRIR FICHERO", "EL FICHERO NO SE ENCUENTRA DISPONIBLE.");
@@ -229,7 +229,7 @@ namespace LocalFilesDatabase
 
                 Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.StackPanel)sender).DataContext);
                 if (System.IO.File.Exists(info.Path))
-                    await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow);
+                    await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow,info.CurrentPages);
             }
         }
 
