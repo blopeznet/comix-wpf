@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LocalFilesDatabase"
         xmlns:metrocontrols="http://metro.mahapps.com/winfx/xaml/controls"
-        x:Class="LocalFilesDatabase.MainWindow"
+        x:Class="LocalFilesDatabase.MainWindow"        
         mc:Ignorable="d"
         BorderBrush="Black"
         SaveWindowPosition="False"
@@ -14,6 +14,32 @@
         Background="{StaticResource BackgroundBrush}"
         Title="COMIX" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
+        
+        <Style x:Key="CustomToggleStyle" TargetType="{x:Type ToggleButton}" 
+               BasedOn="{StaticResource MetroCircleToggleButtonStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="2"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="50" Margin="2.5" >
+                            <ContentPresenter HorizontalAlignment="Center"                  
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentBrush2}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Storyboard x:Key="sbShowTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
                 <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
@@ -24,6 +50,10 @@
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
+                <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
                 <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
@@ -112,17 +142,44 @@
                                  BorderThickness="0"
                                  Text="{Binding Main.SearchString, Mode=TwoWay, Source={StaticResource Locator}}"
                                  Foreground="White" FontSize="14"/>
-                            <Button x:Name="buttonLaunchSearch" Click="buttonLaunchSearch_Click" Width="50" Height="25" Margin="-4,2,2,2" BorderThickness="0" BorderBrush="White" Style="{DynamicResource AccentedSquareButtonStyle}" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="12" VerticalAlignment="Center" />
+                            <ToggleButton 
+                                x:Name="buttonLaunchSearch" Click="buttonLaunchSearch_Click" Width="50" Height="25" Margin="-4,2,2,2" BorderThickness="0" BorderBrush="White" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="12" VerticalAlignment="Center"
+                                          Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                            </ToggleButton>
                         </StackPanel>
 
                     </Border>
-                    <StackPanel VerticalAlignment="Center" Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <ToggleButton x:Name="SearchToggleButton"  IsChecked="{Binding Main.SearchModeOn, Mode=TwoWay, Source={StaticResource Locator}}" 
+                    <StackPanel VerticalAlignment="Top" Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
+                        <ToggleButton x:Name="SearchToggleButton" Focusable="False"  IsChecked="{Binding Main.SearchModeOn, Mode=TwoWay, Source={StaticResource Locator}}" 
                                       Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                                       Content="&#xE1A3;" FontSize="16" Margin="4" Style="{DynamicResource MetroCircleToggleButtonStyle}"/>
                         <TextBlock Foreground="White" FontSize="12" TextWrapping="Wrap" Text="Buscar" 
                                    HorizontalAlignment="Center"
                                    />
+                    </StackPanel>
+                    <StackPanel>
+                        <ToggleButton Focusable="False"  x:Name="buttonRead"  Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" Content="" FontSize="16" Margin="4" Click="buttonRead_Click"/>
+                        <Button Focusable="False" Foreground="White" FontSize="12"  HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonRead_Click">
+                            <Button.Content>
+                                <TextBlock TextAlignment="Center">
+                                    <Run Text="Marcar"></Run>
+                                    <LineBreak/>
+                                    <Run Text="leído"></Run>
+                                </TextBlock>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel>
+                        <ToggleButton Focusable="False" IsChecked="{Binding MarkUnRead,ElementName=CurrentMainWindow,Mode=OneWay}"  x:Name="buttonUnRead"  Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" Content="" FontSize="16" Margin="4" Click="buttonUnRead_Click"/>
+                        <Button Focusable="False" Foreground="White" FontSize="12"  HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonUnRead_Click">
+                            <Button.Content>
+                                <TextBlock TextAlignment="Center">
+                                    <Run Text="Marcar"></Run>
+                                    <LineBreak/>
+                                    <Run Text="no leído"></Run>
+                                </TextBlock>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                     <StackPanel>
                         <Button Focusable="False"  x:Name="buttonCerrar"  Height="40" Width="40" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="16" Margin="4" Click="buttonCerrar_Click"/>
@@ -144,7 +201,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
-                <RowDefinition Height="240"/>
+                <RowDefinition x:Name="RowDetailComic" Height="240"/>
             </Grid.RowDefinitions>
             <ListView x:Name="ListViewFolders" 
                       SelectionMode="Extended"                       
@@ -182,8 +239,8 @@
             <ListView x:Name="ListViewFiles" Grid.Column="1" 
                   SelectedIndex="0"
                   Grid.Row="0"
-                  Margin="6,0,8,2"
-                  SelectionMode="Extended" 
+                  SelectionMode="Single"
+                  Margin="6,0,8,2"                   
                   BorderThickness="0"
                       local:TouchScrolling.IsEnabled="True"                                                                         
                   ScrollViewer.VerticalScrollBarVisibility="{Binding Main.ShowScrollBar,Source={StaticResource Locator}}"                  
@@ -212,7 +269,8 @@
                                    MaxWidth="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
             ItemWidth="100"            Margin="0,0,-20,0"
             ItemHeight="140" HorizontalAlignment="Stretch"
-                                   />
+                                   >
+                        </WrapPanel>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>

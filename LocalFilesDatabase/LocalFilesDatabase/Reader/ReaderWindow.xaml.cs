@@ -613,5 +613,10 @@ namespace LocalFilesDatabase
         {
             UpdateTopBar();
         }
+
+        private void BottomMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

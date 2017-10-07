@@ -281,5 +281,81 @@ namespace LocalFilesDatabase
 
         #endregion
 
+        private void buttonUnRead_Click(object sender, RoutedEventArgs e)
+        {
+            MarkUnRead = !_MarkUnRead;
+            if (MarkUnRead)
+                MarkRead = false;
+            UpdateMarkMode();
+        }
+
+        private void buttonRead_Click(object sender, RoutedEventArgs e)
+        {
+            MarkRead = !MarkRead;
+            if (MarkRead)
+                MarkUnRead = false;
+            UpdateMarkMode();
+        }
+
+        private void UpdateMarkMode()
+        {
+            if (MarkRead || MarkUnRead)
+            {
+                ListViewFiles.SelectedIndex = -1;
+                ListViewFiles.SelectionMode = SelectionMode.Multiple;
+                this.ListViewFiles.SelectionChanged += ListViewFiles_SelectionChanged;
+                this.RowDetailComic.Height = new GridLength(0);
+
+            }
+            else
+            {
+                this.ListViewFiles.SelectionChanged -= ListViewFiles_SelectionChanged;
+                ListViewFiles.SelectedIndex = 0;
+                ListViewFiles.SelectionMode = SelectionMode.Single;
+                this.RowDetailComic.Height = new GridLength(240);
+            }
+        }
+
+        private void ListViewFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                ItemInfo info = (ItemInfo)e.AddedItems[0];
+                if (MarkRead)
+                {
+                    App.ViewModel.Files.Where(p => p.Id == info.Id).FirstOrDefault().CurrentPages = info.TotalPages;
+                    DBService.Instance.UpdateItemFile(info.Path, info.TotalPages);
+                }
+                else if (MarkUnRead)
+                {
+                    App.ViewModel.Files.Where(p => p.Id == info.Id).FirstOrDefault().CurrentPages = 0;
+                    DBService.Instance.UpdateItemFile(info.Path, 0);
+                }
+            }
+        }
+
+        private bool _MarkRead = false;
+        public bool MarkRead
+        {
+            get => _MarkRead;
+            set
+            {
+                _MarkRead = value;
+                buttonRead.IsChecked = _MarkRead;
+                NotifyPropertyChanged("MarkRead");                
+            }
+        }
+
+        private bool _MarkUnRead = false;
+        public bool MarkUnRead
+        {
+            get => _MarkUnRead;
+            set
+            {
+                _MarkUnRead = value;
+                buttonUnRead.IsChecked = _MarkUnRead;                
+                NotifyPropertyChanged("MarkUnRead");
+            }
+        }
     }
 }
