@@ -82,10 +82,10 @@
         </Grid.RowDefinitions>
         <Grid>
             <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="Black" Margin="0,0,0,32"></Rectangle>
-            <Grid x:Name="GridTitles" Margin="0,0,0,-26" Background="{StaticResource BackgroundBrush}" VerticalAlignment="Bottom" 
+            <Grid x:Name="GridTitles" Margin="0,0,0,-26" VerticalAlignment="Bottom" 
                   Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="275"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="8,0,0,0" Orientation="Horizontal">
@@ -101,16 +101,19 @@
             <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
                     <StackPanel>
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE132;" FontSize="22" Margin="4" Click="ButtonOpen_Click"/>
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonClose_Click"/>
-                    </StackPanel>
-                    <StackPanel>
                         <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE109;" FontSize="22" Margin="4" Click="ButtonAdd_Click"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
                         <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}"  BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonDelete_Click"/>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
+                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}"  BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonSincro_Click"/>
+                    </StackPanel>
+                    <StackPanel Margin="24,0,0,0">
+                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE132;" FontSize="22" Margin="4" Click="ButtonOpen_Click"/>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
+                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonClose_Click"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="MenuButtonsRight" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,4,50,4" Orientation="Horizontal">
@@ -171,7 +174,7 @@
         </Grid>
         <Grid Grid.Row="2" Margin="0,18,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="275"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -180,14 +183,14 @@
                 <RowDefinition x:Name="RowDetailComic" Height="240"/>
             </Grid.RowDefinitions>
             <ListView x:Name="ListViewFolders" 
-                      SelectionMode="Extended"                       
+                  SelectionMode="Extended"                                             
                   BorderThickness="0"                     
-                  SelectedIndex="0"
+                  SelectedIndex="0"                      
                   local:TouchScrolling.IsEnabled="True"                                                                         
                   ScrollViewer.VerticalScrollBarVisibility="{Binding Main.ShowScrollBar, Source={StaticResource Locator}}"                  
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                       Grid.RowSpan="3" 
-                      Margin="4,0,6,0"
+                      Margin="4,0,6,0"     
                       ItemContainerStyle="{StaticResource ListViewContainerStyle}"
                       >
                 <ListView.ItemsSource>
@@ -197,7 +200,8 @@
                     <Binding Path="Main.SelectedFolder" Source="{StaticResource Locator}"/>
                 </ListView.SelectedItem>
                 <ListView.Visibility>
-                    <Binding Converter="{StaticResource BooleanToVisibilityConverter}" Path="Main.IsDataAvaliable" Source="{StaticResource Locator}"/>
+                    <Binding Converter="{StaticResource BooleanToVisibilityConverter}" 
+                             Path="Main.IsDataAvaliable" Source="{StaticResource Locator}"/>
                 </ListView.Visibility>
                 <ListView.Background>
                     <StaticResource ResourceKey="BackgroundBrush"/>
@@ -212,6 +216,16 @@
             </ListView>
             <Rectangle x:Name="RectangleVerticalSeparator" Fill="{StaticResource AccentBrush}" Grid.RowSpan="3" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right"
                  Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}"/>
+
+            <Grid Grid.RowSpan="3"    
+                  Grid.Column="1"
+                  Opacity="0.6"
+                  Margin="-2,-40,0,0"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+                <Image Opacity="0.1" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="UniformToFill"></Image>
+            </Grid>
+            
             <ListView x:Name="ListViewFiles" Grid.Column="1" 
                   SelectedIndex="0"
                   Grid.Row="0"
@@ -242,8 +256,8 @@
                                    MinWidth="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                    Width="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
                                    MaxWidth="{Binding (FrameworkElement.ActualWidth), RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
-            ItemWidth="100"            Margin="0,0,-20,0"
-            ItemHeight="140" HorizontalAlignment="Stretch"
+            ItemWidth="120"            Margin="0,0,-20,0"
+            ItemHeight="200" HorizontalAlignment="Stretch"
                                    >
                         </WrapPanel>
                     </ItemsPanelTemplate>

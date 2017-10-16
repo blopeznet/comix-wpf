@@ -41,13 +41,13 @@ namespace LocalFilesDatabase.ViewModel
         /// Genera un nuevo Snap
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> AddNewSnap(String path)
+        public async Task<bool> AddNewSnap(String path,String filepath)
         {
             //Create Snap
             WorkingMsg = "OBTENIENDO CARPETAS PARA SNAP...";
             IsWorking = true;
             await Task.Delay(1);
-            Snap newsnap = MainUtils.GenerateNewSnap();
+            Snap newsnap = MainUtils.GenerateNewSnap(path,filepath);
             String snapid = newsnap.SnapId;
             //Get Folders
             List<ItemFolder> resultfolders = MainUtils.GenerateSearch(path, snapid);
@@ -194,7 +194,7 @@ namespace LocalFilesDatabase.ViewModel
                     WorkingMsg = "GENERANDO LIBRERIA...";
                     String path = dialog.SelectedPath;
                     DBService.Instance.Path = dialogfile.FileName;
-                    await AddNewSnap(path);
+                    await AddNewSnap(DBService.Instance.Path, dialogfile.FileName);
                     await LoadData(DBService.Instance.Path);
                     IsWorking = false;
                     WorkingMsg = String.Empty;
@@ -216,12 +216,35 @@ namespace LocalFilesDatabase.ViewModel
                 fs.Close();
                 WorkingMsg = "GENERANDO LIBRERIA...";                
                 DBService.Instance.Path = path;
-                await AddNewSnap(dlg.SelectedPath);
+                await AddNewSnap(dlg.SelectedPath,path);
                 await LoadData(DBService.Instance.Path);
                 IsWorking = false;
                 WorkingMsg = String.Empty;
                 App.ViewModel.IsWorking = false;
             }            
+        }
+
+        public async void UpdateExistingFolder()
+        {
+           App.ViewModel.IsWorking = true;
+           Snap s = DBService.Instance.GetSnaps()[0];
+           String folderpath = s.FolderPath;
+           String filepath = s.FilePath;
+           s = null;
+           File.Delete(filepath);
+           CloseDataBase();                      
+           
+           FileStream fs = File.Create(filepath);
+           fs.Close();
+           fs = null;
+           
+           WorkingMsg = "ACTUALIZANDO LIBRERIA LIBRERIA...";
+           DBService.Instance.Path = filepath;
+           await AddNewSnap(folderpath, filepath);
+           await LoadData(DBService.Instance.Path);
+           IsWorking = false;
+           WorkingMsg = String.Empty;
+           App.ViewModel.IsWorking = false;            
         }
 
         public async Task<bool> SearchCollectionIntoDatabase()

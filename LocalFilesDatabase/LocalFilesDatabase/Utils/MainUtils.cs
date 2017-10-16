@@ -289,13 +289,15 @@ namespace LocalFilesDatabase
         /// Genera los datos de un nuevo snap
         /// </summary>
         /// <returns>Elemento Snap</returns>
-        public static Snap GenerateNewSnap()
+        public static Snap GenerateNewSnap(String path,String filepath)
         {
             String snapid = MainUtils.GenerateUniqueId();
             //Create Snap
             Snap snap = new Snap();
             Guid id = Guid.NewGuid();
             snap.Id = MainUtils.GenerateUniqueIdAsGUID();
+            snap.FolderPath = path;
+            snap.FilePath = filepath;
             snap.CreationDate = DateTime.Now;
             snap.LastUpdateDate = DateTime.Now;
             snap.Description = String.Format("Snap created at {0}", DateTime.Now);

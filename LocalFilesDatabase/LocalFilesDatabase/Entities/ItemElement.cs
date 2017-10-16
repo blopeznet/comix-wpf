@@ -44,6 +44,29 @@ namespace LocalFilesDatabase.Entities
             }
         }
 
+        private String _FolderPath;
+        public string FolderPath
+        {
+            get => _FolderPath;
+            set
+            {
+                _FolderPath = value;
+                RaisePropertyChanged("FolderPath");
+            }
+        }
+
+        private String _FilePath;
+        public string FilePath
+        {
+            get => _FilePath;
+            set
+            {
+                _FilePath = value;
+                RaisePropertyChanged("FilePath");
+            }
+        }
+
+
         private DateTime _CreationDate;
         public DateTime CreationDate
         {

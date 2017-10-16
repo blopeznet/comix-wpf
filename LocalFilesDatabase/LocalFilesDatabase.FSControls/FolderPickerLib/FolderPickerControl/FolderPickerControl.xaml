@@ -31,15 +31,15 @@
                 <HierarchicalDataTemplate ItemsSource ="{Binding Children}">
                     <StackPanel Orientation="Horizontal"
                                 ContextMenu="{StaticResource TreeItemContextMenu}">
-                        <Image Height="48" Width="48" Source="{Binding Converter={StaticResource DriveIconConverter}}"/>
-                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="24"/>
+                        <Image Height="32" Width="32" Source="{Binding Converter={StaticResource DriveIconConverter}}"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
       <StackPanel Grid.Row="1" Orientation="Vertical">
-            <Label Content="Ruta" Margin="3,3,3,3"  FontSize="24"/><!-- Label with Autocomplete textbox -->
-            <AComp:SelectFolderTextBox x:Name="txtPath" Background="{x:Null}" IsEnabled="False"  FontSize="18"
+            <Label Content="Ruta seleccionada:" Margin="3,3,3,3"  FontSize="24"/><!-- Label with Autocomplete textbox -->
+            <AComp:SelectFolderTextBox x:Name="txtPath" Background="{x:Null}" IsEnabled="False"  FontSize="14"
                                    Text="{Binding ElementName=pickerControl, Path=SelectedPath, UpdateSourceTrigger=PropertyChanged,Mode=OneWay}"
                                    Margin="3,1,3,3"/>
       </StackPanel>

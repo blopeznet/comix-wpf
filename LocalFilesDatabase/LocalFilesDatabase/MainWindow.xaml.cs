@@ -112,6 +112,11 @@ namespace LocalFilesDatabase
             await App.ViewModel.SearchCollectionIntoDatabase();
         }
 
+        private void ButtonSincro_Click(object sender, RoutedEventArgs e)
+        {
+            App.ViewModel.UpdateExistingFolder();
+        }
+
         private async void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             MetroDialogSettings settings = new MetroDialogSettings();
