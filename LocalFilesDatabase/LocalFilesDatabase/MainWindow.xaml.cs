@@ -22,6 +22,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LocalFilesDatabase.FSControls.FolderPickerLib;
 
 namespace LocalFilesDatabase
 {
@@ -103,7 +104,7 @@ namespace LocalFilesDatabase
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            App.ViewModel.OpenFileDialogForSave();
+            App.ViewModel.OpenFileDialogFolderForSave();            
         }        
 
         private async void buttonLaunchSearch_Click(object sender, RoutedEventArgs e)

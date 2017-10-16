@@ -174,6 +174,10 @@ namespace LocalFilesDatabase.ViewModel
             return true;
         }
 
+
+        /// <summary>
+        /// Reemplazado por OpenFileDialogFolderForSave
+        /// </summary>
         public async void OpenFileDialogForSave()
         {            
             System.Windows.Forms.SaveFileDialog dialogfile = new System.Windows.Forms.SaveFileDialog();
@@ -196,6 +200,28 @@ namespace LocalFilesDatabase.ViewModel
                     WorkingMsg = String.Empty;
                 }
             }
+        }
+
+        public async void OpenFileDialogFolderForSave()
+        {
+
+            FSControls.FolderPickerLib.FolderPickerDialog dlg = new FSControls.FolderPickerLib.FolderPickerDialog();
+            dlg.InitialPath = "C:";
+
+            if (dlg.ShowDialog() == true)
+            {
+                App.ViewModel.IsWorking = true;
+                String path = dlg.SelectedPath + "\\" + DateTime.Now.ToString("yyyyMMdd_hhss") + ".db";
+                FileStream fs = File.Create(path);
+                fs.Close();
+                WorkingMsg = "GENERANDO LIBRERIA...";                
+                DBService.Instance.Path = path;
+                await AddNewSnap(dlg.SelectedPath);
+                await LoadData(DBService.Instance.Path);
+                IsWorking = false;
+                WorkingMsg = String.Empty;
+                App.ViewModel.IsWorking = false;
+            }            
         }
 
         public async Task<bool> SearchCollectionIntoDatabase()

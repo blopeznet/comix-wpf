@@ -17,18 +17,32 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Orange.xaml" />
                 <ResourceDictionary>
-                    
-                    
-                    <Color x:Key="BackgroundColor">#FFE50914</Color>
-                    <Color x:Key="HeaderColor">#BB1404</Color>
-                    <Color x:Key="AccentColor">#FFE50914</Color>
-                    <SolidColorBrush x:Key="BackgroundBrush" Color="#FF141414"/>
-                    <SolidColorBrush x:Key="AccentBrush" Color="#FFE50914"/>
-                    <SolidColorBrush x:Key="HeaderColorBrush" Color="#BB1404"/>
+
+                    <FontFamily x:Key="CustomFontFamily">/LocalFilesDatabase;component/Assets/Fonts/tron.ttf#tron</FontFamily>
+
+                    <Style x:Key="MahApps.Metro.Styles.MetroWatermarkTextBlock" BasedOn="{StaticResource MetroTextBlock}"
+                          TargetType="{x:Type TextBlock}">
+
+                        <Setter Property="IsHitTestVisible" Value="False" />
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Opacity" Value="0.6" />
+
+                    </Style>
+
+                    <Color x:Key="BackgroundColor">#FFCC5704</Color>
+                    <Color x:Key="BackgroundColor2">#FFE2E259</Color>
+                    <Color x:Key="HeaderColor">#F7822F</Color>
+                    <Color x:Key="AccentColor">#F7822F</Color>
+                    <SolidColorBrush x:Key="BackgroundBrush" Color="#FFEBEBEB"/>
+                    <SolidColorBrush x:Key="BackgroundBrush2" Color="#FFE2E259"/>
+                    <SolidColorBrush x:Key="AccentBrush" Color="#FFFF6A00"/>
+                    <SolidColorBrush x:Key="HeaderColorBrush" Color="#F7822F"/>
                     <SolidColorBrush x:Key="AccentBrush2" Color="#FF2F8E47"/>
+                    <SolidColorBrush x:Key="FontColor">#010204</SolidColorBrush>
+                    <SolidColorBrush x:Key="FontColor2">White</SolidColorBrush>
+                    <SolidColorBrush x:Key="NonActiveWindowTitleColorBrush" Color="{StaticResource HeaderColor}"/>
 
                     <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
                     <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
@@ -69,6 +83,7 @@
                                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
                                             <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
                                             <Setter Property="Opacity" Value="1.0" />
+                                            <Setter Property="Foreground" Value="{StaticResource FontColor2}"/>
                                         </MultiTrigger>
                                         <MultiTrigger>
                                             <MultiTrigger.Conditions>
@@ -77,6 +92,7 @@
                                             </MultiTrigger.Conditions>
                                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
                                             <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource FontColor2}"/>
                                         </MultiTrigger>
                                         <MultiTrigger>
                                             <MultiTrigger.Conditions>
@@ -85,6 +101,7 @@
                                             </MultiTrigger.Conditions>
                                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
                                             <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource FontColor2}"/>
                                         </MultiTrigger>
                                         <Trigger Property="IsEnabled" Value="False">
                                             <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -175,12 +192,12 @@
                     </Style>
                     <DataTemplate x:Key="CoverTemplate">
                         <Grid HorizontalAlignment="Stretch" x:Name="GridCover" DataContext="{Binding}" MouseDown="Comic_MouseDown" 
-                              VerticalAlignment="Stretch" Background="{StaticResource BackgroundBrush}">
+                              VerticalAlignment="Stretch" Background="Transparent">
                                 <Image Width="83" Height="128" Margin="2" Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"/>
 
                                 <Grid Background="#CC141414" MaxHeight="60" VerticalAlignment="Bottom"
                                   Margin="4,0,2,9">
-                                    <TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="3"/>
+                                    <TextBlock Text="{Binding DisplayName}" Foreground="{DynamicResource FontColor2}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="3"/>
                                 </Grid>
 
                                 <Grid x:Name="PART_PagesProgressGrid"
@@ -195,8 +212,8 @@
                                IsTabStop="False" />
                                     <metrocontrols:MetroProgressBar
                                         Height="1"         
-                                        Background="{StaticResource AccentBrush2}"
-                                        Foreground="{StaticResource HeaderColorBrush}"
+                                        Foreground="{StaticResource AccentBrush2}"
+                                        Background="{StaticResource HeaderColorBrush}"
                                         Focusable="False" IsHitTestVisible="False"
                                         Value="{Binding CurrentPages}"                                             
                                         Minimum="0" 
