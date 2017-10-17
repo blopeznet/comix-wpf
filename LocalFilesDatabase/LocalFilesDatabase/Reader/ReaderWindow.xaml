@@ -8,44 +8,42 @@
         xmlns:Converters="clr-namespace:LocalFilesDatabase.Common.Converters" 
         x:Class="LocalFilesDatabase.ReaderWindow"
         mc:Ignorable="d"        
-        BorderBrush="Black"     
+        BorderBrush="Black"
         x:Name="CurrentReaderWindow"            
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Storyboard x:Key="sbShowTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,-82,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.Target="{Binding ElementName=BottomMenu}" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,-100" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames  Storyboard.TargetProperty="Visibility" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
+                <DiscreteObjectKeyFrame  KeyTime="00:00:0.0" Value="{x:Static Visibility.Visible}"  />
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="sbHideTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,6,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,-82,0,0" />
             </ThicknessAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames  Storyboard.TargetProperty="Visibility" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
+                <DiscreteObjectKeyFrame  KeyTime="00:00:0.2" Value="{x:Static Visibility.Collapsed}"  />
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.Target="{Binding ElementName=BottomMenu}" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,0,0,-100" />
             </ThicknessAnimationUsingKeyFrames>
         </Storyboard>
@@ -103,7 +101,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
         <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
             <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -343,13 +340,13 @@
     <metrocontrols:MetroWindow.Background>
         <StaticResource ResourceKey="BackgroundBrush"/>
     </metrocontrols:MetroWindow.Background>
-    <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="RowMenu" Height="Auto"/>
-            <RowDefinition x:Name="RowContent"/>
-        </Grid.RowDefinitions>
-        <metrocontrols:FlipView x:Name="FvPages"    
+    <metrocontrols:MetroWindow.Content>
+        <Grid Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="RowMenu" Height="Auto"/>
+                <RowDefinition x:Name="RowContent"/>
+            </Grid.RowDefinitions>
+            <metrocontrols:FlipView x:Name="FvPages"    
                                 KeyDown="OnButtonKeyDown"
                                 SelectionChanged="FvPages_SelectionChanged"
             Template="{StaticResource FlipViewTemplate}"     
@@ -362,199 +359,212 @@
             Margin="0,6,0,0"   
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <metrocontrols:FlipView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
+                <metrocontrols:FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"
                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <ScrollViewer x:Name="scrollView" Style="{StaticResource ScrollviewerNoCacheTemplate}"                                 
+                            <ScrollViewer x:Name="scrollView" Style="{StaticResource ScrollviewerNoCacheTemplate}"                                 
                                   local:TouchScrolling.IsEnabled="True" CanContentScroll="True"                                       
                                   Focusable="False"
                                   ScrollViewer.VerticalScrollBarVisibility="Hidden"                                  
                                   HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid x:Name="ImageGrid" MouseDown="ImageGrid_MouseDown">
-                                <Image Source="{Binding Image}"
+                                <Grid x:Name="ImageGrid" MouseDown="ImageGrid_MouseDown">
+                                    <Image Source="{Binding Image}"
                                        Width="{Binding WidthDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                ,ConverterParameter=inv}"
                                />
-                                <Image Source="{Binding Image}" 
+                                    <Image Source="{Binding Image}" 
                                Height="{Binding HeightDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                }"
                                />
-                            </Grid>
-                        </ScrollViewer>
-                    </Grid>
-                </DataTemplate>
-            </metrocontrols:FlipView.ItemTemplate>
-        </metrocontrols:FlipView>
+                                </Grid>
+                            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </metrocontrols:FlipView.ItemTemplate>
+            </metrocontrols:FlipView>
 
-        <Grid Grid.RowSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,12,0">
-        <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
+            <Grid Grid.RowSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,12,0">
+                <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,12">
                         <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
                         <Run Text="/"></Run>
                         <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
-        </TextBlock>
-        </Grid>
-        
-        <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
-            <StackPanel Orientation="Horizontal" Margin="6" x:Name="MenuButtonsLeft">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12">
-                    <Image Width="59" Height="60" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
-                    <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
+                </TextBlock>
+            </Grid>
+
+            <Grid x:Name="GridMenu" Margin="0,-82,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
+                <StackPanel Orientation="Horizontal" Margin="6" x:Name="MenuButtonsLeft">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12">
+                        <Image Width="59" Height="60" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
+                        <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,18,36,-4" x:Name="MenuButtonsRight">
-                <StackPanel Orientation="Vertical">
-                    <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,18,36,-4" x:Name="MenuButtonsRight">
+                    <StackPanel Orientation="Vertical">
+                        <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  
                             x:Name="buttonFull" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content=""
                             FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonFull_Click" />
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
                             FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonSave_Click"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical">
-                    <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" Background="{StaticResource BackgroundBrush2}"  
                             FontSize="16" Margin="4" Click="buttonAdjust_Click"/>
-                </StackPanel>
-                <StackPanel>
-                    <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" 
+                    </StackPanel>
+                    <StackPanel>
+                        <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" 
                             Content="&#xE106;" FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonCerrar_Click"/>
+                    </StackPanel>
+                    <Grid Width="20"/>
                 </StackPanel>
-                <Grid Width="20"/>
-            </StackPanel>
-            <Button Focusable="False"  x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
+                <Button Focusable="False"  x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
                         BorderThickness="0" Background="Transparent" Height="100" Width="50" 
                         Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="White" 
                         FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
                         Click="buttonHideMenu_Click"/>
-        </Grid>
+            </Grid>
 
-        <Grid x:Name="MenuGrid" Background="#CC141414"
+            <Grid x:Name="GridMenuTapAreaTop" Mouse.MouseDown="GridMenu_MouseDown" 
+              Opacity="0" Background="White" HorizontalAlignment="Stretch" 
+              Grid.Row="1" VerticalAlignment="Top" Height="200" Margin="180,0,180,0"/>
+
+            <Grid x:Name="GridMenuTapAreaBottom" Mouse.MouseDown="GridMenu_MouseDown" 
+              Opacity="0" Background="White" HorizontalAlignment="Stretch" 
+              Grid.Row="1" VerticalAlignment="Bottom" Height="200" Margin="180,0,180,0"/>
+
+            <Grid x:Name="MenuGrid" Background="#CC141414"
               Visibility="{Binding showappbar, ElementName=CurrentReaderWindow,Converter={StaticResource BooleanToVisibilityConverter}}" 
               Grid.Row="1"
               Grid.RowSpan="2" 
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
 
-            <Grid Background="{StaticResource FontColor2}" Opacity="0.7" Mouse.MouseDown="GridMenu_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                
-            </Grid>
+                <Grid Background="{StaticResource FontColor2}" Opacity="0.7" Mouse.MouseDown="GridMenu_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-            <Button x:Name="ButtonThumbnail" Focusable="False" Click="ButtonThumbnail_Click"  BorderThickness="2" 
+                </Grid>
+
+                <Button x:Name="ButtonThumbnail" Focusable="False" Click="ButtonThumbnail_Click"  BorderThickness="2" 
                     metrocontrols:ButtonHelper.CornerRadius="10" Style="{StaticResource ButtonClear}" Background="{StaticResource HeaderColorBrush}" 
                     VerticalAlignment="Center" HorizontalAlignment="Center">
-                <StackPanel Orientation="Vertical">
-                    <Image Width="330" Height="330" Margin="0,0,12,0" Source="{Binding SelectedItem.Image, ElementName=FvPages}"></Image>
-                    <TextBlock MaxWidth="300" Margin="12" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource FontColor}"/>
-                </StackPanel>
-            </Button>
+                    <StackPanel Orientation="Vertical">
+                        <Image Width="330" Height="330" Margin="0,0,12,0" Source="{Binding SelectedItem.Image, ElementName=FvPages}"></Image>
+                        <TextBlock MaxWidth="300" Margin="12" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource FontColor}"/>
+                    </StackPanel>
+                </Button>
 
-            <Grid x:Name="BottomMenu" Margin="0,0,0,-100" MouseDown="BottomMenu_MouseDown" Height="100" Background="{StaticResource HeaderColorBrush}" VerticalAlignment="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="12"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="12"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="buttonPrev" Grid.Column="1" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                <Grid x:Name="BottomMenu" Margin="0,0,0,-100" MouseDown="BottomMenu_MouseDown" Height="100" Background="{StaticResource HeaderColorBrush}" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="12"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="buttonPrev" Grid.Column="1" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
                             FontSize="32" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
-                <Button.Background>
-                    <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
-                    </ImageBrush>
-                </Button.Background>
-            </Button>
-            <Grid Grid.Column="2">
-                <Slider Style="{DynamicResource FlatSlider}" Focusable="False" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" 
+                        <Button.Background>
+                            <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
+                            </ImageBrush>
+                        </Button.Background>
+                    </Button>
+                    <Grid Grid.Column="2">
+                        <Slider Style="{DynamicResource FlatSlider}" Focusable="False" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" 
                         Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="10" Margin="16" 
                         BorderBrush="white" BorderThickness="1"
                         Foreground="{DynamicResource AccentBrush2}"
                         Background="{DynamicResource AccentBaseColorBrush}"
                         VerticalAlignment="Center" HorizontalAlignment="Stretch"></Slider>
-                <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,18">
+                        <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,18">
                         <Run Text="Página "></Run>
                         <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
                         <Run Text=" / "></Run>
                         <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
-                </TextBlock>
-            </Grid>
-                <Button x:Name="buttonNext" Grid.Column="3" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
+                        </TextBlock>
+                    </Grid>
+                    <Button x:Name="buttonNext" Grid.Column="3" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
                             Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
                             FontSize="32" FontWeight="Bold" Margin="4,4,4,4" Click="buttonNext_Click">
-                <Button.Background>
-                    <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
-                    </ImageBrush>
-                </Button.Background>
-            </Button>
+                        <Button.Background>
+                            <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
+                            </ImageBrush>
+                        </Button.Background>
+                    </Button>
 
+                </Grid>
             </Grid>
-        </Grid>
 
-        <Grid x:Name="LoadingGrid" Background="{StaticResource BackgroundBrush}" Opacity="0.8"  Visibility="{Binding Main.IsWorking, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid x:Name="ImageGrid" Opacity="0.1">
-                    <Image Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"
+
+
+
+            <Grid x:Name="LoadingGrid" Background="{StaticResource BackgroundBrush}" Opacity="0.8"  Visibility="{Binding Main.IsWorking, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid x:Name="ImageGrid" Opacity="0.1">
+                        <Image Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"
                                        Width="{Binding WidthDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                ,ConverterParameter=inv}"
                                />
-                    <Image Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}" 
+                        <Image Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}" 
                                Height="{Binding HeightDisplay, ElementName=CurrentReaderWindow}"
                                Visibility="{Binding IsFit, ElementName=CurrentReaderWindow,
                                Converter={StaticResource BooleanToVisibilityConverter}
                                }"
                                />
+                    </Grid>
                 </Grid>
-            </Grid>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="myText" FontSize="74" FontWeight="Bold">
-                    <TextBlock.Foreground>
-                        <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                            <GradientStop Color="{StaticResource BackgroundColor}" Offset="0"/>
-                            <GradientStop x:Name="WhiteOffset" Color="{StaticResource BackgroundColor}" Offset="1"/>
-                            <GradientStop x:Name="GrayOffset" Color="{StaticResource AccentColor}" Offset="1"/>
-                        </LinearGradientBrush>
-                    </TextBlock.Foreground>
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard Storyboard.TargetProperty="Offset" Duration="0:0:1" RepeatBehavior="Forever">
-                                    <DoubleAnimation Storyboard.TargetName="WhiteOffset" From="0" To="1" />
-                                    <DoubleAnimation Storyboard.TargetName="GrayOffset" From="0" To="1" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </TextBlock.Triggers><Run Text="COMIX" FontWeight="Bold" FontFamily="{StaticResource CustomFontFamily}" FontSize="72"/></TextBlock>
-                <Border Opacity="0.2" Width="250" Height="70" Margin="0,-30,0,0">
-                    <Border.Background>
-                        <VisualBrush Visual="{Binding ElementName=myText}">
-                            <VisualBrush.Transform>
-                                <ScaleTransform ScaleX="1" ScaleY="-1" CenterY="40"/>
-                            </VisualBrush.Transform>
-                        </VisualBrush>
-                    </Border.Background>
-                    <Border.OpacityMask>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Black"/>
-                            <GradientStop Offset="0.8" Color="Transparent"/>
-                        </LinearGradientBrush>
-                    </Border.OpacityMask>
-                </Border>
-                <Label Height="28" Margin="19,0,17,15" x:Name="label2" HorizontalAlignment="Center" VerticalAlignment="Bottom"   
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock x:Name="myText" FontSize="74" FontWeight="Bold">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                <GradientStop Color="{StaticResource BackgroundColor}" Offset="0"/>
+                                <GradientStop x:Name="WhiteOffset" Color="{StaticResource BackgroundColor}" Offset="1"/>
+                                <GradientStop x:Name="GrayOffset" Color="{StaticResource AccentColor}" Offset="1"/>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetProperty="Offset" Duration="0:0:1" RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetName="WhiteOffset" From="0" To="1" />
+                                        <DoubleAnimation Storyboard.TargetName="GrayOffset" From="0" To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers><Run Text="COMIX" FontWeight="Bold" FontFamily="{StaticResource CustomFontFamily}" FontSize="72"/></TextBlock>
+                    <Border Opacity="0.2" Width="250" Height="70" Margin="0,-30,0,0">
+                        <Border.Background>
+                            <VisualBrush Visual="{Binding ElementName=myText}">
+                                <VisualBrush.Transform>
+                                    <ScaleTransform ScaleX="1" ScaleY="-1" CenterY="40"/>
+                                </VisualBrush.Transform>
+                            </VisualBrush>
+                        </Border.Background>
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="Black"/>
+                                <GradientStop Offset="0.8" Color="Transparent"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                    </Border>
+                    <Label Height="28" Margin="19,0,17,15" x:Name="label2" HorizontalAlignment="Center" VerticalAlignment="Bottom"   
                   Content="{Binding Main.WorkingMsg, Source={StaticResource Locator}}" Foreground="{StaticResource AccentBrush}"/>
-                <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"/>
-            </StackPanel>
+                    <metrocontrols:ProgressRing Width="25" Height="25" Margin="4"/>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
+    </metrocontrols:MetroWindow.Content>
 </metrocontrols:MetroWindow>

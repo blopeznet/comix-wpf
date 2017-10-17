@@ -42,33 +42,26 @@
 
         <Storyboard x:Key="sbShowTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,-100,0,0" />
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="0.0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="sbHideTopBar">
             <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,-100,0,0" />
                 <SplineThicknessKeyFrame KeyTime="00:00:0.1" Value="0,0,0,0" />
             </ThicknessAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsRight}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.Target="{Binding ElementName=MenuButtonsLeft}" BeginTime="00:00:00">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.0" />
                 <EasingDoubleKeyFrame KeyTime="00:00:0.1" Value="1.0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
