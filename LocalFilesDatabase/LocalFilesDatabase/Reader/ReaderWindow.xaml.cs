@@ -1,5 +1,6 @@
 ﻿using LocalFilesDatabase.Entities;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -207,6 +208,8 @@ namespace LocalFilesDatabase
                 WidthDisplay = this.CurrentReaderWindow.ActualWidth;
             }
             UpdateTopBar();
+
+            W10Utils.ShowNotification(String.Format("Abierto {0}",App.ViewModel.SelectedFile.DisplayName));
         }
 
         #region Methods
@@ -598,10 +601,23 @@ namespace LocalFilesDatabase
 
         #endregion
 
-        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        private async void buttonSave_Click(object sender, RoutedEventArgs e)
         {
+            //if (((ComicTemp)FvPages.SelectedItem).Image != null)
+            //    MainUtils.SaveFileAndOpen(((ComicTemp)FvPages.SelectedItem).Image);
             if (((ComicTemp)FvPages.SelectedItem).Image != null)
-                MainUtils.SaveFileAndOpen(((ComicTemp)FvPages.SelectedItem).Image);
+            {
+                String path = MainUtils.SaveFileAndGetPath(((ComicTemp)FvPages.SelectedItem).Image);
+                bool updated = await W10Utils.SetLockScreen(path);
+                if (updated)
+                {
+                    await this.ShowMessageAsync("PANTALLA DE BLOQUEO", "PANTALLA DE BLOQUEO ACTUALIZADA CON ÉXITO.");
+                }
+                else
+                {
+                    await this.ShowMessageAsync("PANTALLA DE BLOQUEO", "NO SE PUDO ACTUALIZAR, INTÉNTELO MAS TARDE.");
+                }
+            }
         }
 
         private void buttonFull_Click(object sender, RoutedEventArgs e)

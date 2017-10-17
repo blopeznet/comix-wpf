@@ -33,6 +33,22 @@ namespace LocalFilesDatabase
                 return true;                        
         }
 
+        public static string SaveFileAndGetPath(BitmapImage img)
+        {
+
+            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\" + Guid.NewGuid() + ".jpg";
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            Guid photoID = System.Guid.NewGuid();
+            String photolocation = fileName;  //file name 
+
+            encoder.Frames.Add(BitmapFrame.Create((BitmapImage)img));
+
+            using (var filestream = new FileStream(fileName, FileMode.Create))
+                encoder.Save(filestream);
+            
+            return fileName;
+        }
+
         #region Converters
 
         /// <summary>

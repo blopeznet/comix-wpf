@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace LocalFilesDatabase
 {
@@ -54,6 +55,8 @@ namespace LocalFilesDatabase
                 App.ViewModel.WorkingMsg = "Loading recents...";
                 await Task.Delay(100);
             }
+
+            //// Navigate to xaml page                        
             App.ViewModel.WorkingMsg = String.Empty;
             App.ViewModel.IsWorking = false;
         }

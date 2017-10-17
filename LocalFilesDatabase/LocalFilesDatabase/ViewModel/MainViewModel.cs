@@ -111,7 +111,7 @@ namespace LocalFilesDatabase.ViewModel
             IsDataAvaliable = true;
             RecentFiles = MainUtils.LogRecents(path);
             WorkingMsg = String.Empty;
-            IsWorking = false;                                        
+            IsWorking = false;
             return true;
         }
 
