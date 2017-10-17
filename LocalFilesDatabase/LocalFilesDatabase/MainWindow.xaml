@@ -91,7 +91,7 @@
                     <TextBlock MaxHeight="20" Foreground="{StaticResource AccentBrush2}" FontWeight="Bold" Margin="4,0,2,-2" MaxWidth="470" TextTrimming="WordEllipsis" FontSize="16" Text="{Binding Main.SelectedFolder, Source={StaticResource Locator},Converter={StaticResource PathToFolderConverter}}"/>
                 </StackPanel>
             </Grid>
-            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="Black" Mouse.MouseDown="GridMenu_MouseDown">
+            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
                     <StackPanel>
                         <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE109;" FontSize="22" Margin="4" Click="ButtonAdd_Click"/>

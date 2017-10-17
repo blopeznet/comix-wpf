@@ -76,7 +76,7 @@ namespace LocalFilesDatabase
             try
             {
                 var file = await StorageFile.GetFileFromPathAsync(path);
-                await Windows.System.UserProfile.LockScreen.SetImageFileAsync(file);
+                await Windows.System.UserProfile.LockScreen.SetImageFileAsync(file);                
                 return true;
             }
             catch

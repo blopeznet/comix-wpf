@@ -108,7 +108,6 @@ namespace LocalFilesDatabase
             {
 
                 Isfullscreen = true;
-                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
                 UpdateAdjust(false);
                 showappbar = true;
                 UpdateTopBar();
@@ -116,7 +115,6 @@ namespace LocalFilesDatabase
             else
             {
                 Isfullscreen = false;
-                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
                 UpdateAdjust(true);
                 showappbar = false;
                 UpdateTopBar();
@@ -239,9 +237,7 @@ namespace LocalFilesDatabase
         {
             _mainWindowReference = mainwreference;
             _pages = pages;
-            Isfullscreen = App.ViewModel.usefullscreen;
-            if (!Isfullscreen)
-                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
+            Isfullscreen = App.ViewModel.usefullscreen;            
             IsFit = false;
             FvPages.ItemsSource = pages;
             FvPages.SelectedIndex = firstpage-1;

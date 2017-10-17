@@ -39,11 +39,7 @@ namespace LocalFilesDatabase
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Isfullscreen = App.ViewModel.usefullscreen;            
-            if (!Isfullscreen)
-                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
-            else
-                this.GridMenu.Background = new SolidColorBrush(Colors.Black);
+            Isfullscreen = App.ViewModel.usefullscreen;                       
         }        
 
         #region full screen window
@@ -64,10 +60,7 @@ namespace LocalFilesDatabase
         }
 
         public void UpdateScreen(bool fullscreen)
-        {
-            if (!Isfullscreen)
-                this.GridMenu.Background = (SolidColorBrush)App.Current.Resources["HeaderColorBrush"];
-
+        {            
             if (fullscreen)
             {
                 this.Hide();
