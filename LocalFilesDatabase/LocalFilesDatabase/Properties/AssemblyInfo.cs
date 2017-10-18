@@ -8,9 +8,9 @@ using System.Windows;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("COMIX")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Lector cbr y cbz para W10")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Comix")]
 [assembly: AssemblyProduct("Comix")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

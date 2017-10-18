@@ -283,10 +283,10 @@ namespace LocalFilesDatabase.ViewModel
             IsDataAvaliable = false;
         }
 
-        private void UpdateFiles()
+        public void UpdateFiles()
         {
             if (SelectedFolder !=null)
-            {
+            {                
                 Files = DBService.Instance.GetItemFiles(SelectedFolder.Path);
             }
             if (Files.Count > 0)
@@ -428,7 +428,7 @@ namespace LocalFilesDatabase.ViewModel
         public ItemFolder SelectedFolder {
             get => _SelectedFolder;
             set  {
-                _SelectedFolder = value;
+                _SelectedFolder = value;                
                 RaisePropertyChanged("SelectedFolder");
                 UpdateFiles();
             }

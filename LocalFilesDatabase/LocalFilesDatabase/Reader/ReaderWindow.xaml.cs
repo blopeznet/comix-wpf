@@ -615,17 +615,12 @@ namespace LocalFilesDatabase
 
         #endregion
 
-        private async void buttonSave_Click(object sender, RoutedEventArgs e)
+        private void buttonSave_Click(object sender, RoutedEventArgs e)
         {            
             if (((ComicTemp)FvPages.SelectedItem).Image != null)
             {
                 String path = MainUtils.SaveFileAndGetPath(((ComicTemp)FvPages.SelectedItem).Image);
-                bool updated = await W10Utils.SetLockScreen(path);
-                if (updated)                
-                    W10Utils.ShowNotification("Pantalla de bloqueo actualizada.");                
-                else
-                    W10Utils.ShowNotification("La pantalla no se pudo actualizar.");
-                System.IO.File.Delete(path);
+                W10Utils.ShowNotification(String.Format("Imagen guardada en Imágenes.", path),path);                
             }
         }
 

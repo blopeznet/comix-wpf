@@ -69,6 +69,7 @@ namespace LocalFilesDatabase
         {
             if (String.IsNullOrEmpty(Path))
                 throw new Exception("Database path not exist");
+            
 
             using (var db = new LiteDatabase(Path))
             {
@@ -76,6 +77,26 @@ namespace LocalFilesDatabase
                 ItemInfo old = items.FindAll().FirstOrDefault();
                 if (old!=null)
                  items.Delete(old.Id);
+                DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
+                items.Insert(newitem);
+            }
+        }
+
+        /// <summary>
+        /// Añadir ultima libreria a db
+        /// </summary>
+        /// <param name="newsnap">new snap</param>
+        public void SaveLastFolder(ItemFolder newitem)
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemFolder>("historyfolder");
+                ItemFolder old = items.FindAll().FirstOrDefault();
+                if (old != null)
+                    items.Delete(old.Id);
                 items.Insert(newitem);
             }
         }
@@ -94,6 +115,23 @@ namespace LocalFilesDatabase
                 var items = db.GetCollection<ItemInfo>("history");
                 ItemInfo old = items.FindAll().FirstOrDefault();                
                 return old;                
+            }
+        }
+
+        /// <summary>
+        /// Obtener ultima carpeta abierta a db
+        /// </summary>
+        /// <param name="newsnap">new snap</param>
+        public ItemFolder GetLastFolder()
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemFolder>("historyfolder");
+                ItemFolder old = items.FindAll().FirstOrDefault();
+                return old;
             }
         }
 

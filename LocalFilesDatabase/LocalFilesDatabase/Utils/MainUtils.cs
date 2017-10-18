@@ -34,20 +34,18 @@ namespace LocalFilesDatabase
         }
 
         public static string SaveFileAndGetPath(BitmapImage img)
-        {
-
-            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\" + Guid.NewGuid() + ".jpg";
+        {                        
+            String folderpath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\";            
+            Directory.CreateDirectory(folderpath);
+            string fileName = folderpath + Guid.NewGuid() + ".jpg";
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();
             Guid photoID = System.Guid.NewGuid();
             String photolocation = fileName;  //file name 
-
             encoder.Frames.Add(BitmapFrame.Create((BitmapImage)img));
-
             using (var filestream = new FileStream(fileName, FileMode.Create))
-                encoder.Save(filestream);
-            
+                encoder.Save(filestream);            
             return fileName;
-        }
+        }        
 
         #region Converters
 

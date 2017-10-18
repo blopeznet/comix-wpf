@@ -176,21 +176,20 @@
                 <RowDefinition x:Name="RowDetailComic" Height="240"/>
             </Grid.RowDefinitions>
             <ListView x:Name="ListViewFolders" 
-                  SelectionMode="Extended"                                             
-                  BorderThickness="0"                     
-                  SelectedIndex="0"                      
+                  SelectionMode="Single"                                             
+                  BorderThickness="0"                                                        
                   local:TouchScrolling.IsEnabled="True"                                                                         
                   ScrollViewer.VerticalScrollBarVisibility="{Binding Main.ShowScrollBar, Source={StaticResource Locator}}"                  
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                       Grid.RowSpan="3" 
-                      Margin="4,0,6,0"     
+                      Margin="4,0,6,0"                          
                       ItemContainerStyle="{StaticResource ListViewContainerStyle}"
                       >
                 <ListView.ItemsSource>
                     <Binding Path="Main.Folders" Source="{StaticResource Locator}"/>
                 </ListView.ItemsSource>
                 <ListView.SelectedItem>
-                    <Binding Path="Main.SelectedFolder" Source="{StaticResource Locator}"/>
+                    <Binding Path="Main.SelectedFolder" Source="{StaticResource Locator}" Mode="TwoWay"/>
                 </ListView.SelectedItem>
                 <ListView.Visibility>
                     <Binding Converter="{StaticResource BooleanToVisibilityConverter}" 

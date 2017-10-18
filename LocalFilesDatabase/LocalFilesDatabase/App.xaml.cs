@@ -42,13 +42,20 @@ namespace LocalFilesDatabase
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
                 {
+                    ItemFolder folder = DBService.Instance.GetLastFolder();
+                    if (folder != null)
+                    {
+                        App.ViewModel.SelectedFolder = folder;
+                    }
+
                     await App.ViewModel.OpenFileLogic(App.ViewModel.RecentFiles[0]);
+                    
                     ItemInfo last = DBService.Instance.GetLastComic();
                     if (last != null)
-                    {
+                    {                        
                         App.ViewModel.SelectedFile = last;
                         await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path, (MetroWindow)App.Current.MainWindow, App.ViewModel.SelectedFile.CurrentPages);
-                    }
+                    }                    
                 }
             }
             for (int i = 0; i < 10; i++)

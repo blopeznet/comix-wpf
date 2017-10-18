@@ -413,7 +413,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
                         <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
+                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
                             FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonSave_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">

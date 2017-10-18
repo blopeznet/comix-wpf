@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using Windows.Storage;
+using Windows.System.UserProfile;
 using Windows.UI.Notifications;
 
 namespace LocalFilesDatabase
@@ -42,6 +41,7 @@ namespace LocalFilesDatabase
                     }
                 }
             }
+            catch { }
 
         }
 
@@ -71,7 +71,7 @@ namespace LocalFilesDatabase
 
         private static ToastNotification toast;
 
-        public static void ShowNotification(String content="")
+        public static void ShowNotification(String content="",String path="")
         {
 
             try
@@ -90,9 +90,9 @@ namespace LocalFilesDatabase
                 var toastImageAttribute = toastXml.GetElementsByTagName("image").Select(s => (Windows.Data.Xml.Dom.XmlElement)s).First();
                 toastImageAttribute.SetAttribute("src", imageUri);
                 toastImageAttribute.SetAttribute("alt", "logo");
-
                 // Create the toast and attach event listeners
                 toast = new ToastNotification(toastXml);
+                toast.Tag = path;
                 toast.Activated += Toast_Activated;
                 toast.Dismissed += Toast_Dismissed;
                 toast.Failed += Toast_Failed;
@@ -100,6 +100,7 @@ namespace LocalFilesDatabase
                 // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
                 ToastNotificationManager.CreateToastNotifier("COMIX").Show(toast);
             }
+            catch { }
         }
 
         private static void Toast_Failed(ToastNotification sender, ToastFailedEventArgs args)
@@ -109,26 +110,46 @@ namespace LocalFilesDatabase
 
         private static void Toast_Dismissed(ToastNotification sender, ToastDismissedEventArgs args)
         {
-            
+
+           
         }
 
         private static void Toast_Activated(ToastNotification sender, object args)
         {
-            
+            if (!String.IsNullOrEmpty(toast.Tag))
+                if (System.IO.File.Exists(toast.Tag))
+                    OpenImage(toast.Tag);
         }
 
-        public static async Task<bool> SetLockScreen(String path)
+        public static async Task<StorageFile> GetAsStorageFile(String path)
         {
-            try
-            {
-                var file = await StorageFile.GetFileFromPathAsync(path);
-                await Windows.System.UserProfile.LockScreen.SetImageFileAsync(file);                
-                return true;
+            return await StorageFile.GetFileFromPathAsync(path);
+        }
+
+        /// <summary>
+        /// NOT WORKING
+        /// </summary>
+        /// <param name="ImagePath"></param>
+        /// <returns></returns>
+        public static async Task ChangeStartScreenBackground(String ImagePath)
+        {
+            if (UserProfilePersonalizationSettings.IsSupported())
+            {                
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("file://"+ImagePath));
+                UserProfilePersonalizationSettings settings = UserProfilePersonalizationSettings.Current;
+                var isSuccess = await settings.TrySetWallpaperImageAsync(file);
+                if (isSuccess)                
+                    W10Utils.ShowNotification("Set as background and lock screen successfully.");                
+                else                
+                    W10Utils.ShowNotification("Fail to set image. #API ERROR.");                
             }
-            catch
-            {
-                return false;
-            }
+        }
+
+        public static void OpenImage(String path)
+        {            
+            Process p = new Process();
+            p.StartInfo.FileName = path;            
+            p.Start();            
         }
     }
 }
