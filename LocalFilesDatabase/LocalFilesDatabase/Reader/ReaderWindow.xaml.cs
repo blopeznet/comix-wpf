@@ -39,7 +39,7 @@ namespace LocalFilesDatabase
         /// <summary>
         /// Pages to show
         /// </summary>
-        public List<ComicTemp> _pages;
+        public List<ComicTemp> _pages { get; set; }
 
         /// <summary>
         /// Scrollviewer
@@ -96,8 +96,24 @@ namespace LocalFilesDatabase
         {
             InitializeComponent();
             this.Loaded += ReaderWindow_Loaded;
+            this.Unloaded += ReaderWindow_Unloaded;
         }
 
+        private void ReaderWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            W10Utils.ModeChangeEvent -= W10Utils_ModeChangeEvent;
+        }
+
+        private void W10Utils_ModeChangeEvent(DeviceMode obj)
+        {
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                if (obj == DeviceMode.Tablet)
+                    UpdateScreen(true);
+                if (obj == DeviceMode.PC)
+                    UpdateScreen(false);
+            }));
+        }
 
         bool fullscreenactive = false;
 
@@ -196,15 +212,17 @@ namespace LocalFilesDatabase
         /// <param name="e"></param>
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            W10Utils.ModeChangeEvent += W10Utils_ModeChangeEvent;
             showappbar = true;
             if (IsFit)
             {
-                HeightDisplay = CurrentReaderWindow.Height - 32;
+                HeightDisplay = CurrentReaderWindow.ActualHeight - 32;
             }
             else
             {
-                WidthDisplay = this.CurrentReaderWindow.ActualWidth;
+                WidthDisplay = this.CurrentReaderWindow.ActualWidth;                
             }
+                        
             UpdateTopBar();
 
             W10Utils.ShowNotification(String.Format("Abierto {0}",App.ViewModel.SelectedFile.DisplayName));
@@ -236,11 +254,11 @@ namespace LocalFilesDatabase
         public void LoadPages(List<ComicTemp> pages, MetroWindow mainwreference,int firstpage)
         {
             _mainWindowReference = mainwreference;
-            _pages = pages;
-            Isfullscreen = App.ViewModel.usefullscreen;            
+            _pages = pages;                                   
             IsFit = false;
-            FvPages.ItemsSource = pages;
+            FvPages.ItemsSource = _pages;
             FvPages.SelectedIndex = firstpage-1;
+            Isfullscreen = App.ViewModel.usefullscreen; 
         }
 
         #endregion

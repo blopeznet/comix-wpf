@@ -35,7 +35,8 @@ namespace LocalFilesDatabase
         {
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = ("LAUNCHING APP");
-            App.ViewModel.usefullscreen = true;
+            W10Utils.CheckDeviceMode();
+            Task task = Task.Run((Action)DetectModeTask);
             App.ViewModel.ShowScrollBar = System.Windows.Controls.ScrollBarVisibility.Auto;
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
@@ -56,17 +57,28 @@ namespace LocalFilesDatabase
                 await Task.Delay(100);
             }
 
-            //// Navigate to xaml page                        
             App.ViewModel.WorkingMsg = String.Empty;
             App.ViewModel.IsWorking = false;
+
         }
-        
+
+        private static void DetectModeTask()
+        {
+            while (true)            
+                W10Utils.CheckDeviceMode();
+        }
+
         public static MainViewModel ViewModel
         {
             get
             {
-                MainViewModel vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).Main;
-                return vm;
+                if (Application.Current != null)
+                {
+                    MainViewModel vm = ((ViewModelLocator)Application.Current.Resources["Locator"]).Main;
+                    return vm;
+                }
+                else
+                    return new MainViewModel();
             }
         }
 

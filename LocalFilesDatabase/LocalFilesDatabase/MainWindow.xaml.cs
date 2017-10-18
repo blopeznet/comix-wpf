@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LocalFilesDatabase.FSControls.FolderPickerLib;
+using System.Windows.Threading;
 
 namespace LocalFilesDatabase
 {
@@ -33,14 +34,32 @@ namespace LocalFilesDatabase
     {
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.Unloaded += MainWindow_Unloaded;
+        }
+
+        private void MainWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
+            W10Utils.ModeChangeEvent -= W10Utils_ModeChangeEvent;
+        }
+
+        private void W10Utils_ModeChangeEvent(DeviceMode obj)
+        {
+            App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
+            {
+                if (obj == DeviceMode.Tablet)
+                    UpdateScreen(true);
+                if (obj == DeviceMode.PC)
+                    UpdateScreen(false);
+            }));
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Isfullscreen = App.ViewModel.usefullscreen;                       
-        }        
+            Isfullscreen = App.ViewModel.usefullscreen;
+            W10Utils.ModeChangeEvent += W10Utils_ModeChangeEvent;
+        }
 
         #region full screen window
 
@@ -59,6 +78,28 @@ namespace LocalFilesDatabase
             }
         }
 
+        bool fullscreenactive = false;
+
+        private void UpdateFullScreen()
+        {
+            fullscreenactive = !fullscreenactive;
+            if (fullscreenactive)
+            {
+
+                Isfullscreen = true;
+                showappbar = true;
+                UpdateTopBar();
+            }
+            else
+            {
+                Isfullscreen = false;
+                showappbar = false;
+                UpdateTopBar();
+                this.GridMenu.Visibility = Visibility.Visible;
+            }
+        }
+
+
         public void UpdateScreen(bool fullscreen)
         {            
             if (fullscreen)
@@ -73,18 +114,22 @@ namespace LocalFilesDatabase
                 if (!tb.AutoHide)
                     this.Height = screen.WorkingArea.Height + tb.Size.Height + 2;
                 else
-                    this.Height = screen.WorkingArea.Height + 4;
-                GridMenu.Background = new SolidColorBrush(Colors.Black);
+                    this.Height = screen.WorkingArea.Height + 4;                
                 this.Topmost = false;
-                this.ResizeMode = ResizeMode.CanMinimize;
-                this.IgnoreTaskbarOnMaximize = false;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.ResizeMode = ResizeMode.NoResize;
+                this.IgnoreTaskbarOnMaximize = true;
+                this.WindowStyle = WindowStyle.None;
                 this.UseNoneWindowStyle = true;
                 this.IsCloseButtonEnabled = false;
-                this.IsMinButtonEnabled = true;
-                this.ShowTitleBar = true;
-                this.Show();
-            }            
+                this.Show();                
+            }
+            else
+            {
+                this.Hide();
+                MainWindow r = new MainWindow();                
+                r.Show();
+                this.Close();
+            }    
         }
 
         #endregion

@@ -9,10 +9,51 @@ using Windows.UI.Notifications;
 
 namespace LocalFilesDatabase
 {
+    public enum DeviceMode
+    {
+        None,
+        PC,
+        Tablet
+    }
+
     public static class W10Utils
     {
 
-       
+        public static void CheckDeviceMode()
+        {
+            try
+            {
+                var tabletMode = (int)Microsoft.Win32.Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ImmersiveShell", "TabletMode", 0);
+                if (tabletMode == 1)
+                {
+                    if (!App.ViewModel.usefullscreen)
+                    {
+                        App.ViewModel.usefullscreen = true;
+                        RaiseModeChangeEvent(DeviceMode.Tablet);
+                    }
+
+                }
+                else
+                {
+                    if (App.ViewModel.usefullscreen)
+                    {
+                        App.ViewModel.usefullscreen = false;
+                        RaiseModeChangeEvent(DeviceMode.PC);
+                    }
+                }
+            }
+
+        }
+
+        public static event Action<DeviceMode> ModeChangeEvent;
+
+        private static void RaiseModeChangeEvent(DeviceMode newmode)
+        {
+            // Your logic
+            if (ModeChangeEvent != null)
+                ModeChangeEvent(newmode);
+        }
+
         /// <summary>
         /// Devuelve la URI del archivo pasado por parámetro formada con el nombre del proyecto.
         /// 
@@ -32,28 +73,33 @@ namespace LocalFilesDatabase
 
         public static void ShowNotification(String content="")
         {
-            String imageUri = W10Utils.GetAssetsUriForFile("toast_logo.png");
-            
-            // Get a toast XML template
-            var toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText02);
 
-            // Fill in the text element
-            var stringElements = toastXml.GetElementsByTagName("text");
-            stringElements[1].AppendChild(toastXml.CreateTextNode(content));
+            try
+            {
 
-            // Set image
-            var toastImageAttribute = toastXml.GetElementsByTagName("image").Select(s => (Windows.Data.Xml.Dom.XmlElement)s).First();
-            toastImageAttribute.SetAttribute("src", imageUri);
-            toastImageAttribute.SetAttribute("alt", "logo");
+                String imageUri = W10Utils.GetAssetsUriForFile("toast_logo.png");
 
-            // Create the toast and attach event listeners
-            toast = new ToastNotification(toastXml);
-            toast.Activated += Toast_Activated;
-            toast.Dismissed += Toast_Dismissed;
-            toast.Failed += Toast_Failed;
+                // Get a toast XML template
+                var toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText02);
 
-            // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
-            ToastNotificationManager.CreateToastNotifier("COMIX").Show(toast);
+                // Fill in the text element
+                var stringElements = toastXml.GetElementsByTagName("text");
+                stringElements[1].AppendChild(toastXml.CreateTextNode(content));
+
+                // Set image
+                var toastImageAttribute = toastXml.GetElementsByTagName("image").Select(s => (Windows.Data.Xml.Dom.XmlElement)s).First();
+                toastImageAttribute.SetAttribute("src", imageUri);
+                toastImageAttribute.SetAttribute("alt", "logo");
+
+                // Create the toast and attach event listeners
+                toast = new ToastNotification(toastXml);
+                toast.Activated += Toast_Activated;
+                toast.Dismissed += Toast_Dismissed;
+                toast.Failed += Toast_Failed;
+
+                // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                ToastNotificationManager.CreateToastNotifier("COMIX").Show(toast);
+            }
         }
 
         private static void Toast_Failed(ToastNotification sender, ToastFailedEventArgs args)
