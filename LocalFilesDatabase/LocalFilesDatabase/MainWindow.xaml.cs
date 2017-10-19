@@ -278,15 +278,7 @@ namespace LocalFilesDatabase
                     await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow,info.CurrentPages);
             }
         }
-
-        /// <summary>
-        ///Show hide appbar
-        /// </summary>        
-        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateTopBar();
-        }
-
+        
         /// <summary>
         /// Method show or hide appbar
         /// </summary>

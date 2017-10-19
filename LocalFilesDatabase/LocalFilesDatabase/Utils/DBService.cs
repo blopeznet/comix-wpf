@@ -96,6 +96,7 @@ namespace LocalFilesDatabase
                 ItemFolder old = items.FindAll().FirstOrDefault();
                 if (old != null)
                     items.Delete(old.Id);
+                if (newitem != null)
                 items.Insert(newitem);
             }
         }

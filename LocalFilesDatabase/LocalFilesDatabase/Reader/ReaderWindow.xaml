@@ -398,14 +398,14 @@
                 </TextBlock>
             </Grid>
 
-            <Grid x:Name="GridMenu" Background="{DynamicResource HeaderColorBrush}" Margin="0,-82,0,0" Height="100" Mouse.MouseDown="GridMenu_MouseDown">
-                <StackPanel Orientation="Horizontal" Margin="6" x:Name="MenuButtonsLeft">
+            <Grid x:Name="GridMenu" Background="{DynamicResource HeaderColorBrush}" Margin="0,-82,0,0" Height="80" Mouse.MouseDown="GridMenu_MouseDown">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="6" x:Name="MenuButtonsLeft">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12">
-                        <Image Width="59" Height="60" Margin="0,0,12,0" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
+                        <Image Height="60" Margin="0,0,12,0" Stretch="UniformToFill" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}"></Image>
                         <TextBlock MaxWidth="200" TextWrapping="WrapWithOverflow" MaxHeight="60" TextTrimming="WordEllipsis"  Text="{Binding Main.SelectedFile.DisplayName ,Source={StaticResource Locator}}" FontSize="14" VerticalAlignment="Center" Foreground="White"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,18,36,-4" x:Name="MenuButtonsRight">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="MenuButtonsRight">
                     <StackPanel Orientation="Vertical">
                         <Button 
                             Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  
@@ -432,19 +432,14 @@
                     </StackPanel>
                     <StackPanel>
                         <Button 
+                            Visibility="{Binding Isfullscreen,ElementName=CurrentReaderWindow,Converter={StaticResource BooleanToVisibilityConverter}}"
                             x:Name="buttonCerrar"
                             Style="{DynamicResource AppBarButtonStyle}"
                             Content="" 
                             FontSize="18"
                             Click="buttonCerrar_Click"/>
                     </StackPanel>
-                    <Grid Width="20"/>
                 </StackPanel>
-                <Button Focusable="False"  x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
-                        BorderThickness="0" Background="Transparent" Height="100" Width="50" 
-                        Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="White" 
-                        FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
-                        Click="buttonHideMenu_Click"/>
             </Grid>
 
             <Grid x:Name="GridMenuTapAreaTop" Mouse.MouseDown="GridMenu_MouseDown" 
@@ -475,7 +470,7 @@
                     </StackPanel>
                 </Button>
 
-                <Grid x:Name="BottomMenu" Margin="0,0,0,-100" MouseDown="BottomMenu_MouseDown" Height="100" Background="{StaticResource HeaderColorBrush}" VerticalAlignment="Bottom">
+                <Grid x:Name="BottomMenu" Margin="0,0,0,-100" MouseDown="BottomMenu_MouseDown" Height="70" Background="{StaticResource HeaderColorBrush}" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="12"/>
                         <ColumnDefinition Width="Auto"/>
@@ -496,7 +491,7 @@
                         Foreground="{DynamicResource AccentBrush2}"
                         Background="{DynamicResource AccentBaseColorBrush}"
                         VerticalAlignment="Center" HorizontalAlignment="Stretch"></Slider>
-                        <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,18">
+                        <TextBlock FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,8">
                         <Run Text="Página "></Run>
                         <Run Text="{Binding SelectedItem.NoPage, ElementName=FvPages}"></Run>
                         <Run Text=" / "></Run>

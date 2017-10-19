@@ -278,7 +278,7 @@
                     <TextBlock MaxHeight="20" Foreground="{StaticResource AccentBrush2}" FontWeight="Bold" Margin="4,0,2,-2" MaxWidth="470" TextTrimming="WordEllipsis" FontSize="16" Text="{Binding Main.SelectedFolder, Source={StaticResource Locator},Converter={StaticResource PathToFolderConverter}}"/>
                 </StackPanel>
             </Grid>
-            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
+            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="70" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
                     <StackPanel>
                         <Button Style="{DynamicResource AppBarButtonStyle}" FontSize="18" Content="&#xE109;" Click="ButtonAdd_Click"/>
@@ -296,7 +296,7 @@
                         <Button Style="{DynamicResource AppBarButtonStyle}" Content="&#xE106;" Click="ButtonClose_Click"/>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel x:Name="MenuButtonsRight" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,4,50,4" Orientation="Horizontal">
+                <StackPanel x:Name="MenuButtonsRight" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                     <Border x:Name="SearchBorder" Width="0"  Visibility="{Binding Main.SearchModeOn, Converter={StaticResource BooleanToVisibilityConverter}, Mode=TwoWay, Source={StaticResource Locator}}"
                             BorderBrush="{StaticResource FontColor2}" BorderThickness="1" Height="30" HorizontalAlignment="Stretch">
                         <Border.Style>
@@ -361,19 +361,13 @@
                     </StackPanel>
                     <StackPanel>
                         <Button x:Name="buttonCerrar"  
+                                Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Style="{DynamicResource AppBarButtonStyle}" 
                                 Content="" 
                                 FontSize="18"
                                 Click="buttonCerrar_Click"/>
                     </StackPanel>
                 </StackPanel>
-                <Button Focusable="False"  
-                        x:Name="buttonHideMenu" 
-                        Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
-                        BorderThickness="0" Background="Transparent" Height="100" Width="50" 
-                        Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="{StaticResource FontColor2}" 
-                        FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
-                        Click="buttonHideMenu_Click"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="2" Margin="0,18,0,0">

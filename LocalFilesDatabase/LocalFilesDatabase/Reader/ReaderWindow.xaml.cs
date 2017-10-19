@@ -117,6 +117,8 @@ namespace LocalFilesDatabase
 
         bool fullscreenactive = false;
 
+
+
         private void UpdateFullScreen()
         {
             fullscreenactive = !fullscreenactive;
@@ -358,14 +360,6 @@ namespace LocalFilesDatabase
                 Storyboard.SetTarget(myStoryboard.Children.ElementAt(0) as ThicknessAnimationUsingKeyFrames, GridMenu);
                 myStoryboard.Begin();
             }
-        }
-
-        /// <summary>
-        ///Show hide appbar
-        /// </summary>        
-        private void buttonHideMenu_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateTopBar();
         }
 
         /// <summary>
