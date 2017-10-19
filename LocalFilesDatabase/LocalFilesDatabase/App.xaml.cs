@@ -41,21 +41,24 @@ namespace LocalFilesDatabase
             App.ViewModel.RecentFiles = MainUtils.ReadRecents();
             if (App.ViewModel.RecentFiles.Count > 0){
                 if (System.IO.File.Exists(App.ViewModel.RecentFiles[0]))
-                {
+                {                    
+                    await App.ViewModel.OpenFileLogic(App.ViewModel.RecentFiles[0]);
+
                     ItemFolder folder = DBService.Instance.GetLastFolder();
                     if (folder != null)
                     {
                         App.ViewModel.SelectedFolder = folder;
                     }
 
-                    await App.ViewModel.OpenFileLogic(App.ViewModel.RecentFiles[0]);
-                    
                     ItemInfo last = DBService.Instance.GetLastComic();
                     if (last != null)
                     {                        
                         App.ViewModel.SelectedFile = last;
                         await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path, (MetroWindow)App.Current.MainWindow, App.ViewModel.SelectedFile.CurrentPages);
-                    }                    
+                    }
+
+                    ((MainWindow)App.Current.MainWindow).ListViewFolders.ScrollIntoView(((MainWindow)App.Current.MainWindow).ListViewFolders.SelectedItem);
+                    ((MainWindow)App.Current.MainWindow).ListViewFiles.ScrollIntoView(((MainWindow)App.Current.MainWindow).ListViewFiles.SelectedItem);          
                 }
             }
             for (int i = 0; i < 10; i++)
@@ -97,6 +100,7 @@ namespace LocalFilesDatabase
                 if (System.IO.File.Exists(info.Path))
                 {
                     DBService.Instance.SaveLastComic(info);
+                    DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
                     await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow, info.CurrentPages);
                 }
             }            

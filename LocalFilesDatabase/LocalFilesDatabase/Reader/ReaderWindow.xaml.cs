@@ -498,6 +498,7 @@ namespace LocalFilesDatabase
             App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
             {
                 _pages = MainUtils.CreatePagesComic(replace.Path, replace.CurrentPages);
+                DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
                 DBService.Instance.SaveLastComic(replace);
                 int moveto = replace.CurrentPages - 1;
                 if (moveto == -1)

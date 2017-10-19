@@ -57,7 +57,7 @@ namespace LocalFilesDatabase
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Isfullscreen = App.ViewModel.usefullscreen;
+            Isfullscreen = App.ViewModel.usefullscreen;            
             W10Utils.ModeChangeEvent += W10Utils_ModeChangeEvent;
         }
 
@@ -190,6 +190,7 @@ namespace LocalFilesDatabase
             settings.ColorScheme = MetroDialogColorScheme.Theme;
             settings.AffirmativeButtonText = "OK";
             if (System.IO.File.Exists(App.ViewModel.SelectedFile.Path)){
+                DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
                 DBService.Instance.SaveLastComic(App.ViewModel.SelectedFile);
                 await App.ViewModel.ShowReader(App.ViewModel.SelectedFile.Path,this,App.ViewModel.SelectedFile.CurrentPages);
             }

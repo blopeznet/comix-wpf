@@ -100,6 +100,7 @@ namespace LocalFilesDatabase.ViewModel
             }
             if (Folders.Count > 0)
             {
+                if (SelectedFolder==null)
                 SelectedFolder = Folders[0];
                 Files = DBService.Instance.GetItemFiles(Folders[0].Path);
             }
@@ -291,6 +292,7 @@ namespace LocalFilesDatabase.ViewModel
             }
             if (Files.Count > 0)
             {
+                if (SelectedFile ==null)
                 SelectedFile = Files[0];
             }
         }

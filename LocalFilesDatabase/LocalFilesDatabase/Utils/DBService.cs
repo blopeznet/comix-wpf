@@ -76,8 +76,7 @@ namespace LocalFilesDatabase
                 var items = db.GetCollection<ItemInfo>("history");
                 ItemInfo old = items.FindAll().FirstOrDefault();
                 if (old!=null)
-                 items.Delete(old.Id);
-                DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
+                 items.Delete(old.Id);                
                 items.Insert(newitem);
             }
         }

@@ -192,7 +192,30 @@ namespace LocalFilesDatabase.Entities
             get { if (_Files==null) _Files = new List<ItemInfo>();return _Files; }
             set => _Files = value;
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            // STEP 1: Check for null
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // STEP 3: equivalent data types
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            if (obj.GetType() != typeof(ItemFolder))
+                return false;
+
+            if (Path == ((ItemFolder)obj).Path)
+                return true;
+            else
+                return false;
+        }
+
         public override string ToString()
         {
             return String.Format("{0}",Path);
@@ -314,6 +337,32 @@ namespace LocalFilesDatabase.Entities
             }
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0}", Path);
+        }
 
+        public override bool Equals(object obj)
+        {
+            // STEP 1: Check for null
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // STEP 3: equivalent data types
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            if (obj.GetType() != typeof(ItemInfo))
+                return false;
+
+            if (Path == ((ItemInfo)obj).Path)
+                return true;
+            else
+                return false;
+        }
     }
 }

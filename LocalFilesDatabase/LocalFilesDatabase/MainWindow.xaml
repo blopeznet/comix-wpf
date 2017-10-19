@@ -175,9 +175,10 @@
                 <RowDefinition Height="10"/>
                 <RowDefinition x:Name="RowDetailComic" Height="240"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="ListViewFolders" 
-                  SelectionMode="Single"                                             
-                  BorderThickness="0"                                                        
+            <ListView x:Name="ListViewFolders"                   
+                  BorderThickness="0"  
+                      SelectionMode="Single"
+                  SelectedItem="{Binding Main.SelectedFolder,Source={StaticResource Locator},Mode=TwoWay}"
                   local:TouchScrolling.IsEnabled="True"                                                                         
                   ScrollViewer.VerticalScrollBarVisibility="{Binding Main.ShowScrollBar, Source={StaticResource Locator}}"                  
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -188,9 +189,6 @@
                 <ListView.ItemsSource>
                     <Binding Path="Main.Folders" Source="{StaticResource Locator}"/>
                 </ListView.ItemsSource>
-                <ListView.SelectedItem>
-                    <Binding Path="Main.SelectedFolder" Source="{StaticResource Locator}" Mode="TwoWay"/>
-                </ListView.SelectedItem>
                 <ListView.Visibility>
                     <Binding Converter="{StaticResource BooleanToVisibilityConverter}" 
                              Path="Main.IsDataAvaliable" Source="{StaticResource Locator}"/>
@@ -218,10 +216,11 @@
                 <Image Opacity="0.1" Source="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="UniformToFill"></Image>
             </Grid>
             
-            <ListView x:Name="ListViewFiles" Grid.Column="1" 
-                  SelectedIndex="0"
+            <ListView x:Name="ListViewFiles" Grid.Column="1"                   
                   Grid.Row="0"
                   SelectionMode="Single"
+                      SelectedItem="{Binding Main.SelectedFile,Source={StaticResource Locator},Mode=TwoWay}"
+                      
                   Margin="6,0,8,2"      
                       Background="Transparent"
                   BorderThickness="0"
@@ -233,9 +232,6 @@
                 <ListView.ItemsSource>
                     <Binding Path="Main.Files" Source="{StaticResource Locator}"/>
                 </ListView.ItemsSource>
-                <ListView.SelectedItem>
-                    <Binding Path="Main.SelectedFile" Source="{StaticResource Locator}"/>
-                </ListView.SelectedItem>
                 <ListView.ItemTemplate>
                     <StaticResource ResourceKey="CoverTemplate"/>
                 </ListView.ItemTemplate>
