@@ -101,6 +101,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--Flipview-->
         <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
             <Border Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
@@ -406,24 +407,36 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="6,18,36,-4" x:Name="MenuButtonsRight">
                     <StackPanel Orientation="Vertical">
-                        <Button Focusable="False" Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  
-                            x:Name="buttonFull" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content=""
-                            FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonFull_Click" />
+                        <Button 
+                            Visibility="{Binding Main.usefullscreen,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=i}"  
+                            x:Name="buttonFull"  
+                            Content=""
+                            FontSize="18"
+                            Style="{DynamicResource AppBarButtonStyle}"
+                            Click="buttonFull_Click" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
-                        <Button Focusable="False"  x:Name="buttonSave" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" 
-                            FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonSave_Click"/>
+                        <Button 
+                            x:Name="buttonSave" 
+                            Style="{DynamicResource AppBarButtonStyle}" 
+                            Content="" 
+                            FontSize="18"
+                            Click="buttonSave_Click"/>
                     </StackPanel>
                     <StackPanel Orientation="Vertical">
-                        <Button Focusable="False"  x:Name="buttonAdjust" Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" Background="{StaticResource BackgroundBrush2}"  
-                            FontSize="16" Margin="4" Click="buttonAdjust_Click"/>
+                        <Button 
+                            x:Name="buttonAdjust" 
+                            Style="{DynamicResource AppBarButtonStyle}"
+                                Content=""
+                                Click="buttonAdjust_Click"/>
                     </StackPanel>
                     <StackPanel>
-                        <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" 
-                            Content="&#xE106;" FontSize="22" Background="{StaticResource BackgroundBrush2}" Margin="4" Click="buttonCerrar_Click"/>
+                        <Button 
+                            x:Name="buttonCerrar"
+                            Style="{DynamicResource AppBarButtonStyle}"
+                            Content="" 
+                            FontSize="18"
+                            Click="buttonCerrar_Click"/>
                     </StackPanel>
                     <Grid Width="20"/>
                 </StackPanel>
@@ -470,17 +483,15 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="12"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="buttonPrev" Grid.Column="1" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
-                            FontSize="32" FontWeight="Bold" Margin="4" Click="buttonPrev_Click">
-                        <Button.Background>
-                            <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
-                            </ImageBrush>
-                        </Button.Background>
+                    <Button x:Name="buttonPrev" Grid.Column="1"
+                            Style="{DynamicResource AppBarButtonStyle}" 
+                            FontSize="32"
+                            Content="" 
+                            Click="buttonPrev_Click">
                     </Button>
                     <Grid Grid.Column="2">
-                        <Slider Style="{DynamicResource FlatSlider}" Focusable="False" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" 
-                        Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="10" Margin="16" 
+                        <Slider Style="{StaticResource MetroSlider}" Focusable="False" Value="{Binding SelectedIndex, ElementName=FvPages,Mode=TwoWay}" 
+                        Minimum="0" Maximum="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}" Height="6" Margin="16" 
                         BorderBrush="white" BorderThickness="1"
                         Foreground="{DynamicResource AccentBrush2}"
                         Background="{DynamicResource AccentBaseColorBrush}"
@@ -492,9 +503,11 @@
                         <Run Text="{Binding Main.TotalPagesLoaded, Source={StaticResource Locator}}"></Run>
                         </TextBlock>
                     </Grid>
-                    <Button x:Name="buttonNext" Grid.Column="3" Height="60" Width="60" Foreground="White" BorderBrush="White" FontFamily="Segoe UI Symbol" 
-                            Style="{DynamicResource MetroCircleButtonStyle}" Content="" Focusable="False"
-                            FontSize="32" FontWeight="Bold" Margin="4,4,4,4" Click="buttonNext_Click">
+                    <Button x:Name="buttonNext" Grid.Column="3" 
+                            Style="{DynamicResource AppBarButtonStyle}" 
+                            FontSize="32"
+                            Content="" Focusable="False"
+                            Click="buttonNext_Click">
                         <Button.Background>
                             <ImageBrush Opacity="0.5" ImageSource="{Binding Main.SelectedFile.CoverByteArray, Source={StaticResource Locator}, Converter={StaticResource ByteArrayToBitmapImageConverter}}">
                             </ImageBrush>

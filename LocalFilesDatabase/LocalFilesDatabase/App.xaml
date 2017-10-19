@@ -17,8 +17,12 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Orange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Brown.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+
+                
                 <ResourceDictionary>
+                    
 
                     <FontFamily x:Key="CustomFontFamily">/LocalFilesDatabase;component/Assets/Fonts/tron.ttf#tron</FontFamily>
 
@@ -31,14 +35,21 @@
 
                     </Style>
 
+
+                    
+                    
+                    
                     <Color x:Key="BackgroundColor">#FFCC5704</Color>
                     <Color x:Key="BackgroundColor2">#FFE2E259</Color>
-                    <Color x:Key="HeaderColor">#F7822F</Color>
-                    <Color x:Key="AccentColor">#F7822F</Color>
+                    <Color x:Key="HeaderColor">#FF825A2C</Color>
+                    <Color x:Key="AccentColor">#FF825A2C</Color>
+                    <Color x:Key="AccentColor2">#FF825A2C</Color>
+                    <SolidColorBrush x:Key="AccentBrush" Color="#FF825A2C"/>
+                    <SolidColorBrush x:Key="AccentBaseColorBrush" Color="#FF846956"/>
+                    <SolidColorBrush x:Key="HeaderColorBrush" Color="#FF825A2C"/>
+                    
                     <SolidColorBrush x:Key="BackgroundBrush" Color="#FFEBEBEB"/>
                     <SolidColorBrush x:Key="BackgroundBrush2" Color="#FFE2E259"/>
-                    <SolidColorBrush x:Key="AccentBrush" Color="#FFFF6A00"/>
-                    <SolidColorBrush x:Key="HeaderColorBrush" Color="#F7822F"/>
                     <SolidColorBrush x:Key="AccentBrush2" Color="#FF2F8E47"/>
                     <SolidColorBrush x:Key="FontColor">#010204</SolidColorBrush>
                     <SolidColorBrush x:Key="FontColor2">White</SolidColorBrush>
@@ -190,6 +201,18 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+                    <Style x:Key="AppBarButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonClear}">
+                        <Style.Setters>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Width" Value="50"/>
+                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Margin" Value="4"/>
+                        </Style.Setters>
+                    </Style>
                     <DataTemplate x:Key="CoverTemplate">
                         <Grid HorizontalAlignment="Center" x:Name="GridCover" DataContext="{Binding}" MouseDown="Comic_MouseDown" 
                               VerticalAlignment="Center"  Background="{StaticResource BackgroundBrush}" 
@@ -332,7 +355,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
                     <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:LocalFilesDatabase.ViewModel" />
                     
                 </ResourceDictionary>

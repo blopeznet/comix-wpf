@@ -14,7 +14,194 @@
         Background="{StaticResource BackgroundBrush}"
         Title="COMIX" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
-        
+
+        <ControlTemplate x:Key="FlipViewTemplate" TargetType="{x:Type metrocontrols:FlipView}">
+            <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                <Border x:Name="PART_HoverBorder"
+                    BorderBrush="Transparent"                    
+                    BorderThickness="{TemplateBinding MouseHoverBorderThickness}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                    <Grid Margin="{TemplateBinding Padding}">
+                        <Grid x:Name="ControlGrid" Panel.ZIndex="7">
+                            <Button x:Name="PART_BackButton"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Focusable="False"
+                                Opacity="1.0"
+                                Width="200"
+                                Background="Transparent"
+                                Height="800"
+                                Style="{DynamicResource ControlButton}">
+                                <Path Canvas.Left="15.9063"
+                                  Canvas.Top="14.75"
+                                  Width="16"
+                                  Height="18" 
+                                  HorizontalAlignment="Left"
+                                  Opacity="1.0"
+                                  Data="F1 M 22.6563,23.75L 24.6563,25.75L 31.9063,32.75L 25.4063,32.75L 15.9063,23.75L 25.4063,14.75L 31.9063,14.75L 24.6563,21.75L 22.6563,23.75 Z "
+                                  Fill="{DynamicResource AccentBrush}"
+                                  Stretch="Fill" />
+                            </Button>
+                            <Button x:Name="PART_ForwardButton"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Opacity="1.0"
+                                Width="200"
+                                Height="800"    
+                                    Focusable="False"
+                                Background="Transparent"
+                                    Visibility="Visible"
+                                Style="{DynamicResource ControlButton}">
+                                <Path Canvas.Left="15.9063"
+                                  Canvas.Top="14.75"
+                                  Width="16"
+                                  Height="18"
+                                  Opacity="1.0"
+                                  Data="F1 M 25.1563,23.75L 23.1563,21.75L 15.9063,14.75L 22.4063,14.75L 31.9063,23.75L 22.4063,32.75L 15.9063,32.75L 23.1563,25.75L 25.1563,23.75 Z "
+                                  Fill="{DynamicResource AccentBrush}"
+                                  Stretch="Fill" />
+                            </Button>
+                            <Button x:Name="PART_UpButton"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                    Focusable="False"
+                                Style="{DynamicResource ControlButton}"
+                                Visibility="Hidden">
+                                <Path Canvas.Left="15.9063"
+                                  Canvas.Top="14.75"
+                                  Width="16"
+                                  Height="18"
+                                  Data="F1 M 23.9063,22.5L 21.9063,24.5L 14.9063,31.75L 14.9063,25.25L 23.9063,15.75L 32.9063,25.25L 32.9063,31.75L 25.9063,24.5L 23.9063,22.5 Z "
+                                  Fill="{DynamicResource BlackBrush}"
+                                  Stretch="Fill" />
+                            </Button>
+                            <Button x:Name="PART_DownButton"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                    Focusable="False"
+                                Style="{DynamicResource ControlButton}"
+                                Visibility="Hidden">
+                                <Path Canvas.Left="15.9063"
+                                  Canvas.Top="14.75"
+                                  Width="16"
+                                  Height="18"
+                                  Data="F1 M 23.9063,25L 25.9063,23L 32.9063,15.75L 32.9063,22.25L 23.9062,31.75L 14.9063,22.25L 14.9063,15.75L 21.9063,23L 23.9063,25 Z "
+                                  Fill="{DynamicResource BlackBrush}"
+                                  Stretch="Fill" />
+                            </Button>
+                        </Grid>
+                        <Grid x:Name="PART_BannerGrid"
+                          Height="0"
+                          VerticalAlignment="Bottom"
+                          Panel.ZIndex="6"
+                          Background="{DynamicResource BlackBrush}"
+                          Opacity="0.85">
+                            <Label x:Name="PART_BannerLabel"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontSize="{TemplateBinding FontSize}"
+                               Foreground="{DynamicResource WhiteBrush}"
+                               IsTabStop="False" />
+                        </Grid>
+                        <metrocontrols:TransitioningContentControl x:Name="PART_Presenter"                                                                    
+                                                          Panel.ZIndex="1"                                                                                                                       
+                                                          Content="{TemplateBinding SelectedItem}"
+                                                          ContentTemplate="{TemplateBinding ItemTemplate}"
+                                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                          ContentStringFormat="{TemplateBinding ItemStringFormat}"
+                                                          IsTabStop="False" />
+                    </Grid>
+                </Border>
+            </Border>
+            <ControlTemplate.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                        <Condition Property="MouseHoverBorderEnabled" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <Setter TargetName="PART_HoverBorder" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MouseHoverBorderBrush, Mode=OneWay}" />
+                </MultiTrigger>
+                <Trigger Property="MouseHoverBorderEnabled" Value="False">
+                    <Setter TargetName="PART_HoverBorder" Property="BorderThickness" Value="0" />
+                </Trigger>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Trigger.Setters>
+                        <Setter TargetName="PART_BackButton" Property="Visibility" Value="Hidden" />
+                        <Setter TargetName="PART_ForwardButton" Property="Visibility" Value="Hidden" />
+                        <Setter TargetName="PART_UpButton" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="PART_DownButton" Property="Visibility" Value="Visible" />
+                    </Trigger.Setters>
+                </Trigger>
+            </ControlTemplate.Triggers>
+            <ControlTemplate.Resources>
+                <Style x:Key="ControlButton" TargetType="Button">
+                    <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                    <Setter Property="Focusable" Value="True" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="IsTabStop" Value="True" />
+                    <Setter Property="Opacity" Value="0.4" />
+                    <Setter Property="Panel.ZIndex" Value="5" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Padding="1"
+                                    BorderBrush="{TemplateBinding Background}"
+                                    CornerRadius="4">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Label HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Marlett"
+                                           FontSize="17"
+                                           Foreground="{TemplateBinding Foreground}">
+                                            <ContentPresenter ContentSource="Content" />
+                                        </Label>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1.0" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Width" Value="50" />
+                </Style>
+                <Storyboard x:Key="ShowBannerStoryboard">
+                    <DoubleAnimation AccelerationRatio="1.0"
+                                 SpeedRatio="2.5"
+                                 Storyboard.TargetProperty="Height"
+                                 To="30.0" />
+                </Storyboard>
+
+                <Storyboard x:Key="HideBannerStoryboard">
+                    <DoubleAnimation AccelerationRatio="1.0"
+                                 SpeedRatio="2.5"
+                                 Storyboard.TargetProperty="Height"
+                                 To="0.0" />
+                </Storyboard>
+
+                <Storyboard x:Key="HideControlStoryboard">
+                    <DoubleAnimation AccelerationRatio="1.0"
+                                 SpeedRatio="2.5"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0.0" />
+                </Storyboard>
+
+                <Storyboard x:Key="ShowControlStoryboard">
+                    <DoubleAnimation AccelerationRatio="1.0"
+                                 SpeedRatio="2.5"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1.0" />
+                </Storyboard>
+
+            </ControlTemplate.Resources>
+        </ControlTemplate>
+
+
         <Style x:Key="CustomToggleStyle" TargetType="{x:Type ToggleButton}" 
                BasedOn="{StaticResource MetroCircleToggleButtonStyle}">
             <Setter Property="Template">
@@ -32,10 +219,10 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsChecked" Value="False">
-                    <Setter Property="Background" Value="{StaticResource BackgroundBrush2}" />
+                    <Setter Property="Background" Value="{StaticResource HeaderColorBrush}" />
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="{StaticResource AccentBrush2}" />
+                    <Setter Property="Background" Value="{StaticResource AccentBaseColorBrush}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -94,19 +281,19 @@
             <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="100" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
                     <StackPanel>
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE109;" FontSize="22" Margin="4" Click="ButtonAdd_Click"/>
+                        <Button Style="{DynamicResource AppBarButtonStyle}" FontSize="18" Content="&#xE109;" Click="ButtonAdd_Click"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}"  BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonDelete_Click"/>
+                        <Button Style="{DynamicResource AppBarButtonStyle}" FontSize="18" Content="" Click="ButtonDelete_Click"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}"  BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonSincro_Click"/>
+                        <Button Style="{DynamicResource AppBarButtonStyle}" Content="" Click="ButtonSincro_Click"/>
                     </StackPanel>
                     <StackPanel Margin="24,0,0,0">
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE132;" FontSize="22" Margin="4" Click="ButtonOpen_Click"/>
+                        <Button Style="{DynamicResource AppBarButtonStyle}" Content="&#xE132;" Click="ButtonOpen_Click"/>
                     </StackPanel>
                     <StackPanel Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <Button Height="50" Width="50" Foreground="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="" FontSize="22" Margin="4" Click="ButtonClose_Click"/>
+                        <Button Style="{DynamicResource AppBarButtonStyle}" Content="&#xE106;" Click="ButtonClose_Click"/>
                     </StackPanel>
                 </StackPanel>
                 <StackPanel x:Name="MenuButtonsRight" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,4,50,4" Orientation="Horizontal">
@@ -134,31 +321,55 @@
                                  BorderThickness="0"
                                  Text="{Binding Main.SearchString, Mode=TwoWay, Source={StaticResource Locator}}"
                                  Foreground="{StaticResource FontColor}" FontSize="14"/>
-                            <ToggleButton 
-                                x:Name="buttonLaunchSearch" Background="{StaticResource BackgroundBrush2}" Click="buttonLaunchSearch_Click" Width="50" Height="28" Margin="0,0,0,0" BorderThickness="0" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="12" VerticalAlignment="Center"
-                                          >
-                            </ToggleButton>
+                            <Button 
+                                Style="{StaticResource ButtonClear}"
+                                x:Name="buttonLaunchSearch" 
+                                Background="Transparent" Click="buttonLaunchSearch_Click" 
+                                Foreground="White"
+                                Focusable="False"
+                                Width="50" Height="28" Margin="0,0,0,0" 
+                                BorderThickness="0" BorderBrush="Transparent" 
+                                FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="12" VerticalAlignment="Center">
+                            </Button>
                         </StackPanel>
 
                     </Border>
                     <StackPanel VerticalAlignment="Top" Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
-                        <ToggleButton x:Name="SearchToggleButton" Focusable="False"  IsChecked="{Binding Main.SearchModeOn, Mode=TwoWay, Source={StaticResource Locator}}" 
-                                      Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" Background="{StaticResource BackgroundBrush2}"  FontFamily="Segoe UI Symbol" 
-                                      Content="&#xE1A3;" FontSize="16" Margin="4" Style="{DynamicResource MetroCircleToggleButtonStyle}"/>
+                        <ToggleButton x:Name="SearchToggleButton" 
+                                      Focusable="False"  
+                                      IsChecked="{Binding Main.SearchModeOn, Mode=TwoWay, Source={StaticResource Locator}}" 
+                                      Height="50" Width="50" 
+                                      Foreground="White" 
+                                      BorderBrush="Transparent" 
+                                      Background="Transparent"  
+                                      FontFamily="Segoe UI Symbol" 
+                                      Content="&#xE1A3;" 
+                                      FontSize="16" 
+                                      Margin="4" 
+                                      Style="{DynamicResource MetroCircleToggleButtonStyle}"/>
                     </StackPanel>
                     <StackPanel>
-                        <ToggleButton Focusable="False"  x:Name="buttonRead"  Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" Content="" FontSize="16" Margin="4" Click="buttonRead_Click"/>
+                        <ToggleButton Focusable="False"  x:Name="buttonRead"  Height="50" Width="50" Foreground="White" BorderThickness="0" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" 
+                                      BorderBrush="Transparent" Content="" FontSize="16" Margin="4" Click="buttonRead_Click"/>
                     </StackPanel>
                     <StackPanel>
-                        <ToggleButton Focusable="False" IsChecked="{Binding MarkUnRead,ElementName=CurrentMainWindow,Mode=OneWay}"  x:Name="buttonUnRead"  Height="50" Width="50" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" Content="" FontSize="16" Margin="4" Click="buttonUnRead_Click"/>
-                        <Button Focusable="False" Foreground="{StaticResource FontColor2}" FontSize="12"  HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonUnRead_Click">
+                        <ToggleButton Focusable="False" IsChecked="{Binding MarkUnRead,ElementName=CurrentMainWindow,Mode=OneWay}"  x:Name="buttonUnRead"  Height="50" Width="50" Foreground="White" 
+                                      BorderBrush="Transparent" BorderThickness="0" FontFamily="Segoe UI Symbol" Style="{DynamicResource CustomToggleStyle}" Content="" FontSize="16" Margin="4" Click="buttonUnRead_Click"/>
+                        <Button Focusable="False" BorderThickness="0" 
+                                BorderBrush="Transparent" Foreground="White" FontSize="12"  HorizontalAlignment="Center" Style="{StaticResource ButtonClear}" Click="buttonUnRead_Click">
                         </Button>
                     </StackPanel>
                     <StackPanel>
-                        <Button Focusable="False"  x:Name="buttonCerrar"  Height="50" Width="50" Background="{StaticResource BackgroundBrush2}"  Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Content="&#xE106;" FontSize="22" Margin="4" Click="buttonCerrar_Click"/>
+                        <Button x:Name="buttonCerrar"  
+                                Style="{DynamicResource AppBarButtonStyle}" 
+                                Content="" 
+                                FontSize="18"
+                                Click="buttonCerrar_Click"/>
                     </StackPanel>
                 </StackPanel>
-                <Button Focusable="False"  x:Name="buttonHideMenu" Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
+                <Button Focusable="False"  
+                        x:Name="buttonHideMenu" 
+                        Style="{StaticResource ButtonClear}" BorderBrush="Transparent" 
                         BorderThickness="0" Background="Transparent" Height="100" Width="50" 
                         Margin="0,0,0,-2" VerticalContentAlignment="Bottom" Foreground="{StaticResource FontColor2}" 
                         FontSize="16" FontWeight="Bold" Content=". . ." HorizontalAlignment="Right" 
@@ -256,7 +467,7 @@
                   Visibility="{Binding Main.IsDataAvaliable, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}"
                    Background="{StaticResource BackgroundBrush}">
                 <Grid Background="#33000000" Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}"/>
-                <metrocontrols:FlipView IsBannerEnabled="False"
+                <metrocontrols:FlipView Template="{DynamicResource FlipViewTemplate}" IsBannerEnabled="False"
             MouseHoverBorderEnabled="False" Grid.Row="2" BorderThickness="0" Margin="0,6,0,0" ItemsSource="{Binding ItemsSource, ElementName=ListViewFiles}"                                             
                                             SelectedItem="{Binding SelectedItem, ElementName=ListViewFiles}" VerticalAlignment="Stretch">
                     <metrocontrols:FlipView.ItemTemplate>
@@ -290,8 +501,27 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Button Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}" x:Name="buttonFile" Click="buttonFile_Click" FontFamily="Segoe UI Symbol" Content="&#xE160;" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="2" Width="100" VerticalAlignment="Bottom" FontSize="16" BorderThickness="1" HorizontalAlignment="Right" Background="{StaticResource BackgroundBrush2}" Foreground="{StaticResource FontColor}"  BorderBrush="{StaticResource FontColor}"/>
-                                    <Button Grid.Row="1" Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}" x:Name="buttonFolder" Click="buttonFolder_Click"  FontFamily="Segoe UI Symbol" Content="&#xE1C1;" Height="40" Margin="2" Style="{DynamicResource AccentedSquareButtonStyle}" FontSize="16" Width="100" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource BackgroundBrush2}" Foreground="{StaticResource FontColor}" BorderBrush="{StaticResource FontColor}"/>
+                                    <Grid Background="{StaticResource AccentColorBrush}" Width="100" VerticalAlignment="Bottom" Height="40">
+                                    <Button 
+                                        Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}" 
+                                        x:Name="buttonFile" 
+                                        Click="buttonFile_Click" 
+                                        Content="&#xE160;" 
+                                        Style="{DynamicResource AppBarButtonStyle}" 
+                                        VerticalAlignment="Center"
+                                        Background="{StaticResource AccentBrush}" 
+                                        Foreground="{StaticResource FontColor2}"  
+                                        BorderBrush="Transparent"/>
+                                    </Grid>
+                                    <Grid Margin="2" Grid.Row="1" Background="{StaticResource AccentColorBrush}" Width="100" VerticalAlignment="Top" Height="40">
+                                        <Button Grid.Row="1" 
+                                                Visibility="{Binding Main.SelectedFile, Converter={StaticResource NullToVisibilityConverter}, Source={StaticResource Locator}}" 
+                                                x:Name="buttonFolder" Click="buttonFolder_Click"  
+                                                FontFamily="Segoe UI Symbol" Content="&#xE1C1;" 
+                                                Style="{DynamicResource AppBarButtonStyle}"  
+                                                VerticalAlignment="Center"
+                                                />
+                                    </Grid>
                                 </Grid>
                                 <Grid Grid.Column="2" Margin="12">
                                     <StackPanel>
