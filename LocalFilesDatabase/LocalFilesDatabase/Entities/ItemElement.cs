@@ -143,6 +143,18 @@ namespace LocalFilesDatabase.Entities
             }
         }
 
+        private byte[] _CoverByteArray;
+        [BsonIgnore]
+        public byte[] CoverByteArray
+        {
+            get => _CoverByteArray;
+            set
+            {
+                _CoverByteArray = value;
+                RaisePropertyChanged("CoverByteArray");
+            }
+        }
+
         private int _FilesCount;
         public int FilesCount
         {

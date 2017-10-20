@@ -112,6 +112,7 @@ namespace LocalFilesDatabase.ViewModel
             IsDataAvaliable = true;
             RecentFiles = MainUtils.LogRecents(path);
             WorkingMsg = String.Empty;
+            UpdateFolderCovers();
             IsWorking = false;
             return true;
         }
@@ -129,13 +130,21 @@ namespace LocalFilesDatabase.ViewModel
             }
             if (Folders.Count > 0)
             {
-                Files = DBService.Instance.GetItemFiles(Folders[0].Path);
+                Files = DBService.Instance.GetItemFiles(Folders[0].Path);               
             }
             if (Files.Count > 0)
             {
                 SelectedFile = Files[0];
             }
             IsDataAvaliable = true;
+        }
+
+        public void UpdateFolderCovers()
+        {
+            if (Folders!=null)
+                if (Folders.Count > 0)            
+                foreach (ItemFolder fol in Folders)                
+                    fol.CoverByteArray = DBService.Instance.GetFirstItemImage(fol.Path);                            
         }
 
         public async void OpenFileDialog(String path)
@@ -268,6 +277,7 @@ namespace LocalFilesDatabase.ViewModel
                 SelectedFile = Files[0];
             }
             WorkingMsg = String.Empty;
+            UpdateFolderCovers();
             IsWorking = false;
             return true;
         }

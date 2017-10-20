@@ -18,7 +18,7 @@ namespace LocalFilesDatabase.Common.Converters
             
             if (value == null) return "";
             var path = value.ToString();
-            return new DirectoryInfo(path).Name;
+            return new DirectoryInfo(path).Name.ToUpper();
         }
 
 

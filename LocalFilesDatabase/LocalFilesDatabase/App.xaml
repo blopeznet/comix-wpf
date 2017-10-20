@@ -20,9 +20,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Brown.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
 
-                
+
                 <ResourceDictionary>
-                    
+
 
                     <FontFamily x:Key="CustomFontFamily">/LocalFilesDatabase;component/Assets/Fonts/tron.ttf#tron</FontFamily>
 
@@ -35,10 +35,6 @@
 
                     </Style>
 
-
-                    
-                    
-                    
                     <Color x:Key="BackgroundColor">#FFCC5704</Color>
                     <Color x:Key="BackgroundColor2">#FFE2E259</Color>
                     <Color x:Key="HeaderColor">#FF825A2C</Color>
@@ -47,7 +43,7 @@
                     <SolidColorBrush x:Key="AccentBrush" Color="#FF825A2C"/>
                     <SolidColorBrush x:Key="AccentBaseColorBrush" Color="#FF846956"/>
                     <SolidColorBrush x:Key="HeaderColorBrush" Color="#FF825A2C"/>
-                    
+
                     <SolidColorBrush x:Key="BackgroundBrush" Color="#FFEBEBEB"/>
                     <SolidColorBrush x:Key="BackgroundBrush2" Color="#FFE2E259"/>
                     <SolidColorBrush x:Key="AccentBrush2" Color="#FF2F8E47"/>
@@ -122,6 +118,57 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
+                    <Style x:Key="ListViewContainerStyleCustom" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                        <Setter Property="Padding" Value="4,1"/>
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                        <ContentPresenter x:Name="Presenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver" Value="True"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Opacity" TargetName="Bd" Value="0.8"/>
+                                            <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
+                                        </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                                <Condition Property="IsSelected" Value="True"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Opacity" TargetName="Bd" Value="0.5"/>
+                                            <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                                        </MultiTrigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                                <Condition Property="IsSelected" Value="True"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Opacity" TargetName="Bd" Value="0.5"/>
+                                            <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                                        </MultiTrigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
                     <Style x:Key="ListViewContainerStyleClear" TargetType="{x:Type ListViewItem}">
                         <Setter Property="SnapsToDevicePixels" Value="True"/>
                         <Setter Property="Padding" Value="4,1"/>
@@ -203,14 +250,14 @@
                     </Style>
                     <Style x:Key="AppBarButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonClear}">
                         <Style.Setters>
-                        <Setter Property="Focusable" Value="False"/>
-                        <Setter Property="Height" Value="50"/>
-                        <Setter Property="Width" Value="50"/>
-                        <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Margin" Value="4"/>
+                            <Setter Property="Focusable" Value="False"/>
+                            <Setter Property="Height" Value="50"/>
+                            <Setter Property="Width" Value="50"/>
+                            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="Margin" Value="4"/>
                         </Style.Setters>
                     </Style>
                     <DataTemplate x:Key="CoverTemplate">
@@ -236,11 +283,11 @@
                                       Panel.ZIndex="6"
                                       Background="Transparent"
                                       Opacity="0.85">
-                                    <Label x:Name="PART_BannerLabel"                               
+                                <Label x:Name="PART_BannerLabel"                               
                                FontSize="12"                                       
                                Foreground="{DynamicResource WhiteBrush}"
                                IsTabStop="False" />
-                                    <metrocontrols:MetroProgressBar
+                                <metrocontrols:MetroProgressBar
                                         Height="1"         
                                         Foreground="{StaticResource AccentBrush2}"
                                         Background="{StaticResource HeaderColorBrush}"
@@ -251,22 +298,22 @@
                                         VerticalAlignment="Bottom" 
                                         HorizontalAlignment="Stretch"
                                         Margin="0,0,0,2">
-                                    </metrocontrols:MetroProgressBar>
-                                </Grid>
+                                </metrocontrols:MetroProgressBar>
+                            </Grid>
 
                             <StackPanel Grid.Row="2" Margin="8,4,4,4">
                                 <TextBlock FontWeight="Bold" Text="{Binding DisplayName}" 
                                            Foreground="{DynamicResource FontColor}"                                            
                                            TextWrapping="Wrap" MaxHeight="32"
                                            TextTrimming="CharacterEllipsis" FontSize="12"/>
-                            <TextBlock VerticalAlignment="Bottom" FontSize="10" 
+                                <TextBlock VerticalAlignment="Bottom" FontSize="10" 
                                        Foreground="{DynamicResource FontColor}" 
                                        HorizontalAlignment="Left">
                         <Run Text="Pagina "></Run>
                         <Run Text="{Binding CurrentPages}"></Run>
                         <Run Text=" de "></Run>
                         <Run Text="{Binding TotalPages}"></Run>
-                            </TextBlock>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
@@ -355,10 +402,41 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:LocalFilesDatabase.ViewModel" />
-                    
-                </ResourceDictionary>
+                    <!--Template Collection-->
+                    <DataTemplate x:Key="CollectionItemTemplate">
+                        <Grid HorizontalAlignment="Center" x:Name="GridCover" DataContext="{Binding}" MouseDown="GridCover_MouseDown" 
+                              VerticalAlignment="Center"
+                              Width="140" Height="210">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Margin="6,0,6,0" BorderThickness="2" BorderBrush="{StaticResource AccentBrush}">
+                                <Image Grid.Row="0" 
+                                   Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"
+                                   Width="140"
+                                   Stretch="UniformToFill"
+                                   Margin="0,0,0,0"
+                                   VerticalAlignment="Stretch" 
+                                   HorizontalAlignment="Stretch"/>
+                            </Border>
+                            <StackPanel Grid.Row="2" Margin="12,4,4,4" Opacity="1.0">
+                                <TextBlock FontWeight="Bold" Text="{Binding Path, Converter={StaticResource PathToFolderConverter}}" 
+                                           Foreground="{DynamicResource FontColor}"                                            
+                                           TextWrapping="Wrap" MaxHeight="32"
+                                           TextTrimming="CharacterEllipsis" FontSize="12"/>
+                                <TextBlock VerticalAlignment="Bottom" FontSize="10" 
+                                       Foreground="{DynamicResource FontColor}" 
+                                       HorizontalAlignment="Left">                        
+                                       <Run Text="{Binding FilesCount}"></Run>
+                                       <Run Text=" ficheros. "></Run>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
 
+                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:LocalFilesDatabase.ViewModel" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

@@ -58,7 +58,8 @@ namespace LocalFilesDatabase
                     }
 
                     ((MainWindow)App.Current.MainWindow).ListViewFolders.ScrollIntoView(((MainWindow)App.Current.MainWindow).ListViewFolders.SelectedItem);
-                    ((MainWindow)App.Current.MainWindow).ListViewFiles.ScrollIntoView(((MainWindow)App.Current.MainWindow).ListViewFiles.SelectedItem);          
+                    ((MainWindow)App.Current.MainWindow).ListViewFiles.ScrollIntoView(((MainWindow)App.Current.MainWindow).ListViewFiles.SelectedItem);
+                    ((MainWindow)App.Current.MainWindow).UpdateItemDetailView(true);
                 }
             }
             for (int i = 0; i < 10; i++)
@@ -104,6 +105,17 @@ namespace LocalFilesDatabase
                     await App.ViewModel.ShowReader(info.Path, (MahApps.Metro.Controls.MetroWindow)App.Current.MainWindow, info.CurrentPages);
                 }
             }            
+        }
+
+        private void GridCover_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2)
+            {
+                Entities.ItemFolder folder = (Entities.ItemFolder)(((System.Windows.Controls.Grid)sender).DataContext);
+                App.ViewModel.SelectedFolder = folder;
+                DBService.Instance.SaveLastFolder(App.ViewModel.SelectedFolder);
+                ((MainWindow)App.Current.MainWindow).UpdateItemDetailView();
+            }
         }
     }
 }

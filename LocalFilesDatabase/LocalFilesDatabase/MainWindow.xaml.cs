@@ -148,6 +148,7 @@ namespace LocalFilesDatabase
         private async void buttonLaunchSearch_Click(object sender, RoutedEventArgs e)
         {
             await App.ViewModel.SearchCollectionIntoDatabase();
+            UpdateItemDetailView(false);
         }
 
         private void ButtonSincro_Click(object sender, RoutedEventArgs e)
@@ -299,6 +300,24 @@ namespace LocalFilesDatabase
             }
         }
 
+        public void UpdateItemDetailView(bool foward=true)
+        {
+            if (foward)
+            {
+                this.GridFolders.Visibility = Visibility.Collapsed;
+                if (App.ViewModel.SelectedFile!=null)
+                this.ListViewFiles.ScrollIntoView(App.ViewModel.SelectedFile);
+                this.GridFiles.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.GridFiles.Visibility = Visibility.Collapsed;
+                if (App.ViewModel.SelectedFolder != null)
+                    this.ListViewFiles.ScrollIntoView(App.ViewModel.SelectedFolder);
+                this.GridFolders.Visibility = Visibility.Visible;                
+            }
+        }
+
         #endregion
 
         #region InotifyPropertyChanged
@@ -393,6 +412,11 @@ namespace LocalFilesDatabase
                 buttonUnRead.IsChecked = _MarkUnRead;                
                 NotifyPropertyChanged("MarkUnRead");
             }
+        }
+
+        private void buttonBackToCollectionList_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateItemDetailView(false);
         }
     }
 }

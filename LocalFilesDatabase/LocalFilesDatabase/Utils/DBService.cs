@@ -267,6 +267,23 @@ namespace LocalFilesDatabase
             }
         }
 
+        /// <summary>
+        /// Obtener un conjunto de elementos fichero filtrado por el path directorio 
+        /// </summary>
+        /// <param name="SourceFolderPath">Path directorio</param>
+        /// <returns>Lista de ficheros</returns>
+        public byte[] GetFirstItemImage(string SourceFolderPath)
+        {
+            if (String.IsNullOrEmpty(Path))
+                throw new Exception("Database path not exist");
+
+            using (var db = new LiteDatabase(Path))
+            {
+                var items = db.GetCollection<ItemInfo>("items");
+                return items.Find(Query.EQ("SourceFolderPath", SourceFolderPath)).OrderBy(x => x.Path).FirstOrDefault().CoverByteArray;
+            }
+        }
+
 
         /// <summary>
         /// Obtener todos los elementos snap
