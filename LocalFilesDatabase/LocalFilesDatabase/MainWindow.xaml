@@ -255,7 +255,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid>
-            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="70" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
+            <Grid x:Name="GridMenu" Margin="0,0,0,0" Height="74" Background="{StaticResource HeaderColorBrush}"  Mouse.MouseDown="GridMenu_MouseDown">
                 <StackPanel x:Name="MenuButtonsLeft" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="4" Orientation="Horizontal">
                     <StackPanel>
                         <Button Style="{DynamicResource AppBarButtonStyle}" FontSize="18" Content="&#xE109;" Click="ButtonAdd_Click"/>
@@ -606,8 +606,10 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                    </TextBlock.Triggers><Run Text="COMIX" FontWeight="Bold" FontFamily="{StaticResource CustomFontFamily}" FontSize="72"/></TextBlock>
-                <Border Opacity="0.2" Width="250" Height="70" Margin="0,-30,0,0">
+                    </TextBlock.Triggers>
+                    <Run Text="" FontSize="72" FontFamily="Segoe UI Symbol"/>
+                    <Run Text="COMIX" FontWeight="Bold" FontFamily="{StaticResource CustomFontFamily}" FontSize="72"/></TextBlock>
+                <Border Opacity="0.2" Width="450" Height="70" Margin="0,-30,0,0">
                     <Border.Background>
                         <VisualBrush Visual="{Binding ElementName=myText}">
                             <VisualBrush.Transform>
@@ -628,5 +630,11 @@
             </StackPanel>
         </Grid>
 
+        <Grid x:Name="GridMenuTapAreaTop" Mouse.MouseDown="GridMenu_MouseDown" 
+              Opacity="0" Background="White" HorizontalAlignment="Stretch" 
+              Grid.Row="1"
+              Grid.RowSpan="2" VerticalAlignment="Top" 
+              Height="30" Margin="60,1,0,0"/>
+        
     </Grid>
 </metrocontrols:MetroWindow>
