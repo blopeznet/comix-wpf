@@ -8,7 +8,7 @@
         xmlns:Converters="clr-namespace:LocalFilesDatabase.Common.Converters" 
         x:Class="LocalFilesDatabase.ReaderWindow"
         mc:Ignorable="d"        
-        BorderBrush="Black"
+        BorderBrush="Black"    
         x:Name="CurrentReaderWindow"            
         Title="READER" Height="768" Width="1024">
     <metrocontrols:MetroWindow.Resources>
@@ -347,6 +347,11 @@
                 <RowDefinition x:Name="RowMenu" Height="Auto"/>
                 <RowDefinition x:Name="RowContent"/>
             </Grid.RowDefinitions>
+            <Rectangle Grid.Column="0" x:Name="topLeft" Grid.Row="1">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding topLeftColor, ElementName=CurrentReaderWindow}"/>
+                </Rectangle.Fill>
+            </Rectangle>
             <metrocontrols:FlipView x:Name="FvPages"    
                                 KeyDown="OnButtonKeyDown"
                                 SelectionChanged="FvPages_SelectionChanged"
@@ -355,7 +360,7 @@
             MouseOverGlowEnabled="False" 
             IsBannerEnabled="False"
             MouseHoverBorderEnabled="False"
-            BorderThickness="0" 
+            BorderThickness="0"                                     
             Grid.Row="1"                                
             Margin="0,6,0,0"   
             HorizontalAlignment="Stretch"

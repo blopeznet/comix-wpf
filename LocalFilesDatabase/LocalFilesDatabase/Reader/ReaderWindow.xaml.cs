@@ -521,11 +521,76 @@ namespace LocalFilesDatabase
 
         private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           DBService.Instance.UpdateItemFile(App.ViewModel.SelectedFile.Path,FvPages.SelectedIndex+1);
+            UpdateBackgroundColor();
+            DBService.Instance.UpdateItemFile(App.ViewModel.SelectedFile.Path,FvPages.SelectedIndex+1);
            ItemInfo info = App.ViewModel.Files.Where(f => f.Path == App.ViewModel.SelectedFile.Path).FirstOrDefault();
            if (info != null)
-                info.CurrentPages = FvPages.SelectedIndex + 1;             
+                info.CurrentPages = FvPages.SelectedIndex + 1;            
         }
+
+        #region Page background color
+
+        private System.Windows.Media.Color _topLeftColor;
+        public System.Windows.Media.Color topLeftColor
+        {
+            get => _topLeftColor;
+            set
+            {
+                _topLeftColor = value;
+                NotifyPropertyChanged("topLeftColor");
+            }
+        }
+
+        
+
+        private void ResetBackGround()
+        {
+            topLeftColor = Colors.Black;            
+        }
+
+        private void UpdateBackgroundColor()
+        {
+            try
+            {
+                if (FvPages.Items.Count > 0)
+                {
+                    if (FvPages.SelectedItem != null)
+                    {
+                        BitmapImage bitmap = ((ComicTemp)FvPages.SelectedItem).Image;
+                        topLeftColor = GetPixelColor(bitmap, 0, 0);                                                
+                    }
+                }
+            }
+            catch { ResetBackGround(); }
+        }
+        
+        private Color GetPixelColor(BitmapImage bitmap, int x, int y)
+        {
+            Color color;
+            var bytesPerPixel = (bitmap.Format.BitsPerPixel + 7) / 8;
+            var bytes = new byte[bytesPerPixel];
+            var rect = new Int32Rect(x, y, 1, 1);
+
+            bitmap.CopyPixels(rect, bytes, bytesPerPixel, 0);
+
+            if (bitmap.Format == PixelFormats.Bgra32)
+            {
+                color = Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+            }
+            else if (bitmap.Format == PixelFormats.Bgr32)
+            {
+                color = Color.FromRgb(bytes[2], bytes[1], bytes[0]);
+            }
+            // handle other required formats
+            else
+            {
+                color = Colors.Black;
+            }
+
+            return color;
+        }
+
+        #endregion
 
         #region Reset scroll when load page
 
@@ -631,7 +696,7 @@ namespace LocalFilesDatabase
 
         private void BottomMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+           //Unable click
         }
     }
 }
