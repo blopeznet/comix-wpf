@@ -95,7 +95,7 @@ namespace LocalFilesDatabase
 
         private async void Comic_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2) {
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 1) {
 
                 Entities.ItemInfo info = (Entities.ItemInfo)(((System.Windows.Controls.Grid)sender).DataContext);
                 if (System.IO.File.Exists(info.Path))
@@ -109,7 +109,7 @@ namespace LocalFilesDatabase
 
         private void GridCover_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 2)
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left && e.ClickCount == 1)
             {
                 Entities.ItemFolder folder = (Entities.ItemFolder)(((System.Windows.Controls.Grid)sender).DataContext);
                 App.ViewModel.SelectedFolder = folder;

@@ -360,7 +360,6 @@ namespace LocalFilesDatabase
                 ListViewFiles.SelectedIndex = -1;
                 ListViewFiles.SelectionMode = SelectionMode.Multiple;
                 this.ListViewFiles.SelectionChanged += ListViewFiles_SelectionChanged;
-                this.RowDetailComic.Height = new GridLength(0);
 
             }
             else
@@ -368,7 +367,6 @@ namespace LocalFilesDatabase
                 this.ListViewFiles.SelectionChanged -= ListViewFiles_SelectionChanged;
                 ListViewFiles.SelectedIndex = 0;
                 ListViewFiles.SelectionMode = SelectionMode.Single;
-                this.RowDetailComic.Height = new GridLength(240);
             }
         }
 

@@ -260,63 +260,6 @@
                             <Setter Property="Margin" Value="4"/>
                         </Style.Setters>
                     </Style>
-                    <DataTemplate x:Key="CoverTemplate">
-                        <Grid HorizontalAlignment="Center" x:Name="GridCover" DataContext="{Binding}" MouseDown="Comic_MouseDown" 
-                              VerticalAlignment="Center"  Background="{StaticResource BackgroundBrush}" 
-                              Width="120" Height="190">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Image Grid.Row="0" 
-                                   Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"
-                                   Width="110"
-                                   Stretch="UniformToFill"
-                                   Margin="0,0,0,0"
-                                   VerticalAlignment="Stretch" 
-                                   HorizontalAlignment="Stretch"/>
-
-                            <Grid Grid.Row="0" x:Name="PART_PagesProgressGrid"
-                                      Height="12" Margin="0,0,0,-2"
-                                      VerticalAlignment="Bottom"
-                                      Panel.ZIndex="6"
-                                      Background="Transparent"
-                                      Opacity="0.85">
-                                <Label x:Name="PART_BannerLabel"                               
-                               FontSize="12"                                       
-                               Foreground="{DynamicResource WhiteBrush}"
-                               IsTabStop="False" />
-                                <metrocontrols:MetroProgressBar
-                                        Height="1"         
-                                        Foreground="{StaticResource AccentBrush2}"
-                                        Background="{StaticResource HeaderColorBrush}"
-                                        Focusable="False" IsHitTestVisible="False"
-                                        Value="{Binding CurrentPages}"                                             
-                                        Minimum="0" 
-                                        Maximum="{Binding TotalPages}" 
-                                        VerticalAlignment="Bottom" 
-                                        HorizontalAlignment="Stretch"
-                                        Margin="0,0,0,2">
-                                </metrocontrols:MetroProgressBar>
-                            </Grid>
-
-                            <StackPanel Grid.Row="2" Margin="8,4,4,4">
-                                <TextBlock FontWeight="Bold" Text="{Binding DisplayName}" 
-                                           Foreground="{DynamicResource FontColor}"                                            
-                                           TextWrapping="Wrap" MaxHeight="32"
-                                           TextTrimming="CharacterEllipsis" FontSize="12"/>
-                                <TextBlock VerticalAlignment="Bottom" FontSize="10" 
-                                       Foreground="{DynamicResource FontColor}" 
-                                       HorizontalAlignment="Left">
-                        <Run Text="Pagina "></Run>
-                        <Run Text="{Binding CurrentPages}"></Run>
-                        <Run Text=" de "></Run>
-                        <Run Text="{Binding TotalPages}"></Run>
-                                </TextBlock>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
                     <Storyboard x:Key="sbStart">
                         <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="249" Duration="0:0:0.5"/>
                     </Storyboard>
@@ -432,9 +375,68 @@
                                        <Run Text=" ficheros. "></Run>
                                 </TextBlock>
                             </StackPanel>
+                            <Grid Cursor="Hand" DataContext="{Binding}" MouseDown="GridCover_MouseDown" Background="White" Opacity="0.1"  Grid.RowSpan="2"></Grid>
                         </Grid>
                     </DataTemplate>
+                    <!--Cover template-->
+                    <DataTemplate x:Key="CoverTemplate">
+                        <Grid HorizontalAlignment="Center" x:Name="GridCover"  
+                              VerticalAlignment="Center"  Background="{StaticResource BackgroundBrush}" 
+                              Width="120" Height="190">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
+                            <Image Grid.Row="0" 
+                                   Source="{Binding CoverByteArray, Converter={StaticResource ByteArrayToBitmapImageConverter}}"
+                                   Width="110"
+                                   Stretch="UniformToFill"
+                                   Margin="0,0,0,0"
+                                   VerticalAlignment="Stretch" 
+                                   HorizontalAlignment="Stretch"/>
+
+                            <Grid Grid.Row="0" x:Name="PART_PagesProgressGrid"
+                                      Height="12" Margin="0,0,0,-2"
+                                      VerticalAlignment="Bottom"
+                                      Panel.ZIndex="6"
+                                      Background="Transparent"
+                                      Opacity="0.85">
+                                <Label x:Name="PART_BannerLabel"                               
+                               FontSize="12"                                       
+                               Foreground="{DynamicResource WhiteBrush}"
+                               IsTabStop="False" />
+                                <metrocontrols:MetroProgressBar
+                                        Height="1"         
+                                        Foreground="{StaticResource AccentBrush2}"
+                                        Background="{StaticResource HeaderColorBrush}"
+                                        Focusable="False" IsHitTestVisible="False"
+                                        Value="{Binding CurrentPages}"                                             
+                                        Minimum="0" 
+                                        Maximum="{Binding TotalPages}" 
+                                        VerticalAlignment="Bottom" 
+                                        HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,2">
+                                </metrocontrols:MetroProgressBar>
+                            </Grid>
+
+                            <StackPanel Grid.Row="2" Margin="8,4,4,4">
+                                <TextBlock FontWeight="Bold" Text="{Binding DisplayName}" 
+                                           Foreground="{DynamicResource FontColor}"                                            
+                                           TextWrapping="Wrap" MaxHeight="32"
+                                           TextTrimming="CharacterEllipsis" FontSize="12"/>
+                                <TextBlock VerticalAlignment="Bottom" FontSize="10" 
+                                       Foreground="{DynamicResource FontColor}" 
+                                       HorizontalAlignment="Left">
+                        <Run Text="Pagina "></Run>
+                        <Run Text="{Binding CurrentPages}"></Run>
+                        <Run Text=" de "></Run>
+                        <Run Text="{Binding TotalPages}"></Run>
+                                </TextBlock>
+                            </StackPanel>
+                            <Grid Cursor="Hand" DataContext="{Binding}" MouseDown="Comic_MouseDown" Background="White" Opacity="0.1"  Grid.RowSpan="3"></Grid>
+                        </Grid>
+                    </DataTemplate>
                     <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:LocalFilesDatabase.ViewModel" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
