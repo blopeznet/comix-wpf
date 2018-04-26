@@ -261,7 +261,18 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
-        
+        private string _FilterMsg;
+        public string FilterMsg
+        {
+            get => _FilterMsg;
+            set
+            {
+                _FilterMsg = value;
+                RaisePropertyChanged("FilterMsg");
+            }
+        }
+
+
 
         private bool _showMenu;
         public bool showMenu

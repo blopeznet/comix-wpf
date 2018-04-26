@@ -114,7 +114,12 @@
             </DockPanel>
 
             <Grid x:Name="statusGrid" Background="Black" Grid.Row="2">
-                <TextBlock HorizontalAlignment="Left" Text="{Binding Main.StatusMsg, Source={StaticResource Locator}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Left" TextTrimming="WordEllipsis" Text="{Binding Main.StatusMsg, Source={StaticResource Locator}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="18"/>
+                <TextBlock Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="WordEllipsis" Text="{Binding Main.FilterMsg, Source={StaticResource Locator}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="0,0,24,0" VerticalAlignment="Center" FontSize="18"/>
             </Grid>
 
             <Grid Grid.Row="1">
@@ -235,6 +240,12 @@
                                     <StackPanel Orientation="Horizontal" Height="48">
                                         <materialDesign:PackIcon Width="26" Height="26" Margin="12,0,0,0" Kind="NewBox" Foreground="Black"/>
                                         <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Crear Fichero"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="buttonCerrar" Click="buttonCerrar_Click" Style="{StaticResource MaterialDesignFlatAccentButton}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" MinWidth="212" HorizontalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal" Height="48">
+                                        <materialDesign:PackIcon Width="26" Height="26" Margin="12,0,0,0" Kind="CloseBox"  Foreground="Black"/>
+                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Cerrar Fichero"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

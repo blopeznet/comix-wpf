@@ -41,7 +41,8 @@ namespace DirectoryBrowser
 
         private void tv_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            MyTreeViewItem item = (MyTreeViewItem)e.NewValue;            
+            MyTreeViewItem item = (MyTreeViewItem)e.NewValue;       
+            if (item!=null)
             App.ViewModel.SelectedFolder = item.Tag;
             
         }
@@ -51,36 +52,47 @@ namespace DirectoryBrowser
         private async Task<bool> OpenFileDialog(String path)
         {                        
            DBService.Instance.Path = path;
+           App.ViewModel.FilterMsg = String.Empty;
+           App.ViewModel.StatusMsg = String.Empty;
            List<FolderComicsInfo> items = DBService.Instance.GetItemFolders();
-           App.ViewModel.AllFolders = items.OrderBy(i=>i.FolderName).ToList();
+           App.ViewModel.AllFolders =  items.OrderBy(i=>i.FolderName).ToList();
            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i => i.Date).Take(10).ToList();
            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();           
            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');
-            App.ViewModel.showMenu = false;
-            return true;
+           App.ViewModel.showMenu = false;
+           return true;
         }
 
 
 
         private async Task<bool> OpenFolderDialog(String path)
-        {            
-                String filename = System.AppDomain.CurrentDomain.BaseDirectory+ "MyData\\" + "MyComicFiles.db";
-                System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\");               
-                App.ViewModel.IsWorking = true;
-                App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";                
-                DBService.Instance.Path = filename;
-                List<FolderComicsInfo> items = new List<FolderComicsInfo>();
-                items = PShellHelper.Instance.GenerateIndexCollection(path);
-                if (items != null && items.Count > 0)
-                    DBService.Instance.SaveLastFolderCollection(items);
-                App.ViewModel.AllFolders = items.OrderBy(f=>f.FolderName).ToList();
-                App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i=>i.Date).Take(10).ToList();
-                App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();
-                App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');                                
-                App.ViewModel.IsWorking = false;               
-                App.ViewModel.WorkingMsg = String.Empty;
-                App.ViewModel.showMenu = false;
-                return true;
+        {
+
+            String namedbfile  = 
+                String.Format("{0}_{1}.db", 
+                System.IO.Path.GetFileName(path),
+                DateTime.Now.ToString("yyyyddMM_HHmm"));
+
+
+            String filename = System.AppDomain.CurrentDomain.BaseDirectory+ "MyData\\" + namedbfile;
+            App.ViewModel.FilterMsg = String.Empty;
+            App.ViewModel.StatusMsg = String.Empty;
+            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\");               
+            App.ViewModel.IsWorking = true;
+            App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";                
+            DBService.Instance.Path = filename;
+            List<FolderComicsInfo> items = new List<FolderComicsInfo>();
+            items = PShellHelper.Instance.GenerateIndexCollection(path);
+            if (items != null && items.Count > 0)
+                DBService.Instance.SaveLastFolderCollection(items);
+            App.ViewModel.AllFolders = items.OrderBy(f=>f.FolderName).ToList();
+            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i=>i.Date).Take(10).ToList();
+            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();
+            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');                                
+            App.ViewModel.IsWorking = false;               
+            App.ViewModel.WorkingMsg = String.Empty;
+            App.ViewModel.showMenu = false;
+            return true;
                         
         }     
 
@@ -115,6 +127,18 @@ namespace DirectoryBrowser
                     App.ViewModel.IsWorking = false;
                 });
             }
+        }
+
+        private void buttonCerrar_Click(object sender, RoutedEventArgs e)
+        {
+            App.ViewModel.SelectedFolder = null;
+            App.ViewModel.AllFolders = null;
+            App.ViewModel.LasFolders = null;
+            App.ViewModel.SearchedFolders = null;
+            App.ViewModel.sourceCollection = null;
+            App.ViewModel.StatusMsg = String.Empty;
+            App.ViewModel.FilterMsg = String.Empty;
+            App.ViewModel.showMenu = true;
         }
 
         private async void buttonExplore_Click(object sender, RoutedEventArgs e)
@@ -158,22 +182,27 @@ namespace DirectoryBrowser
             if (e.Key == Key.Enter && !String.IsNullOrEmpty(comboSearch.Text))
             {
                 App.ViewModel.IsWorking = true;
+                await Task.Delay(100);
                 App.ViewModel.SearchedFolders = App.ViewModel.AllFolders.Where(f => f.FolderName.Contains(comboSearch.Text)).ToList();
                 App.ViewModel.sourceCollection =
                     await App.ViewModel.PopulateTreeView(App.ViewModel.SearchedFolders, '\\');
                 App.ViewModel.SelectedFolder = App.ViewModel.SearchedFolders.FirstOrDefault();
+                comboSearch.Text = String.Empty;
+                App.ViewModel.FilterMsg = "Filtro ON";
                 App.ViewModel.IsWorking = false;
             }
             else if (e.Key == Key.Enter && String.IsNullOrEmpty(comboSearch.Text))
             {
                 App.ViewModel.IsWorking = true;
+                await Task.Delay(100);
                 App.ViewModel.SearchedFolders = App.ViewModel.AllFolders.ToList();
                 App.ViewModel.sourceCollection =
                 await App.ViewModel.PopulateTreeView(App.ViewModel.SearchedFolders, '\\');
                 App.ViewModel.SelectedFolder = App.ViewModel.SearchedFolders.FirstOrDefault();
+                App.ViewModel.FilterMsg = String.Empty;
                 App.ViewModel.IsWorking = false;
             }
             
-        }
+        }        
     }
 }
