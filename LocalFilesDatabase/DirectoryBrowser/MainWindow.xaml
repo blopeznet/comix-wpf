@@ -58,7 +58,7 @@
         </Style>
 
         <Style x:Key="BigImageStyle" TargetType="Image">
-            <Setter Property="Width" Value="256"/>
+            <Setter Property="Width" Value="206"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="Stretch" Value="UniformToFill"/>
         </Style>
@@ -146,11 +146,6 @@
                         Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
 
                         <Image Style="{StaticResource BigImageStyle}"
-                           Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=inv}"
-                           Source="Assets/NotFound.jpg" 
-                     />
-
-                        <Image Style="{StaticResource BigImageStyle}"
                            Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Source="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}" 
                      />
@@ -179,7 +174,7 @@
                                FontSize="{StaticResource FontSizeTitle}"
                                Foreground="{StaticResource SecondaryAccentBrush}"
                                FontWeight="Bold" HorizontalAlignment="Center"
-                               Margin="6,24,12,12"/>
+                               Margin="6,58,12,12"/>
                         <ListView BorderBrush="Transparent" Grid.Row="1" HorizontalAlignment="Center"                               
                              ScrollViewer.VerticalScrollBarVisibility="Disabled"                             
                              ScrollViewer.HorizontalScrollBarVisibility="Visible" 
@@ -198,18 +193,15 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Grid x:Name="ListLastGrid" PreviewMouseDown="ListLastGrid_PreviewMouseDown" Height="192" Width="128"  
->
+                                    <Grid x:Name="ListLastGrid" Background="Transparent" PreviewMouseDown="ListLastGrid_PreviewMouseDown" Height="172" Width="108">
+                                        <Image Style="{StaticResource SliderImage}" Stretch="UniformToFill">
+                                            <Image.Source>
+                                                <ImageSource>Dependencies/NotFound.jpg</ImageSource>
+                                            </Image.Source>
+                                        </Image>
+
                                         <Image Style="{StaticResource SliderImage}"                                                                                                            
-
                            Source="{Binding Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}"/>
-
-
-                                        <Image Style="{StaticResource SliderImage}" Stretch="UniformToFill"
-                               Visibility="{Binding CoverExists,Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=inv}"
-                           Source="Assets/NotFound.jpg"/>
-
-
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

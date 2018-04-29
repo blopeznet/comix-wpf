@@ -118,7 +118,7 @@
     <Compile Include="Common\RelativeTimeConverter.cs" />
     <Compile Include="Common\FilePathToFolderNameConverter.cs" />
     <Compile Include="Common\FolderPathToFolderNameConverter.cs" />
-    <Compile Include="Common\ByteArrayToBitmapImageConverter.cs" />
+    <Compile Include="Common\FolderComicsInfoToBitmapImageConverter.cs" />
     <Compile Include="Entities\FileInfo.cs" />
     <Compile Include="Entities\MyTreeView.cs" />
     <Compile Include="Powershell\PShellHelper.cs" />
@@ -172,7 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Mattahan-Ultrabuuf-Comics-Ironman-Folder.ico" />
-    <Resource Include="Assets\NotFound.jpg" />
+    <EmbeddedResource Include="Assets\NotFound.jpg" />
     <Content Include="Dependencies\7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

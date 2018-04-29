@@ -17,18 +17,38 @@ namespace DirectoryBrowser.Common.Converters
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            if (value == null) return new BitmapImage();
-
+            if (value == null)
+            {
+                return NotFoundImage();
+            }
+            
+            
+            
             if (value is FolderComicsInfo)
             {
                 BitmapImage bmp = DBService.Instance.LoadFile((FolderComicsInfo)value);
+
+                if (bmp == null)
+                {
+                    return NotFoundImage();
+                }
+
                 return bmp;
             }
             else
             {
-                return new BitmapImage();
+                return NotFoundImage();
             }
             
+        }
+
+        private BitmapImage NotFoundImage()
+        {
+            var bmp2 = new BitmapImage();
+            bmp2.BeginInit();
+            bmp2.UriSource = new Uri(@"/DirectoryBrowser;component/Assets/NotFound.jpg", UriKind.RelativeOrAbsolute);
+            bmp2.EndInit();
+            return bmp2;
         }
 
         /// <summary>

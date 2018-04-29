@@ -190,9 +190,9 @@ namespace DirectoryBrowser
                 App.ViewModel.SearchedFolders = App.ViewModel.AllFolders.Where(f => f.FolderName.Contains(comboSearch.Text)).ToList();
                 App.ViewModel.sourceCollection =
                     await App.ViewModel.PopulateTreeView(App.ViewModel.SearchedFolders, '\\');
-                App.ViewModel.SelectedFolder = App.ViewModel.SearchedFolders.FirstOrDefault();
+                App.ViewModel.SelectedFolder = App.ViewModel.SearchedFolders.FirstOrDefault();                
+                App.ViewModel.FilterMsg = String.Format("Filtro ({0})",comboSearch.Text);
                 comboSearch.Text = String.Empty;
-                App.ViewModel.FilterMsg = "Filtro ON";
                 App.ViewModel.IsWorking = false;
             }
             else if (e.Key == Key.Enter && String.IsNullOrEmpty(comboSearch.Text))

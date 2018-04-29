@@ -18,7 +18,7 @@ namespace DirectoryBrowser.Common.Converters
         {            
             if (value == null) return "";
             string lastFolderName = Path.GetFileName(Path.GetDirectoryName(value.ToString()+"\\"));
-            return FirstCharToUpper(lastFolderName);            
+            return FirstCharToUpper(lastFolderName.Replace("_"," "));            
         }
 
 
