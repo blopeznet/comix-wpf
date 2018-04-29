@@ -13,8 +13,17 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Red.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
-        
+            <SolidColorBrush x:Key="FontColor">#010204</SolidColorBrush>
+            <SolidColorBrush x:Key="BackgroundBrush" Color="#FFEBEBEB"/>
+            <SolidColorBrush x:Key="BackgroundBrush2" Color="#FFE2E259"/>
+            <SolidColorBrush x:Key="HeaderColorBrush" Color="#d50000"/>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"  />
     </ResourceDictionary>
   </Application.Resources>

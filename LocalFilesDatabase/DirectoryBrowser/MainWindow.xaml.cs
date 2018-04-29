@@ -98,6 +98,7 @@ namespace DirectoryBrowser
 
         private async void buttonAbrir_Click(object sender, RoutedEventArgs e)
         {
+            
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "Database File (.db)|*.db";
             System.Windows.Forms.DialogResult res = openFileDialog.ShowDialog();
@@ -115,18 +116,21 @@ namespace DirectoryBrowser
 
         private async void buttonCrear_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+
+            LocalFilesDatabase.FSControls.FolderPickerLib.FolderPickerDialog dlg = 
+                new LocalFilesDatabase.FSControls.FolderPickerLib.FolderPickerDialog();
+            dlg.InitialPath = "C:";
+
+            if (dlg.ShowDialog() == true)
             {
-                String path = dialog.SelectedPath;
+                String path = dlg.SelectedPath;
                 await Task.Run(() =>
                 {
                     App.ViewModel.IsWorking = true;
                     OpenFolderDialog(path);
                     App.ViewModel.IsWorking = false;
                 });
-            }
+            }            
         }
 
         private void buttonCerrar_Click(object sender, RoutedEventArgs e)

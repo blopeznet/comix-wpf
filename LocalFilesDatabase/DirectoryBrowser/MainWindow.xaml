@@ -6,24 +6,21 @@
         xmlns:local="clr-namespace:DirectoryBrowser"
         xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters"  
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d"   
-        Title="Comix Browser"
-        WindowStyle="SingleBorderWindow"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        WindowStartupLocation="CenterScreen"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"      
         BorderThickness="1"
+        WindowStartupLocation="CenterScreen"
+        Height="700" Width="956"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Loaded="Window_Loaded"
-                   WindowTitleBrush="{StaticResource SecondaryAccentBrush}"
-        Height="700" Width="956">
-    <Window.Resources>
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        WindowTitleBrush="{StaticResource SecondaryAccentBrush}"
+        Title="Comic Directory Browser"
+        >
+      <Window.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Converters:FolderComicsInfoToBitmapImageConverter x:Key="FolderComicsInfoToBitmapImageConverter"/>
         <Converters:FolderPathToFolderNameConverter x:Key="FolderPathToFolderNameConverter"/>
