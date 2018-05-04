@@ -36,8 +36,7 @@ namespace DirectoryBrowser.Entities
         }
 
         public double TotalSize { get; set; }
-
-        public string TotalSizeStr { get { return string.Format(" ( {0:0.00} Mb. ) ", TotalSize); } }
+        public Int32 RelativePercentSize { get; set; }
 
         public int Count { get; set; }
 

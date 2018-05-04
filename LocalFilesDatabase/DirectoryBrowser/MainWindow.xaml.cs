@@ -55,7 +55,7 @@ namespace DirectoryBrowser
            App.ViewModel.FilterMsg = String.Empty;
            App.ViewModel.StatusMsg = String.Empty;
            List<FolderComicsInfo> items = DBService.Instance.GetItemFolders();
-           App.ViewModel.AllFolders =  items.OrderBy(i=>i.FolderName).ToList();
+           App.ViewModel.AllFolders =  items.OrderBy(i=>i.FolderName).ToList();            
            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i => i.CreationDate).Take(10).ToList();
            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();           
            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');

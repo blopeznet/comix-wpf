@@ -16,6 +16,14 @@ namespace DirectoryBrowser.Common.Converters
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {            
+            if (parameter != null)
+            {
+                if (parameter.ToString() == "short")
+                {
+                    return System.Convert.ToDateTime(value).ToShortDateString();
+                }
+            }
+
             if (value == null) return "";            
             return TimeFormat(System.Convert.ToDateTime(value));            
         }

@@ -208,7 +208,34 @@ namespace DirectoryBrowser.ViewModel
             set
             {
                 _AllFolders = value;
+                UpdateSizeStatistics();
                 RaisePropertyChanged("AllFolders");
+            }
+        }
+
+        private void UpdateSizeStatistics()
+        {
+            if (AllFolders != null && AllFolders.Count > 0)
+                TotalFolderSize = App.ViewModel.AllFolders.Sum(p => p.TotalSize);
+
+            foreach (FolderComicsInfo folder in AllFolders)
+            {
+                Double percent = (folder.TotalSize * 100 / TotalFolderSize);
+                folder.RelativePercentSize = System.Convert.ToInt32(Math.Round(percent));
+            }
+        }
+
+        private Double _TotalFolderSize;
+        public Double TotalFolderSize
+        {
+            get
+            {
+                return _TotalFolderSize;
+            }
+            set
+            {
+                _TotalFolderSize = value;
+                RaisePropertyChanged("TotalFolderSize");
             }
         }
 

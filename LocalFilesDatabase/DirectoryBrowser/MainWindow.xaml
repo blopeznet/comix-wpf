@@ -21,6 +21,7 @@
         Title="Comic Directory Browser"
         >
       <Window.Resources>
+        <Converters:DoubleToMbConverter x:Key="DoubleToMbConverter"/>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Converters:FolderComicsInfoToBitmapImageConverter x:Key="FolderComicsInfoToBitmapImageConverter"/>
         <Converters:FolderPathToFolderNameConverter x:Key="FolderPathToFolderNameConverter"/>
@@ -65,12 +66,12 @@
 
         <Style x:Key="BigButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatAccentButton}">
             <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-            <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="{StaticResource SecondaryAccentBrush}"/>
             <Setter Property="Width" Value="140"/>
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Height" Value="40"/>
         </Style>
 
         <!--Slider Images-->
@@ -87,6 +88,10 @@
 
     </Window.Resources>
     <Grid>
+
+        <Image Grid.ColumnSpan="2" Source="{Binding Source, ElementName=BigImage}" Margin="0,0,0,0" x:Name="BackImage" Grid.RowSpan="2" VerticalAlignment="Stretch" Stretch="UniformToFill" HorizontalAlignment="Stretch" Opacity="0.1"/>
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="0.7" Background="{StaticResource MaterialDesignPaper}"/>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
@@ -124,10 +129,22 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <TreeView ItemsSource="{Binding Main.sourceCollection ,Source={StaticResource Locator}}"  Margin="12" BorderBrush="Transparent" Background="Transparent" x:Name="tv" xmlns:entities="clr-namespace:DirectoryBrowser.Entities" SelectedItemChanged="tv_SelectedItemChanged">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <TreeView  ItemsSource="{Binding Main.sourceCollection ,Source={StaticResource Locator}}"  Margin="12" BorderBrush="Transparent" Background="Transparent" x:Name="tv" xmlns:entities="clr-namespace:DirectoryBrowser.Entities" SelectedItemChanged="tv_SelectedItemChanged">
                         <TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type entities:MyTreeViewItem}" ItemsSource="{Binding SubItems}">
-                                <TextBlock Text="{Binding Name}" Foreground="#4d4d4d" FontSize="16" FontWeight="Bold" FontFamily="Sans-serif" />
+                            <Grid Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                    <ProgressBar Height="10" Grid.Column="1" Style="{StaticResource MaterialDesignLinearProgressBar}" Margin="-4" Visibility="{Binding Show,Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=inv}" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Maximum="100" Value="{Binding Tag.RelativePercentSize}" Foreground="#4d4d4d" FontSize="16" FontWeight="Bold" FontFamily="Sans-serif" />
+                                    <TextBlock  Text="{Binding Name}" Foreground="Black" FontSize="16" FontWeight="Bold" FontFamily="Sans-serif" />
+                            </Grid>
                             </HierarchicalDataTemplate>
                         </TreeView.Resources>
                         <TreeView.ItemContainerStyle>
@@ -135,8 +152,12 @@
                                 <Setter Property="IsExpanded" Value="{Binding Show}" />
                             </Style>
                         </TreeView.ItemContainerStyle>
-                    </TreeView>
-                
+                  </TreeView>
+                    <StackPanel Margin="24,0,0,0" Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal" >
+                        <TextBlock Text="Tamaño total: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
+                        <TextBlock Text="{Binding Main.TotalFolderSize ,Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
+                    </StackPanel>
+                </Grid>
                 <ScrollViewer Margin="12" Grid.Column="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}">
                     <StackPanel VerticalAlignment="Center" Margin="0,12,0,0" HorizontalAlignment="Stretch">
                         <TextBlock 
@@ -145,30 +166,38 @@
                         Margin="0,0,0,12" 
                         Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
 
-                        <Image Style="{StaticResource BigImageStyle}"
+                        <Grid>
+
+                        <Rectangle  Margin="0,0,-12,-12" Fill="DarkGray" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}"
+                           Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"                           
+                     />
+
+                        <Image x:Name="BigImage" Style="{StaticResource BigImageStyle}"
                            Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Source="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}" 
                      />
 
+                        </Grid>
+
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="TITULO: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="TITULO: "/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="DESDE: "/>
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.CreationDate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="CREADO EL: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.CreationDate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter},ConverterParameter=short}"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock FontSize="12" Style="{StaticResource SubtitleStyle}" Text="ULTIMA ACTUALIZACIÓN: "/>
-                            <TextBlock FontSize="12" Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.LastUpdate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="ULTIMA ACTUALIZACIÓN: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.LastUpdate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
                         </StackPanel>
                         
                         <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="TOMOS: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="TOMOS: "/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.NumberFiles, Source={StaticResource Locator}}"/>
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.TotalSizeStr, Source={StaticResource Locator}}"/>
+                            <TextBlock Margin="12,0,0,0" Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.TotalSize, Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}"/>
                         </StackPanel>
 
                         <Button x:Name="buttonExplore" Style="{StaticResource BigButton}" Content="Explorar" Click="buttonExplore_Click"  Margin="0,12,0,0"/>

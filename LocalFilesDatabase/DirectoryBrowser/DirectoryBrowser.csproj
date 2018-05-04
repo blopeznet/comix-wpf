@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\DoubleToMbConverter.cs" />
     <Compile Include="Common\BooleanToVisibilityConverter .cs" />
     <Compile Include="Common\NullToVisibilityConverter.cs" />
     <Compile Include="Common\RelativeTimeConverter.cs" />
