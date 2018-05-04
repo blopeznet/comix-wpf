@@ -62,7 +62,7 @@ namespace DirectoryBrowser
             bool updated = false;
             foreach (FolderComicsInfo folder in files.Where(f => f.CoverExists == false).ToList())
             {
-                MemoryStream img = ZipHelper.Instance.UncompressToMemoryStream(folder.FileName, folder, folder.FolderName);
+                MemoryStream img = ZipHelper.Instance.UncompressToMemoryStream(folder.FileNameFirst, folder, folder.FolderName);
 
                 try
                 {

@@ -31,7 +31,7 @@
         <SolidColorBrush x:Key="ForegroundTitle">Black</SolidColorBrush>
         <SolidColorBrush x:Key="ForegroundSubtitles">#4d4d4d</SolidColorBrush>
         <sys:Double x:Key="FontSizeTitle">24</sys:Double>
-        <sys:Double x:Key="FontSizeDetail">14</sys:Double>
+        <sys:Double x:Key="FontSizeDetail">13</sys:Double>
 
 
 
@@ -157,12 +157,18 @@
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="DESDE: "/>
-                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.Date, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.CreationDate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
                         </StackPanel>
 
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
+                            <TextBlock FontSize="12" Style="{StaticResource SubtitleStyle}" Text="ULTIMA ACTUALIZACIÓN: "/>
+                            <TextBlock FontSize="12" Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.LastUpdate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
+                        </StackPanel>
+                        
                         <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Margin="0,12,0,0">
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="TOMOS: "/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.NumberFiles, Source={StaticResource Locator}}"/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.TotalSizeStr, Source={StaticResource Locator}}"/>
                         </StackPanel>
 
                         <Button x:Name="buttonExplore" Style="{StaticResource BigButton}" Content="Explorar" Click="buttonExplore_Click"  Margin="0,12,0,0"/>

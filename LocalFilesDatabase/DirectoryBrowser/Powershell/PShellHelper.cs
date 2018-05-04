@@ -52,8 +52,12 @@ public class PShellHelper
                     {
                         String foldername = element.Members["FolderName"].Value.ToString();
                         Int32 NumberFiles = System.Convert.ToInt32(element.Members["Count"].Value.ToString());
-                        String filename = element.Members["FileName"].Value.ToString();
+                        String filename = element.Members["FileNameFirst"].Value.ToString();
+                        String lfilename = element.Members["FileNameLast"].Value.ToString();
                         DateTime date = System.Convert.ToDateTime(element.Members["CreationDate"].Value.ToString());
+                        DateTime ldate = System.Convert.ToDateTime(element.Members["LastUpdate"].Value.ToString());
+                        String tsize = element.Members["TotalSize"].Value.ToString();
+
                         List<String> filesl = new List<string>();
                         object a = element.Members["Files"].Value;
                         if (a is PSObject)
@@ -64,10 +68,14 @@ public class PShellHelper
                         files.Add(
                             new FolderComicsInfo()
                             {
-                                Date = date,
-                                FileName = filename,
+                                CreationDate = date,
+                                LastUpdate = ldate,
+                                FileNameFirst = filename,
+                                FileNameLast = lfilename,
                                 NumberFiles = NumberFiles,
                                 FolderName = foldername,
+                                Count = NumberFiles,
+                                TotalSize = System.Convert.ToDouble(tsize),
                                 Files = filesl
                             });
                     }

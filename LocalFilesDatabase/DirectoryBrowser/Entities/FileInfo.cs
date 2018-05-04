@@ -14,10 +14,13 @@ namespace DirectoryBrowser.Entities
         [BsonId]
         public Guid Id { get; set; }
 
-        public string FileName { get; set; }
+        public string FileNameFirst { get; set; }
+        public string FileNameLast { get; set; }
+
         public string FolderName { get; set; }
         public int NumberFiles { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime LastUpdate { get; set; }
 
         public List<String> Files { get; set; }
 
@@ -31,6 +34,13 @@ namespace DirectoryBrowser.Entities
                 RaisePropertyChanged("CoverExists");
             }
         }
+
+        public double TotalSize { get; set; }
+
+        public string TotalSizeStr { get { return string.Format(" ( {0:0.00} Mb. ) ", TotalSize); } }
+
+        public int Count { get; set; }
+
 
 
         public override string ToString()
