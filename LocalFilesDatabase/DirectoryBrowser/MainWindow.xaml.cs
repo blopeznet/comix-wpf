@@ -146,7 +146,7 @@ namespace DirectoryBrowser
         }
 
         private async void buttonExplore_Click(object sender, RoutedEventArgs e)
-        {
+        {                        
             if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(App.ViewModel.SelectedFolder.FolderName)))
             {
                 Process.Start(App.ViewModel.SelectedFolder.FolderName);

@@ -52,7 +52,7 @@ Foreach ($directory in $folders)
     FileNameLast = $Last.FullName
     CreationDate = $Item.creationtime
     LastUpdate = $Last.creationtime
-    Count = (dir $FolderName | measure).Count
+    Count = $fileArray.Count
 	Files = $fileArray 
     TotalSize = ($files | Measure-Object -Sum Length).Sum / 1MB.ToString("#.##")
     }

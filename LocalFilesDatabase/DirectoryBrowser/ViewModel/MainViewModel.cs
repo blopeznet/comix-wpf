@@ -216,12 +216,21 @@ namespace DirectoryBrowser.ViewModel
         private void UpdateSizeStatistics()
         {
             if (AllFolders != null && AllFolders.Count > 0)
-                TotalFolderSize = App.ViewModel.AllFolders.Sum(p => p.TotalSize);
-
-            foreach (FolderComicsInfo folder in AllFolders)
             {
-                Double percent = (folder.TotalSize * 100 / TotalFolderSize);
-                folder.RelativePercentSize = System.Convert.ToInt32(Math.Round(percent));
+
+                TotalFolderSize = App.ViewModel.AllFolders.Sum(p => p.TotalSize);
+                CurrentFileNameDB = System.IO.Path.GetFileName(DBService.Instance.Path);
+                Int32 total = 0;
+                foreach (FolderComicsInfo folder in AllFolders)
+                {
+                    Double percent = (folder.TotalSize * 100 / TotalFolderSize);
+                    folder.RelativePercentSize = System.Convert.ToInt32(Math.Round(percent));
+                    total+=folder.NumberFiles;
+                }
+
+                TotalFolderCount = App.ViewModel.AllFolders.Count;
+                TotalFilesCount = total;
+
             }
         }
 
@@ -236,6 +245,48 @@ namespace DirectoryBrowser.ViewModel
             {
                 _TotalFolderSize = value;
                 RaisePropertyChanged("TotalFolderSize");
+            }
+        }
+
+        private Double _TotalFolderCount;
+        public Double TotalFolderCount
+        {
+            get
+            {
+                return _TotalFolderCount;
+            }
+            set
+            {
+                _TotalFolderCount = value;
+                RaisePropertyChanged("TotalFolderCount");
+            }
+        }
+
+        private Double _TotalFilesCount;
+        public Double TotalFilesCount
+        {
+            get
+            {
+                return _TotalFilesCount;
+            }
+            set
+            {
+                _TotalFilesCount = value;
+                RaisePropertyChanged("TotalFilesCount");
+            }
+        }
+
+        private String _CurrentFileNameDB;
+        public String CurrentFileNameDB
+        {
+            get
+            {
+                return _CurrentFileNameDB;
+            }
+            set
+            {
+                _CurrentFileNameDB = value;
+                RaisePropertyChanged("CurrentFileNameDB");
             }
         }
 

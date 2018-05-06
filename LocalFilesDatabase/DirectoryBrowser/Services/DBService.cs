@@ -56,7 +56,7 @@ namespace DirectoryBrowser
 
            List<FolderComicsInfo>  folders = DBService.Instance.GetItemFolders();
         }
-      
+
         public void GenerateCoversMemorySteam(List<FolderComicsInfo> files)
         {
             bool updated = false;
@@ -235,7 +235,7 @@ namespace DirectoryBrowser
             }
         }
 
-        
+
         /// <summary>
         /// Obtener ultima carpeta abierta a db
         /// </summary>
