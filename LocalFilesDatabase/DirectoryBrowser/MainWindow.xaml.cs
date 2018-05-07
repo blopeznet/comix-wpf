@@ -1,6 +1,8 @@
 ﻿using DirectoryBrowser.Entities;
 using DirectoryBrowser.ViewModel;
+using DirectoryBrowser.Views;
 using MahApps.Metro.Controls.Dialogs;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -207,6 +209,43 @@ namespace DirectoryBrowser
                 App.ViewModel.IsWorking = false;
             }
             
-        }        
+        }
+
+        private async void PreviewFilesButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ExecuteRunFilesDialog(sender);
+        }
+
+        private async Task ExecuteRunFilesDialog(object o)
+        {
+            //let's set up a little MVVM, cos that's what the cool kids are doing:
+            var view = new FilesView
+            {
+                DataContext = App.ViewModel.SelectedFolder
+            };
+            
+            view.MinWidth = this.Width / 2;
+            view.MinHeight = this.Height / 2;
+            view.Margin = new Thickness(12);
+            //show the dialog
+            var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
+        }
+
+        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
+        {
+        }
+
+        private void ExtendedClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if ((bool)eventArgs.Parameter == false) return;
+
+            //OK, lets cancel the close...
+            eventArgs.Cancel();           
+
+            //lets run a fake operation for 3 seconds then close this baby.
+            Task.Delay(TimeSpan.FromSeconds(3))
+                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
+                    TaskScheduler.FromCurrentSynchronizationContext());
+        }
     }
 }
