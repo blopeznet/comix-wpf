@@ -35,5 +35,16 @@ namespace DirectoryBrowser.Views
                 Process.Start(s);
             }
         }
+
+        private void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                String path = ((TextBlock)(e.OriginalSource)).DataContext.ToString();
+                if (System.IO.File.Exists(path))
+                    Process.Start(path);
+            }catch(Exception ex) { App.ViewModel.StatusMsg = ex.Message; }
+            
+        }
     }
 }

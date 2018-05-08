@@ -27,7 +27,9 @@
         <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Files}" wpf:ListViewAssist.ListViewItemPadding="6" Margin="0,0,0,0">
             <ListView.ItemTemplate>
                 <DataTemplate>
+                    <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True" PreviewMouseDown="GridFile_PreviewMouseDown">
                   <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Center" Text="{Binding Converter={StaticResource FilePathToFolderNameConverter}}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

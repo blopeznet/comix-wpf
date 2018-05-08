@@ -23,7 +23,7 @@ namespace DirectoryBrowser
                 if (_Instance == null)
                 {
                     _Instance = new DBService();
-                    _Instance.Path = "MyComicFiles.db";
+                    _Instance.Path = "MyComicFiles.cdb";
                 }
                 return _Instance;
             }

@@ -49,6 +49,15 @@ namespace DirectoryBrowser
             
         }
 
+        public async Task OpenFileFromArg(String path)
+        {
+            await Task.Run(() =>
+            {
+                App.ViewModel.IsWorking = true;
+                OpenFileDialog(path);
+                App.ViewModel.IsWorking = false;
+            });
+        }
 
 
         private async Task<bool> OpenFileDialog(String path)
@@ -71,7 +80,7 @@ namespace DirectoryBrowser
         {
 
             String namedbfile  = 
-                String.Format("{0}_{1}.db", 
+                String.Format("{0}_{1}.cdb", 
                 System.IO.Path.GetFileName(path),
                 DateTime.Now.ToString("yyyyddMM_HHmm"));
 
@@ -102,7 +111,7 @@ namespace DirectoryBrowser
         {
             
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            openFileDialog.Filter = "Database File (.db)|*.db";
+            openFileDialog.Filter = "Comic Database File (.cdb)|*.cdb";
             System.Windows.Forms.DialogResult res = openFileDialog.ShowDialog();
             string path = openFileDialog.FileName;
             if (!String.IsNullOrEmpty(path) && res == System.Windows.Forms.DialogResult.OK)

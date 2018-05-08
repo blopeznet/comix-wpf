@@ -1,4 +1,5 @@
 ﻿using DirectoryBrowser.ViewModel;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,6 +15,31 @@ namespace DirectoryBrowser
     /// </summary>
     public partial class App : Application
     {
+
+
+
+        private async void Application_Startup(object sender, StartupEventArgs e)
+        {
+            
+            var mainWindow = new MainWindow();            
+            mainWindow.Show();
+
+            if (AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null)
+            {
+                if (AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData != null &&
+                    AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData.Count()>0)
+                {
+                    String arg = AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData[0];
+                    if (!String.IsNullOrEmpty(arg))
+                    {
+                        App.ViewModel.FilterMsg = arg;
+                        await mainWindow.OpenFileFromArg(arg);
+                        App.ViewModel.FilterMsg = String.Empty;
+                    }
+                }
+            }
+        }
+
 
         public static MainViewModel ViewModel
         {
