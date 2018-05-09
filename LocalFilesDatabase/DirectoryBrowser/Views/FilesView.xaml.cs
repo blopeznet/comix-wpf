@@ -26,15 +26,7 @@ namespace DirectoryBrowser.Views
             InitializeComponent();
         }
 
-
-        private void OpenFile(String s)
-        {            
-            System.Diagnostics.Debug.WriteLine("Intentando abrir {0}", s);
-            if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(s)))
-            {
-                Process.Start(s);
-            }
-        }
+        bool useexternalapp = false;
 
         private void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -42,7 +34,16 @@ namespace DirectoryBrowser.Views
             {
                 String path = ((TextBlock)(e.OriginalSource)).DataContext.ToString();
                 if (System.IO.File.Exists(path))
-                    Process.Start(path);
+                {                    
+                    if (useexternalapp)
+                        Process.Start(path);
+                    else
+                    {
+                        App.ViewModel.InitReader(path);
+                        ReaderWindow r = new ReaderWindow();
+                        r.ShowDialog();
+                    }
+                }                    
             }catch(Exception ex) { App.ViewModel.StatusMsg = ex.Message; }
             
         }

@@ -247,6 +247,43 @@ namespace DirectoryBrowser.Utils
             }
         }
 
+        public List<ComicTemp> UncompressToComicPageCollection(string inputFile)
+        {
+            SevenZipExtractor temp = null;
+            List<ComicTemp> mscollection = new List<ComicTemp>();
+            try
+            {
+                temp = GetExtractor(inputFile);
+                List<ArchiveFileInfo> list = temp.ArchiveFileData.OrderBy(f => f.CreationTime).OrderBy(f=>f.FileName).ToList();
+                List<ArchiveFileInfo> filenamepngs =
+                    list.Where(f => (f.FileName.EndsWith(".jpg") || f.FileName.EndsWith(".png"))
+                    && (f.FileName.Contains("MACOSX") == false)
+                    && (f.Size > 0)
+                    && (f.IsDirectory == false)).ToList();
+
+                int nopage = 1;
+                foreach(ArchiveFileInfo file in filenamepngs)
+                {
+                    MemoryStream ms = new MemoryStream();
+                    temp.ExtractFile(file.Index, ms);
+                    ms.Position = 0;
+                    ms.Seek(0, SeekOrigin.Begin);
+                    mscollection.Add(new ComicTemp() { Source = ms,Loaded=false, NoPage=nopage,info = file});
+                    nopage++;
+                }
+                
+                return mscollection;
+            }
+            catch (Exception err)
+            {
+                List<ComicTemp> mscoll = new List<ComicTemp>();
+                return mscoll;
+            }
+            finally
+            {
+                ReleaseExtractor(temp);
+            }
+        }
 
 
         private void Save(BitmapImage image, string filePath)
