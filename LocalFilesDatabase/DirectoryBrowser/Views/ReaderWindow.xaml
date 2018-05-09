@@ -7,8 +7,10 @@
         xmlns:metrocontrols="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters" 
         mc:Ignorable="d"
+        Background="#FF464646"
+        WindowStartupLocation="CenterOwner"
         x:Name="CurrentReaderWindow"
-        Title="ReaderWindow" Height="768" Width="1024">
+        Title="Viewer" Height="768" Width="1024">
     <Window.Resources>
         <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style TargetType="ScrollViewer" x:Key="ScrollviewerNoCacheTemplate">
@@ -312,15 +314,22 @@
             SelectionChanged="FvPages_SelectionChanged"
             ItemsSource="{Binding Main.Pages,Source={StaticResource Locator}}"
             Grid.Row="1"                                
-            Margin="0,0,0,0"   
+            Margin="0,0,0,-6"   
+            KeyDown="OnButtonKeyDown"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
             <metrocontrols:FlipView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <metrocontrols:ProgressRing Width="25" Height="25" Margin="4" Foreground="{StaticResource SecondaryAccentBrush}"
-                                                    />
+                            
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                         Width="50"
+                                         Height="50"
+                             Value="50" Margin="0,0,0,0"
+                             IsIndeterminate="True"
+                             x:Name="IndeterminateToDeterminateCircularProgress"/>
+                            
                             <TextBlock Text="CARGANDO..." HorizontalAlignment="Center" FontSize="24" Foreground="White" Margin="0,12,0,12"></TextBlock>
                         </StackPanel>
                         <ScrollViewer x:Name="scrollView"                                
@@ -348,6 +357,17 @@
                 </DataTemplate>
             </metrocontrols:FlipView.ItemTemplate>
         </metrocontrols:FlipView>
+
+        <Grid Width="120" Visibility="{Binding Main.ComicLoaded,Source={StaticResource Locator},Converter={StaticResource BooleanToVisibilityConverter},ConverterParameter=inv}" x:Name="gridLoaded" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#CC000000">
+            <StackPanel>
+                <ProgressBar BorderBrush="Transparent" Background="Transparent" VerticalAlignment="Stretch" Margin="2,2,2,0" HorizontalAlignment="Stretch" Maximum="100" Minimum="1"
+                 Height="12" Value="{Binding Main.ProgressLoad,Source={StaticResource Locator}}"                            
+                 x:Name="ProgressLoadBar">
+                </ProgressBar>
+                <TextBlock Text="Cargando..." HorizontalAlignment="Center" Foreground="White" Margin="2"></TextBlock>
+            </StackPanel>
+        </Grid>
+        
         <Grid Width="60" Height="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="#CC000000">
             <TextBlock FontSize="16" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" >
                             <Run Text="{Binding PageNo, ElementName=CurrentReaderWindow}"></Run>

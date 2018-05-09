@@ -42,6 +42,7 @@ namespace DirectoryBrowser.Views
                         App.ViewModel.InitReader(path);
                         ReaderWindow r = new ReaderWindow();
                         r.ShowDialog();
+                        
                     }
                 }                    
             }catch(Exception ex) { App.ViewModel.StatusMsg = ex.Message; }

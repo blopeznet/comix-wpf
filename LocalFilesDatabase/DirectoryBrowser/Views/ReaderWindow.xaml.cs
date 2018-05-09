@@ -36,7 +36,7 @@ namespace DirectoryBrowser.Views
         /// <param name="e"></param>
         private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //UpdateScreen(true);
+            
             PageNo = 1;
             TotalPages = App.ViewModel.Pages.Count;
 
@@ -48,6 +48,9 @@ namespace DirectoryBrowser.Views
             {
                 WidthDisplay = this.CurrentReaderWindow.ActualWidth;
             }
+
+            if (FvPages.SelectedItem!=null)
+            PageNo = App.ViewModel.Pages.IndexOf((ComicTemp)FvPages.SelectedItem) + 1;
 
         }
 
@@ -280,11 +283,100 @@ namespace DirectoryBrowser.Views
         }
 
         /// <summary>
+        /// Control with keyboard
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down || e.Key == Key.Up || e.Key == Key.Left
+                || e.Key == Key.Right || e.Key == Key.PageDown || e.Key == Key.PageUp
+                || e.Key == Key.F11)
+            {
+
+                ScrollViewer sv = FindChild<ScrollViewer>(FvPages);
+
+                if (sv != null)
+                {
+                    if (e.Key == Key.F11)
+                    {
+                        UpdateFullScreen();
+                    }
+
+
+                    if (e.Key == Key.Down)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset + 10);
+                        return;
+                    }
+
+                    if (e.Key == Key.Up)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset - 10);
+                        return;
+                    }
+
+                    if (e.Key == Key.Left)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset - 30);
+                        return;
+                    }
+
+                    if (e.Key == Key.Down)
+                    {
+                        sv.ScrollToVerticalOffset(sv.VerticalOffset + 30);
+                        return;
+                    }
+
+                    if (e.Key == Key.PageUp && FvPages.SelectedIndex >= 1)
+                    {
+                        FvPages.Visibility = Visibility.Collapsed;
+                        PART_BackButton_Click(null, null);
+                        FvPages.Visibility = Visibility.Visible;
+                        FvPages.SelectedIndex -= 1;
+                        return;
+                    }
+
+                    if (e.Key == Key.PageDown && FvPages.SelectedIndex <= FvPages.Items.Count - 2)
+                    {
+                        FvPages.Visibility = Visibility.Collapsed;
+                        PART_ForwardButton_Click(null, null);
+                        FvPages.Visibility = Visibility.Visible;
+                        FvPages.SelectedIndex += 1;
+                        return;
+                    }
+                }
+            }
+        }
+
+
+        bool fullscreenactive = false;
+
+        private void UpdateFullScreen()
+        {
+            fullscreenactive = !fullscreenactive;
+            if (fullscreenactive)
+            {
+
+                Isfullscreen = true;
+                UpdateAdjust(false);
+            }
+            else
+            {
+                Isfullscreen = false;
+                UpdateAdjust(true);
+            }
+        }
+
+
+        /// <summary>
         /// Method update screen to full
         /// </summary>
         /// <param name="fullscreen"></param>
         private void UpdateScreen(bool fullscreen)
-        {          
+        {
+            if (fullscreen)
+            {
                 this.Hide();
                 Taskbar tb = new Taskbar();
                 System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
@@ -293,7 +385,7 @@ namespace DirectoryBrowser.Views
                 this.Left = rect.Left - 2;
                 this.Width = screen.WorkingArea.Width + 3;
                 if (!tb.AutoHide)
-                    this.Height = screen.WorkingArea.Height + tb.Size.Height + 2;
+                    this.Height = screen.WorkingArea.Height + tb.Size.Height + 3;
                 else
                     this.Height = screen.WorkingArea.Height + 4;
                 this.Topmost = true;
@@ -303,7 +395,14 @@ namespace DirectoryBrowser.Views
                 this.UseNoneWindowStyle = true;
                 this.IsCloseButtonEnabled = false;
                 this.Show();
-           
+            }
+            else
+            {
+                this.Hide();
+                ReaderWindow r = new ReaderWindow();
+                r.Show();
+                this.Close();
+            }
         }
 
         #endregion

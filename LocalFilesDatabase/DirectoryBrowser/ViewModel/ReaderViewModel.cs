@@ -15,6 +15,34 @@ namespace DirectoryBrowser.ViewModel
     public partial class MainViewModel        
     {
 
+        private Double _ProgressLoad;
+        public Double ProgressLoad
+        {
+            get => _ProgressLoad;
+            set
+            {
+
+                _ProgressLoad = value;
+                System.Diagnostics.Debug.WriteLine("Load  " + _ProgressLoad);
+                if (_ProgressLoad >= 100)
+                    ComicLoaded = true;
+                RaisePropertyChanged("ProgressLoad");
+            }
+
+        }
+
+        private bool _ComicLoaded;
+        public bool ComicLoaded
+        {
+            get => _ComicLoaded;
+            set
+            {
+
+                _ComicLoaded = value;
+                RaisePropertyChanged("ComicLoaded");
+            }
+        }
+
         private bool _UseFullScreen;
         public bool UseFullScreen
         {
@@ -44,6 +72,8 @@ namespace DirectoryBrowser.ViewModel
         {
             Pages = ZipHelper.Instance.UncompressToComicPageCollection(path);
             UpdateCover(Pages.FirstOrDefault());
+            ComicLoaded = false;
+            ProgressLoad = 1;            
             dispatcherTimer.Tick += new EventHandler(dispatcherTimerPages_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
             dispatcherTimer.Start();
@@ -73,19 +103,24 @@ namespace DirectoryBrowser.ViewModel
             {
 
                 int count = App.ViewModel.Pages.Count(f => f.Loaded == false);
-                //App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar.", count);
+                ProgressLoad = (count * 100) / App.ViewModel.Pages.Count;
                 if (count > 0)
                 {
                     UpdateSources(App.ViewModel.Pages.Where(f => f.Loaded == false).Take(eachbycomics).OrderBy(f => f.NoPage).ToList());
-                    if ((count > eachbycomics))
-                        App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar...", count - eachbycomics);
                 }
                 else
-                    App.ViewModel.StatusMsg = String.Format("Todas las miniaturas han sido generadas.");
+                    ProgressLoad = 100;
+
+                App.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    RaisePropertyChanged("ProgressLoad");
+                }));
 
             }
 
         }
+
+        
 
         public void UpdateCover(ComicTemp page)
         {
