@@ -235,7 +235,7 @@ namespace DirectoryBrowser
             
             view.MinWidth = this.Width / 2;
             view.MinHeight = this.Height / 2;
-            view.Margin = new Thickness(12);
+            view.Margin = new Thickness(0,0,0,0);
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
         }

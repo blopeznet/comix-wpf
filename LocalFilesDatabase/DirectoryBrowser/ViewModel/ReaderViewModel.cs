@@ -23,7 +23,6 @@ namespace DirectoryBrowser.ViewModel
             {
 
                 _ProgressLoad = value;
-                System.Diagnostics.Debug.WriteLine("Load  " + _ProgressLoad);
                 if (_ProgressLoad >= 100)
                     ComicLoaded = true;
                 RaisePropertyChanged("ProgressLoad");
@@ -102,22 +101,15 @@ namespace DirectoryBrowser.ViewModel
             if (App.ViewModel.Pages != null && App.ViewModel.Pages.Count > 0)
             {
 
-                int count = App.ViewModel.Pages.Count(f => f.Loaded == false);
-                ProgressLoad = (count * 100) / App.ViewModel.Pages.Count;
+                int count = App.ViewModel.Pages.Count(f => f.Loaded == false);                                
                 if (count > 0)
                 {
                     UpdateSources(App.ViewModel.Pages.Where(f => f.Loaded == false).Take(eachbycomics).OrderBy(f => f.NoPage).ToList());
                 }
                 else
-                    ProgressLoad = 100;
-
-                App.Current.Dispatcher.Invoke(new Action(() =>
-                {
-                    RaisePropertyChanged("ProgressLoad");
-                }));
-
+                    ProgressLoad = 100;                                
             }
-
+           
         }
 
         
@@ -163,8 +155,13 @@ namespace DirectoryBrowser.ViewModel
                     bitmap.EndInit();
                     bitmap.Freeze();
                     page.Image = bitmap;
-                    page.Loaded = true;                    
-                }                
+                    page.Loaded = true;
+
+                    int loaded = App.ViewModel.Pages.Count(f => f.Loaded == true);
+                    int total = App.ViewModel.Pages.Count;
+                    ProgressLoad = (100 * loaded) / total;
+
+                }
             }
             catch (Exception ex)
             {

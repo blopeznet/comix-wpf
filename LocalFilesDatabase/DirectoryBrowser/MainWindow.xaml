@@ -137,7 +137,7 @@
                     <TreeView  ItemsSource="{Binding Main.sourceCollection ,Source={StaticResource Locator}}"  Margin="12" BorderBrush="Transparent" Background="Transparent" x:Name="tv" xmlns:entities="clr-namespace:DirectoryBrowser.Entities" SelectedItemChanged="tv_SelectedItemChanged">
                         <TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type entities:MyTreeViewItem}" ItemsSource="{Binding SubItems}">
-                                <Grid Background="Transparent">
+                                <Grid Background="Transparent" Cursor="Hand">
                                     <TextBlock TextTrimming="WordEllipsis" Text="{Binding Name}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
                                  </Grid>
                             </HierarchicalDataTemplate>

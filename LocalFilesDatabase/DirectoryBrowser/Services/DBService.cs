@@ -85,6 +85,9 @@ namespace DirectoryBrowser
 
             if (updated)
             {
+                int count = App.ViewModel.AllFolders.Count(f => f.CoverExists == false);
+                App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar.", count);
+
                 DBService.Instance.SaveLastFolderCollection(files);
                 App.ViewModel.RaisePropertyChanged("LasFolders");
                 App.ViewModel.RaisePropertyChanged("SelectedFolder");

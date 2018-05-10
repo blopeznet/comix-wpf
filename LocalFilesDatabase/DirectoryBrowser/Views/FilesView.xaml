@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DirectoryBrowser.Views"
              mc:Ignorable="d" 
-             Margin="6,0,6,0"
+             Margin="6,0,6,0"             
              xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters"  
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
@@ -25,6 +25,11 @@
             <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding FolderName,Converter={StaticResource FolderPathToFolderNameConverter}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
         </Grid>
         <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Files}" wpf:ListViewAssist.ListViewItemPadding="6" Margin="0,0,0,0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True" PreviewMouseDown="GridFile_PreviewMouseDown">
@@ -33,7 +38,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="2" IsCancel="True" Margin="8 0 0 0" Style="{DynamicResource MaterialDesignFlatButton}"
+        <Button Grid.Row="2" IsCancel="True" Margin="8 0 8 0" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
