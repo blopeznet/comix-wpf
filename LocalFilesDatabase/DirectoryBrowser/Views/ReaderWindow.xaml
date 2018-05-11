@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DirectoryBrowser"
         xmlns:metrocontrols="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Background="#FF464646"
         WindowStartupLocation="CenterOwner"
@@ -375,6 +376,34 @@
                             <Run Text="{Binding TotalPages, ElementName=CurrentReaderWindow}">                                
                             </Run>
             </TextBlock>
-        </Grid>        
+        </Grid>
+
+        <materialDesign:PopupBox x:Name="popUpBox" Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" 
+                                 HorizontalAlignment="Left" VerticalAlignment="Bottom"  Opacity="0.3"
+                                 Focusable="False"
+                                 Margin="32" Grid.Row="1">
+            <StackPanel>
+                <Button ToolTip="Pantalla completa" x:Name="buttonFullScreen" Click="buttonFullScreen_Click">
+                    <materialDesign:PackIcon Kind="Fullscreen" Height="20" Width="20" />
+                </Button>
+                <Button ToolTip="Guardar página" x:Name="buttonSaveImage" Click="buttonSaveImage_Click"
+                        Background="{DynamicResource PrimaryHueMidBrush}"
+                        Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
+                    <materialDesign:PackIcon Kind="ContentSave" />
+                </Button>
+                <Button ToolTip="Acerca de" x:Name="buttonAbout" Click="buttonAbout_Click">
+                    <Button.Background>
+                        <SolidColorBrush Color="{StaticResource RedPrimary500}" />
+                    </Button.Background>
+                    <Button.Foreground>
+                        <SolidColorBrush Color="{StaticResource RedPrimary500Foreground}" />
+                    </Button.Foreground>
+                    <materialDesign:PackIcon Kind="CommentQuestion" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
+        <materialDesign:DialogHost Identifier="RootDialogReader" 
+                                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        </materialDesign:DialogHost>
     </Grid>
 </metrocontrols:MetroWindow>

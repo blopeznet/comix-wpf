@@ -6,7 +6,9 @@ using System.Windows.Input;
 
 namespace DirectoryBrowser
 {
-
+    /// <summary>
+    /// Behaviour touch scrolls
+    /// </summary>
     public class TouchScrolling : DependencyObject
     {
         public static bool GetIsEnabled(DependencyObject obj)

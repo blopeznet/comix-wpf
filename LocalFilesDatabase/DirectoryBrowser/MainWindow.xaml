@@ -101,7 +101,7 @@
 
             <DockPanel Background="Black">
                 <ToggleButton Foreground="White" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding Main.showMenu ,Source={StaticResource Locator}}"
-                                        x:Name="MenuToggleButton" Margin="4,0,0,0" Unchecked="MenuToggleButton_Unchecked" Checked="MenuToggleButton_Checked"/>
+                                        x:Name="MenuToggleButton" Margin="4,0,0,0" Unchecked="MenuToggleButton_Unchecked"/>
                 <TextBlock HorizontalAlignment="Left" Text="MIS COMICS" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="22"/>
 
 
@@ -293,8 +293,8 @@
             </materialDesign:DialogHost>
         </Grid>
 
-        
-        
+
+
         <Border x:Name="BorderLoading" Visibility="{Binding Main.IsWorking, Converter={StaticResource BooleanToVisibilityConverter}, Source={StaticResource Locator}}">
             <Border.Background>
                 <SolidColorBrush Color="Gray" Opacity="0.5"/>
@@ -311,7 +311,5 @@
             </materialDesign:Card>
 
         </Border>
-
-        
     </Grid>
 </metro:MetroWindow>

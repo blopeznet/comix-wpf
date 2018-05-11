@@ -3,65 +3,307 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using System.Linq;
-using System.Windows.Controls;
 
 namespace DirectoryBrowser.ViewModel
 {
     /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
+    /// Main Model     
     /// </summary>
     public partial class MainViewModel : ViewModelBase
     {
+
+        #region Variables and Properties
+
+        /// <summary>
+        /// Timer background worker images
+        /// </summary>
+        DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+
+        /// <summary>
+        /// Background images database updating
+        /// </summary>
+        private readonly BackgroundWorker worker = new BackgroundWorker();
+
+        /// <summary>
+        /// Update image comics by count each 10 seconds
+        /// </summary>
+        private int eachbycomics = 50;
+
+        /// <summary>
+        /// Collection treeview populated items from folders
+        /// </summary>
+        private List<MyTreeViewItem> _sourceCollection;
+        public List<MyTreeViewItem> sourceCollection
+        {
+            get
+            {
+                if (_sourceCollection == null)
+                    _sourceCollection = new List<MyTreeViewItem>();
+                return _sourceCollection;
+            }
+
+            set
+            {
+                _sourceCollection = value;
+                RaisePropertyChanged("sourceCollection");
+            }
+        }
+
+        /// <summary>
+        /// Selected folder for display info
+        /// </summary>
+        private FolderComicsInfo _SelectedFolder;
+        public FolderComicsInfo SelectedFolder
+        {
+            get
+            {
+                return _SelectedFolder;
+            }
+
+            set
+            {
+                _SelectedFolder = value;
+                RaisePropertyChanged("SelectedFolder");
+            }
+        }
+
+        /// <summary>
+        /// Collection last 10 folders updated from db
+        /// </summary>
+        private List<FolderComicsInfo> _LasFolders;
+        public List<FolderComicsInfo> LasFolders
+        {
+            get
+            {
+                return _LasFolders;
+            }
+
+            set
+            {
+                _LasFolders = value;
+                RaisePropertyChanged("LasFolders");
+            }
+        }
+
+        /// <summary>
+        /// Collection all folders from db
+        /// </summary>
+        private List<FolderComicsInfo> _AllFolders;
+        public List<FolderComicsInfo> AllFolders
+        {
+            get
+            {
+                return _AllFolders;
+            }
+
+            set
+            {
+                _AllFolders = value;
+                UpdateSizeStatistics();
+                RaisePropertyChanged("AllFolders");
+            }
+        }
+
+        /// <summary>
+        /// Total folders from db size for statistics
+        /// </summary>
+        private Double _TotalFolderSize;
+        public Double TotalFolderSize
+        {
+            get
+            {
+                return _TotalFolderSize;
+            }
+            set
+            {
+                _TotalFolderSize = value;
+                RaisePropertyChanged("TotalFolderSize");
+            }
+        }
+
+        /// <summary>
+        /// Total folders count db for statistics
+        /// </summary>
+        private Double _TotalFolderCount;
+        public Double TotalFolderCount
+        {
+            get
+            {
+                return _TotalFolderCount;
+            }
+            set
+            {
+                _TotalFolderCount = value;
+                RaisePropertyChanged("TotalFolderCount");
+            }
+        }
+
+        /// <summary>
+        /// Total files count db for statistics
+        /// </summary>
+        private Double _TotalFilesCount;
+        public Double TotalFilesCount
+        {
+            get
+            {
+                return _TotalFilesCount;
+            }
+            set
+            {
+                _TotalFilesCount = value;
+                RaisePropertyChanged("TotalFilesCount");
+            }
+        }
+
+        /// <summary>
+        /// Current db filename
+        /// </summary>
+        private String _CurrentFileNameDB;
+        public String CurrentFileNameDB
+        {
+            get
+            {
+                return _CurrentFileNameDB;
+            }
+            set
+            {
+                _CurrentFileNameDB = value;
+                RaisePropertyChanged("CurrentFileNameDB");
+            }
+        }
+
+        /// <summary>
+        /// Copy searched folders from db allfolders (search mode)
+        /// </summary>
+        private List<FolderComicsInfo> _SearchedFolders;
+        public List<FolderComicsInfo> SearchedFolders
+        {
+            get
+            {
+                return _SearchedFolders;
+            }
+
+            set
+            {
+                _SearchedFolders = value;
+                RaisePropertyChanged("SearchedFolders");
+            }
+        }
+
+        /// <summary>
+        /// Bool flag display is working app
+        /// </summary>
+        private bool _IsWorking;
+        public bool IsWorking
+        {
+            get => _IsWorking;
+            set
+            {
+
+                _IsWorking = value;
+                RaisePropertyChanged("IsWorking");
+            }
+        }
+
+        /// <summary>
+        /// String message popup progress
+        /// </summary>
+        private string _WorkingMsg;
+        public string WorkingMsg
+        {
+            get => _WorkingMsg;
+            set
+            {
+                _WorkingMsg = value;
+                RaisePropertyChanged("WorkingMsg");
+            }
+        }
+
+        /// <summary>
+        /// String message status bar left
+        /// </summary>
+        private string _StatusMsg;
+        public string StatusMsg
+        {
+            get => _StatusMsg;
+            set
+            {
+                _StatusMsg = value;
+                RaisePropertyChanged("StatusMsg");
+            }
+        }
+
+        /// <summary>
+        /// String message status bar right
+        /// </summary>
+        private string _FilterMsg;
+        public string FilterMsg
+        {
+            get => _FilterMsg;
+            set
+            {
+                _FilterMsg = value;
+                RaisePropertyChanged("FilterMsg");
+            }
+        }
+
+        /// <summary>
+        /// Flag show hamburguer lateral menu
+        /// </summary>
+        private bool _showMenu;
+        public bool showMenu
+        {
+            get => _showMenu;
+            set
+            {
+
+                _showMenu = value;
+                RaisePropertyChanged("showMenu");
+            }
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
-
-            
+            ///Instance dispatcher timer for update covers
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
-            dispatcherTimer.Start();
-
-            
+            dispatcherTimer.Start();            
         }
 
-        DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-        private readonly BackgroundWorker worker = new BackgroundWorker();
-
+        /// <summary>
+        /// Dispatcher timer update background images database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             UpdateCovers();
         }
 
-            private async Task UpdateCovers()
+        /// <summary>
+        /// Method who runs backgroundworker
+        /// </summary>
+        /// <returns></returns>
+        private async Task UpdateCovers()
         {                     
                 worker.DoWork += worker_DoWork;
                 worker.RunWorkerAsync();
         }
-
-        private int eachbycomics = 50;
-
+        
+        /// <summary>
+        /// Work event for upgrade images
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             // run all background tasks here
@@ -78,14 +320,72 @@ namespace DirectoryBrowser.ViewModel
                 }
                 else
                     App.ViewModel.StatusMsg = String.Format("Todas las miniaturas han sido generadas.");
-
             }
+        }
+
+        /// <summary>
+        /// Method open existing database
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public async Task<bool> OpenFileDialog(String path)
+        {
+            DBService.Instance.Path = path;
+            App.ViewModel.FilterMsg = String.Empty;
+            App.ViewModel.StatusMsg = String.Empty;
+            List<FolderComicsInfo> items = DBService.Instance.GetItemFolders();
+            App.ViewModel.AllFolders = items.OrderBy(i => i.FolderName).ToList();
+            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i => i.CreationDate).Take(10).ToList();
+            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();
+            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');
+            App.ViewModel.showMenu = false;
+            return true;
+        }
+
+        /// <summary>
+        /// Method Create new db from folder
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public async Task<bool> OpenFolderDialog(String path)
+        {
+
+            String namedbfile =
+                String.Format("{0}_{1}.cdb",
+                System.IO.Path.GetFileName(path),
+                DateTime.Now.ToString("yyyyddMM_HHmm"));
+
+
+            String filename = System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\" + namedbfile;
+            App.ViewModel.FilterMsg = String.Empty;
+            App.ViewModel.StatusMsg = String.Empty;
+            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\");
+            App.ViewModel.IsWorking = true;
+            App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";
+            DBService.Instance.Path = filename;
+            List<FolderComicsInfo> items = new List<FolderComicsInfo>();
+            items = PShellHelper.Instance.GenerateIndexCollection(path);
+            if (items != null && items.Count > 0)
+                DBService.Instance.SaveLastFolderCollection(items);
+            App.ViewModel.AllFolders = items.OrderBy(f => f.FolderName).ToList();
+            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i => i.CreationDate).Take(10).ToList();
+            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();
+            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');
+            App.ViewModel.IsWorking = false;
+            App.ViewModel.WorkingMsg = String.Empty;
+            App.ViewModel.showMenu = false;
+            return true;
 
         }
 
+        /// <summary>
+        /// Method for populate collection folder info intro Treeview Data
+        /// </summary>
+        /// <param name="paths">Collecion folder info</param>
+        /// <param name="pathSeparator">Character separator folders path</param>
+        /// <returns></returns>
         public async Task<List<MyTreeViewItem>> PopulateTreeView(IEnumerable<FolderComicsInfo> paths, char pathSeparator)
         {
-
             List<MyTreeViewItem> sourceCollection = new List<MyTreeViewItem>();
             foreach (FolderComicsInfo path in paths)
             {
@@ -147,72 +447,26 @@ namespace DirectoryBrowser.ViewModel
             }
 
             return sourceCollection;
-        }
+        }        
 
-
-        private List<MyTreeViewItem> _sourceCollection;
-        public List<MyTreeViewItem> sourceCollection
+        /// <summary>
+        /// Method close database current
+        /// </summary>
+        public void CloseCurrentDatabase()
         {
-            get
-            {
-                if (_sourceCollection == null)
-                    _sourceCollection = new List<MyTreeViewItem>();
-                return _sourceCollection;
-            }
-
-            set
-            {
-                _sourceCollection = value;
-                RaisePropertyChanged("sourceCollection");
-            }
+            App.ViewModel.SelectedFolder = null;
+            App.ViewModel.AllFolders = null;
+            App.ViewModel.LasFolders = null;
+            App.ViewModel.SearchedFolders = null;
+            App.ViewModel.sourceCollection = null;
+            App.ViewModel.StatusMsg = String.Empty;
+            App.ViewModel.FilterMsg = String.Empty;
+            App.ViewModel.showMenu = true;
         }
 
-        private FolderComicsInfo _SelectedFolder;
-        public FolderComicsInfo SelectedFolder
-        {
-            get
-            {                
-                return _SelectedFolder;
-            }
-
-            set
-            {
-                _SelectedFolder = value;                
-                RaisePropertyChanged("SelectedFolder");
-            }
-        }
-
-        private List<FolderComicsInfo> _LasFolders;
-        public List<FolderComicsInfo> LasFolders
-        {
-            get
-            {
-                return _LasFolders;
-            }
-
-            set
-            {
-                _LasFolders = value;
-                RaisePropertyChanged("LasFolders");
-            }
-        }
-
-        private List<FolderComicsInfo> _AllFolders;
-        public List<FolderComicsInfo> AllFolders
-        {
-            get
-            {
-                return _AllFolders;
-            }
-
-            set
-            {
-                _AllFolders = value;
-                UpdateSizeStatistics();
-                RaisePropertyChanged("AllFolders");
-            }
-        }
-
+        /// <summary>
+        /// Update size from folders from database, count files, count folders...
+        /// </summary>
         private void UpdateSizeStatistics()
         {
             if (AllFolders != null && AllFolders.Count > 0)
@@ -234,134 +488,18 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
-        private Double _TotalFolderSize;
-        public Double TotalFolderSize
+        /// <summary>
+        /// Method display popup information on MainWindow
+        ///</summary>
+        /// <param name="msg">String msg to show</param>
+        /// <param name="okbutton">String caption button</param>
+        public async Task DisplayPopUp(String msg,String okbutton,String id= "RootDialog")
         {
-            get
-            {
-                return _TotalFolderSize;
-            }
-            set
-            {
-                _TotalFolderSize = value;
-                RaisePropertyChanged("TotalFolderSize");
-            }
-        }
-
-        private Double _TotalFolderCount;
-        public Double TotalFolderCount
-        {
-            get
-            {
-                return _TotalFolderCount;
-            }
-            set
-            {
-                _TotalFolderCount = value;
-                RaisePropertyChanged("TotalFolderCount");
-            }
-        }
-
-        private Double _TotalFilesCount;
-        public Double TotalFilesCount
-        {
-            get
-            {
-                return _TotalFilesCount;
-            }
-            set
-            {
-                _TotalFilesCount = value;
-                RaisePropertyChanged("TotalFilesCount");
-            }
-        }
-
-        private String _CurrentFileNameDB;
-        public String CurrentFileNameDB
-        {
-            get
-            {
-                return _CurrentFileNameDB;
-            }
-            set
-            {
-                _CurrentFileNameDB = value;
-                RaisePropertyChanged("CurrentFileNameDB");
-            }
-        }
-
-        private List<FolderComicsInfo> _SearchedFolders;
-        public List<FolderComicsInfo> SearchedFolders
-        {
-            get
-            {
-                return _SearchedFolders;
-            }
-
-            set
-            {
-                _SearchedFolders = value;
-                RaisePropertyChanged("SearchedFolders");
-            }
-        }
-
-        private bool _IsWorking;
-        public bool IsWorking
-        {
-            get => _IsWorking;
-            set
-            {
-
-                _IsWorking = value;
-                RaisePropertyChanged("IsWorking");
-            }
-        }
-
-        private string _WorkingMsg;
-        public string WorkingMsg
-        {
-            get => _WorkingMsg;
-            set
-            {
-                _WorkingMsg = value;
-                RaisePropertyChanged("WorkingMsg");
-            }
-        }
-
-        private string _StatusMsg;
-        public string StatusMsg
-        {
-            get => _StatusMsg;
-            set
-            {
-                _StatusMsg = value;
-                RaisePropertyChanged("StatusMsg");
-            }
-        }
-
-        private string _FilterMsg;
-        public string FilterMsg
-        {
-            get => _FilterMsg;
-            set
-            {
-                _FilterMsg = value;
-                RaisePropertyChanged("FilterMsg");
-            }
-        }
-
-
-
-        private bool _showMenu;
-        public bool showMenu
-        {
-            get => _showMenu;
-            set
-            {
-
-                _showMenu = value;
-                RaisePropertyChanged("showMenu");
-            }
+            Views.InfoDialogView view = new Views.InfoDialogView(msg,okbutton);
+            view.MinWidth = App.Current.MainWindow.Width / 2;
+            view.Margin = new System.Windows.Thickness(0, 0, 0, 0);
+            //show the dialog
+            var result = await MaterialDesignThemes.Wpf.DialogHost.Show(view,id);
         }
     }
 }

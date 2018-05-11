@@ -1,11 +1,6 @@
 ﻿using DirectoryBrowser.ViewModel;
-using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace DirectoryBrowser
@@ -16,14 +11,18 @@ namespace DirectoryBrowser
     public partial class App : Application
     {
 
-
-
+        /// <summary>
+        /// Open app startup with use file parameter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
             
             var mainWindow = new MainWindow();            
             mainWindow.Show();
 
+            //If argument exists
             if (AppDomain.CurrentDomain.SetupInformation.ActivationArguments != null)
             {
                 if (AppDomain.CurrentDomain.SetupInformation.ActivationArguments.ActivationData != null &&
@@ -40,7 +39,9 @@ namespace DirectoryBrowser
             }
         }
 
-
+        /// <summary>
+        /// Global var for MainViewModel reference
+        /// </summary>
         public static MainViewModel ViewModel
         {
             get

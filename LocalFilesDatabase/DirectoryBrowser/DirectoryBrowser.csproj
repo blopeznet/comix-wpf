@@ -24,7 +24,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -139,15 +139,19 @@
     <Compile Include="Entities\FileInfo.cs" />
     <Compile Include="Entities\MyTreeView.cs" />
     <Compile Include="Entities\TaskBarcs.cs" />
-    <Compile Include="Powershell\PShellHelper.cs" />
+    <Compile Include="Services\PShellHelper.cs" />
     <Compile Include="Services\DBService.cs" />
     <Compile Include="Utils\DirectoryHelper.cs" />
     <Compile Include="Utils\LogicalDiskInfo.cs" />
     <Compile Include="Utils\SevenZipService.cs" />
+    <Compile Include="Utils\UtilsApp.cs" />
     <Compile Include="Utils\ZipHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ReaderViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FilesView.xaml.cs">
       <DependentUpon>FilesView.xaml</DependentUpon>
     </Compile>
@@ -166,6 +170,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\InfoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\FilesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

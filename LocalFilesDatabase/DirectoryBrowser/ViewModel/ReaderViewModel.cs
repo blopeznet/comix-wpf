@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -15,6 +14,11 @@ namespace DirectoryBrowser.ViewModel
     public partial class MainViewModel        
     {
 
+        #region and Variables
+
+        /// <summary>
+        /// Progress generation images for pages reader
+        /// </summary>
         private Double _ProgressLoad;
         public Double ProgressLoad
         {
@@ -30,6 +34,9 @@ namespace DirectoryBrowser.ViewModel
 
         }
 
+        /// <summary>
+        /// Flag viewer all pages are loaded
+        /// </summary>
         private bool _ComicLoaded;
         public bool ComicLoaded
         {
@@ -42,6 +49,9 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
+        /// <summary>
+        /// Flag using fullscreen
+        /// </summary>
         private bool _UseFullScreen;
         public bool UseFullScreen
         {
@@ -54,6 +64,9 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
+        /// <summary>
+        /// Collection pages viewer
+        /// </summary>
         private List<ComicTemp> _Pages;
         public List<ComicTemp> Pages
         {
@@ -66,7 +79,28 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
+        /// <summary>
+        /// Timer background worker images comic
+        /// </summary>
+        DispatcherTimer dispatcherTimerPages = new System.Windows.Threading.DispatcherTimer();
 
+        /// <summary>
+        /// Background images comic updating
+        /// </summary>
+        private readonly BackgroundWorker workerPages = new BackgroundWorker();
+
+        /// <summary>
+        /// Update image comics viewer by count each 10 seconds
+        /// </summary>
+        private int eachbypages = 3;
+
+
+        #endregion
+
+        /// <summary>
+        /// Method init reader
+        /// </summary>
+        /// <param name="path">Path file viewer</param>
         public void InitReader(String path)
         {
             Pages = ZipHelper.Instance.UncompressToComicPageCollection(path);
@@ -78,23 +112,31 @@ namespace DirectoryBrowser.ViewModel
             dispatcherTimer.Start();
         }
 
-
-        DispatcherTimer dispatcherTimerPages = new System.Windows.Threading.DispatcherTimer();
-        private readonly BackgroundWorker workerPages = new BackgroundWorker();
-
+        /// <summary>
+        /// Dispatcher timer update background images comic viewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dispatcherTimerPages_Tick(object sender, EventArgs e)
         {
             UpdatePages();
         }
 
+        /// <summary>
+        /// Method who runs backgroundworker
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdatePages()
         {
             workerPages.DoWork += workerPages_DoWork;
             workerPages.RunWorkerAsync();
         }
 
-        private int eachbypages = 3;
-
+        /// <summary>
+        /// Work event for upgrade images comic viewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void workerPages_DoWork(object sender, DoWorkEventArgs e)
         {
             // run all background tasks here
@@ -113,10 +155,12 @@ namespace DirectoryBrowser.ViewModel
         }
 
         
-
+        /// <summary>
+        /// Update first image from file to viewer
+        /// </summary>
+        /// <param name="page"></param>
         public void UpdateCover(ComicTemp page)
         {
-
             try
             {                
                     var imageResizer = new Simple.ImageResizer.ImageResizer(page.Source.ToArray());
@@ -137,6 +181,10 @@ namespace DirectoryBrowser.ViewModel
             }
         }
 
+        /// <summary>
+        /// Update all images from file to viewer
+        /// </summary>
+        /// <param name="pages"></param>
         public void UpdateSources(List<ComicTemp> pages)
         {
             

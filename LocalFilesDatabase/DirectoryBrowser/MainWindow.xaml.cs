@@ -1,46 +1,45 @@
 ﻿using DirectoryBrowser.Entities;
-using DirectoryBrowser.ViewModel;
 using DirectoryBrowser.Views;
-using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace DirectoryBrowser
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Class Main Window
     /// </summary>
     public partial class MainWindow : MahApps.Metro.Controls.MetroWindow
     {
        
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();            
         }
 
+        /// <summary>
+        /// Event window loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             MenuToggleButton.IsChecked = true;
         }
 
-
+        /// <summary>
+        /// Treeview selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             MyTreeViewItem item = (MyTreeViewItem)e.NewValue;       
@@ -49,64 +48,26 @@ namespace DirectoryBrowser
             
         }
 
+        /// <summary>
+        /// Open file when app starts argument
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public async Task OpenFileFromArg(String path)
         {
             await Task.Run(() =>
             {
                 App.ViewModel.IsWorking = true;
-                OpenFileDialog(path);
+                App.ViewModel.OpenFileDialog(path);
                 App.ViewModel.IsWorking = false;
             });
         }
-
-
-        private async Task<bool> OpenFileDialog(String path)
-        {                        
-           DBService.Instance.Path = path;
-           App.ViewModel.FilterMsg = String.Empty;
-           App.ViewModel.StatusMsg = String.Empty;
-           List<FolderComicsInfo> items = DBService.Instance.GetItemFolders();
-           App.ViewModel.AllFolders =  items.OrderBy(i=>i.FolderName).ToList();            
-           App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i => i.CreationDate).Take(10).ToList();
-           App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();           
-           App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');
-           App.ViewModel.showMenu = false;
-           return true;
-        }
-
-
-
-        private async Task<bool> OpenFolderDialog(String path)
-        {
-
-            String namedbfile  = 
-                String.Format("{0}_{1}.cdb", 
-                System.IO.Path.GetFileName(path),
-                DateTime.Now.ToString("yyyyddMM_HHmm"));
-
-
-            String filename = System.AppDomain.CurrentDomain.BaseDirectory+ "MyData\\" + namedbfile;
-            App.ViewModel.FilterMsg = String.Empty;
-            App.ViewModel.StatusMsg = String.Empty;
-            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\");               
-            App.ViewModel.IsWorking = true;
-            App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";                
-            DBService.Instance.Path = filename;
-            List<FolderComicsInfo> items = new List<FolderComicsInfo>();
-            items = PShellHelper.Instance.GenerateIndexCollection(path);
-            if (items != null && items.Count > 0)
-                DBService.Instance.SaveLastFolderCollection(items);
-            App.ViewModel.AllFolders = items.OrderBy(f=>f.FolderName).ToList();
-            App.ViewModel.LasFolders = App.ViewModel.AllFolders.OrderByDescending(i=>i.CreationDate).Take(10).ToList();
-            App.ViewModel.SelectedFolder = App.ViewModel.AllFolders.FirstOrDefault();
-            App.ViewModel.sourceCollection = await App.ViewModel.PopulateTreeView(App.ViewModel.AllFolders, '\\');                                
-            App.ViewModel.IsWorking = false;               
-            App.ViewModel.WorkingMsg = String.Empty;
-            App.ViewModel.showMenu = false;
-            return true;
-                        
-        }     
-
+        
+        /// <summary>
+        /// Event Open existing file from menu left
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonAbrir_Click(object sender, RoutedEventArgs e)
         {
             
@@ -119,12 +80,17 @@ namespace DirectoryBrowser
                 await Task.Run(() =>
                 {
                     App.ViewModel.IsWorking = true;
-                    OpenFileDialog(path);
+                    App.ViewModel.OpenFileDialog(path);
                     App.ViewModel.IsWorking = false;
                 });                               
             }
         }
 
+        /// <summary>
+        /// Create new db from folder from menu left
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonCrear_Click(object sender, RoutedEventArgs e)
         {
 
@@ -138,59 +104,64 @@ namespace DirectoryBrowser
                 await Task.Run(() =>
                 {
                     App.ViewModel.IsWorking = true;
-                    OpenFolderDialog(path);
+                    App.ViewModel.OpenFolderDialog(path);
                     App.ViewModel.IsWorking = false;
                 });
             }            
         }
 
+        /// <summary>
+        /// Close current database buttton menu left
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCerrar_Click(object sender, RoutedEventArgs e)
         {
-            App.ViewModel.SelectedFolder = null;
-            App.ViewModel.AllFolders = null;
-            App.ViewModel.LasFolders = null;
-            App.ViewModel.SearchedFolders = null;
-            App.ViewModel.sourceCollection = null;
-            App.ViewModel.StatusMsg = String.Empty;
-            App.ViewModel.FilterMsg = String.Empty;
-            App.ViewModel.showMenu = true;
+            App.ViewModel.CloseCurrentDatabase();
         }
 
+        /// <summary>
+        /// Button explore folder click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonExplore_Click(object sender, RoutedEventArgs e)
-        {                        
-            if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(App.ViewModel.SelectedFolder.FolderName)))
-            {
-                Process.Start(App.ViewModel.SelectedFolder.FolderName);
-            }
-            else
-                await this.ShowMessageAsync("ABRIR DIRECTORIO", "EL DIRECTORIO NO SE ENCUENTRA DISPONIBLE.");
-        }
-
-        private void comboSearch_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FolderComicsInfo item = (FolderComicsInfo)comboSearch.SelectedItem;
-            App.ViewModel.SelectedFolder = item;
+            if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(App.ViewModel.SelectedFolder.FolderName)))            
+                Process.Start(App.ViewModel.SelectedFolder.FolderName);            
+            else            
+                await App.ViewModel.DisplayPopUp("El directorio no se encuentra disponible.", "ACEPTAR");                          
         }
 
+        /// <summary>
+        /// Show/Hide menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             if (App.ViewModel.LasFolders == null || App.ViewModel.LasFolders.Count == 0)
                 MenuToggleButton.IsChecked = true;
         }
 
-        private void MenuToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Event click last folders
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListLastGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             App.ViewModel.SelectedFolder = (FolderComicsInfo)((Grid)sender).DataContext;
 
         }
 
-    
+        #region Search
 
+        /// <summary>
+        /// Search key on textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void comboSearch_KeyUp(object sender, KeyEventArgs e)
         {
             
@@ -220,11 +191,34 @@ namespace DirectoryBrowser
             
         }
 
+        /// <summary>
+        /// Search changue combo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboSearch_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FolderComicsInfo item = (FolderComicsInfo)comboSearch.SelectedItem;
+            App.ViewModel.SelectedFolder = item;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Show preview files content folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void PreviewFilesButton_Click(object sender, RoutedEventArgs e)
         {
             await ExecuteRunFilesDialog(sender);
         }
 
+        /// <summary>
+        /// Execute Run Files dialog method
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         private async Task ExecuteRunFilesDialog(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
@@ -234,16 +228,17 @@ namespace DirectoryBrowser
             };
             
             view.MinWidth = this.Width / 2;
-            view.MinHeight = this.Height / 2;
+            view.MaxHeight = this.Height / 2;
             view.Margin = new Thickness(0,0,0,0);
             //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
-        }
+            var result = await DialogHost.Show(view, "RootDialog", null, ExtendedClosingEventHandler);
+        }        
 
-        private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
-        {
-        }
-
+        /// <summary>
+        /// Cancel dialog files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
         private void ExtendedClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
             if ((bool)eventArgs.Parameter == false) return;

@@ -5,18 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace DirectoryBrowser
 {
     /// <summary>
-    /// Clase servicio acceso a capa de datos
+    /// Service class interaction database
     /// </summary>
     public class DBService
     {
-
+        /// <summary>
+        /// Instance service
+        /// </summary>
         private static DBService _Instance;
         public static DBService Instance {
             get  {
@@ -30,12 +30,15 @@ namespace DirectoryBrowser
             set => _Instance = value;
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DBService()
         {            
         }
 
         /// <summary>
-        /// Path de la base de datos
+        /// Path database
         /// </summary>
         private String _Path;
         public string Path
@@ -47,6 +50,10 @@ namespace DirectoryBrowser
             }
         }    
         
+        /// <summary>
+        /// Save folder collection into database
+        /// </summary>
+        /// <param name="files"></param>
         public void SaveLastFolderCollection(List<FolderComicsInfo> files)
         {
             foreach (FolderComicsInfo folder in files)
@@ -57,6 +64,10 @@ namespace DirectoryBrowser
            List<FolderComicsInfo>  folders = DBService.Instance.GetItemFolders();
         }
 
+        /// <summary>
+        /// Generate cover for list folders
+        /// </summary>
+        /// <param name="files">Generate cover for list folders</param>
         public void GenerateCoversMemorySteam(List<FolderComicsInfo> files)
         {
             bool updated = false;
@@ -163,6 +174,11 @@ namespace DirectoryBrowser
         
         #endregion
 
+        /// <summary>
+        /// Get bitmap image for folder comic info
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public BitmapImage LoadFile(FolderComicsInfo info)
         {
             using (var db = new LiteDatabase(Path))
@@ -200,26 +216,9 @@ namespace DirectoryBrowser
 
             return new BitmapImage();
         }
-      
-        private byte[] BitmapImageToByteArray(BitmapImage bitmapImage)
-        {
-            byte[] data = null;
-            try
-            {
-                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    encoder.Save(ms);
-                    data = ms.ToArray();
-                }
-            }
-            catch { }
-            return data;
-        }
-
+              
         /// <summary>
-        /// Añadir ultima carpeta a db
+        /// Add folder to db
         /// </summary>
         /// <param name="newsnap">new snap</param>
         public void SaveLastFolder(FolderComicsInfo newitem)
@@ -237,49 +236,11 @@ namespace DirectoryBrowser
                  items.Insert(newitem);
             }
         }
-
-
+        
         /// <summary>
-        /// Obtener ultima carpeta abierta a db
+        /// Get collection folders
         /// </summary>
-        /// <param name="newsnap">new snap</param>
-        public FileInfo GetLastFolder()
-        {
-            if (String.IsNullOrEmpty(Path))
-                throw new Exception("Database path not exist");
-
-            using (var db = new LiteDatabase(Path))
-            {
-                var items = db.GetCollection<FileInfo>("folders");
-                FileInfo old = items.FindAll().FirstOrDefault();
-                return old;
-            }
-        }
-
-
-
-        /// <summary>
-        /// Obtener un conjunto de elementos fichero filtrado por el path directorio 
-        /// </summary>
-        /// <param name="foldername">nombre carpeta</param>
-        /// <returns>Lista de directorios</returns>
-        public FolderComicsInfo GetItemFolders(String foldername)
-        {
-            if (String.IsNullOrEmpty(Path))
-                throw new Exception("Database path not exist");
-
-            using (var db = new LiteDatabase(Path))
-            {
-                var items = db.GetCollection<FolderComicsInfo>("folders");
-                return items.Find(Query.EQ("FolderName", foldername)).OrderBy(x => x.FolderName).ToList().FirstOrDefault();
-            }
-        }
-
-        /// <summary>
-        /// Obtener un conjunto de elementos fichero filtrado por el path directorio 
-        /// </summary>
-        /// <param name="SnapId">Id Snap</param>
-        /// <returns>Lista de directorios</returns>
+        /// <returns>Directory list</returns>
         public List<FolderComicsInfo> GetItemFolders()
         {
             if (String.IsNullOrEmpty(Path))
@@ -291,7 +252,6 @@ namespace DirectoryBrowser
                 return items.FindAll().ToList();
             }
         }
-
 
     }
 }

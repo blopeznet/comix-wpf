@@ -1,17 +1,15 @@
 ﻿using DirectoryBrowser.Entities;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace DirectoryBrowser.Common.Converters
 {
+
+    /// <summary>
+    /// Folder comic get image from db
+    /// </summary>
     public class FolderComicsInfoToBitmapImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,

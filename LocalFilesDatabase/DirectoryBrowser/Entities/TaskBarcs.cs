@@ -4,6 +4,11 @@ using System.Runtime.InteropServices;
 
 namespace DirectoryBrowser
 {
+
+    /// <summary>
+    /// Internal classes for interaction with taskbar
+    /// </summary>
+
     public enum TaskbarPosition
     {
         Unknown = -1,

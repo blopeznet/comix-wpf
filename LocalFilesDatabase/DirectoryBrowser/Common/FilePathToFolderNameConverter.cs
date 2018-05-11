@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media.Imaging;
 
 namespace DirectoryBrowser.Common.Converters
 {
+
+    /// <summary>
+    /// File path to filename single
+    /// </summary>
     public class FilePathToFolderNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,

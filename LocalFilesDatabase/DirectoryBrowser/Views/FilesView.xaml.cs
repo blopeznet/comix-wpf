@@ -1,33 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DirectoryBrowser.Views
 {
     /// <summary>
-    /// Lógica de interacción para FilesView.xaml
+    /// View for list files
     /// </summary>
     public partial class FilesView : UserControl
     {
+        /// <summary>
+        /// Use external app for open file
+        /// </summary>
+        bool useexternalapp = false;
+
         public FilesView()
         {
             InitializeComponent();
-        }
+        }        
 
-        bool useexternalapp = false;
-
+        /// <summary>
+        /// On mouse push name, display file content with viewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             try
@@ -44,7 +41,7 @@ namespace DirectoryBrowser.Views
                         r.ShowDialog();
                         
                     }
-                }                    
+                }                                   
             }catch(Exception ex) { App.ViewModel.StatusMsg = ex.Message; }
             
         }

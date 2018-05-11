@@ -1,20 +1,12 @@
 ﻿using DirectoryBrowser.Entities;
 using MahApps.Metro.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DirectoryBrowser.Views
 {
@@ -23,36 +15,8 @@ namespace DirectoryBrowser.Views
     /// </summary>
     public partial class ReaderWindow : MetroWindow, INotifyPropertyChanged
     {
-        public ReaderWindow()
-        {
-            InitializeComponent();
-            this.Loaded += ReaderWindow_Loaded;
-        }
 
-        /// <summary>
-        /// Event Load initial appearance window reader
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            PageNo = 1;
-            TotalPages = App.ViewModel.Pages.Count;
-
-            if (IsFit)
-            {
-                HeightDisplay = CurrentReaderWindow.ActualHeight - 32;
-            }
-            else
-            {
-                WidthDisplay = this.CurrentReaderWindow.ActualWidth;
-            }
-
-            if (FvPages.SelectedItem!=null)
-            PageNo = App.ViewModel.Pages.IndexOf((ComicTemp)FvPages.SelectedItem) + 1;
-
-        }
+        #region Variables
 
         /// <summary>
         /// Flag adjust by width or by height
@@ -96,7 +60,9 @@ namespace DirectoryBrowser.Views
             }
         }
 
-
+        /// <summary>
+        /// Page No. for display
+        /// </summary>
         private Double _PageNo;
         public double PageNo
         {
@@ -108,7 +74,9 @@ namespace DirectoryBrowser.Views
             }
         }
 
-
+        /// <summary>
+        /// Total pages for display
+        /// </summary>
         private Double _TotalPages;
         public double TotalPages
         {
@@ -121,22 +89,42 @@ namespace DirectoryBrowser.Views
         }
 
 
-        #region InotifyPropertyChanged
+        #endregion
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessor of each property.
-        // The CallerMemberName attribute that is applied to the optional propertyName
-        // parameter causes the property name of the caller to be substituted as an argument.
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        public ReaderWindow()
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            InitializeComponent();
+            this.Loaded += ReaderWindow_Loaded;
         }
 
-        #endregion
+        /// <summary>
+        /// Event Load initial appearance window reader
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReaderWindow_Loaded(object sender, RoutedEventArgs e)
+        {            
+            PageNo = 1;
+            TotalPages = App.ViewModel.Pages.Count;
+
+            if (IsFit)            
+                HeightDisplay = CurrentReaderWindow.ActualHeight - 32;            
+            else            
+                WidthDisplay = this.CurrentReaderWindow.ActualWidth;            
+
+            if (FvPages.SelectedItem!=null)
+                PageNo = App.ViewModel.Pages.IndexOf((ComicTemp)FvPages.SelectedItem) + 1;
+        }
+
+        /// <summary>
+        /// Event when change element page display
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PageNo = App.ViewModel.Pages.IndexOf((ComicTemp)FvPages.SelectedItem) + 1;
+        }
 
         /// <summary>
         /// Method update adjust by width or height
@@ -154,10 +142,32 @@ namespace DirectoryBrowser.Views
             }
         }
 
+        /// <summary>
+        ///Adjust image to screen horizontall or vertical
+        /// </summary>
+        private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                IsFit = !IsFit;
+                UpdateAdjust(IsFit);
+            }
+        }
+
+        /// <summary>
+        /// Event when click last page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void PART_ForwardButton_LAST_Click(object sender, RoutedEventArgs e)
         {
         }
 
+        /// <summary>
+        /// Event when click first page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void PART_BackButton_FIRST_Click(object sender, RoutedEventArgs e)
         {
         }
@@ -169,6 +179,10 @@ namespace DirectoryBrowser.Views
         /// </summary>
         private ScrollViewer _currentScroll;
 
+        /// <summary>
+        /// Method reset scroll element
+        /// </summary>
+        /// <param name="top"></param>
         private void ResetScroll(bool top)
         {
             _currentScroll = FindChild<ScrollViewer>(FvPages);
@@ -187,12 +201,19 @@ namespace DirectoryBrowser.Views
             }
         }
 
+        /// <summary>
+        /// Reset scroll when back page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PART_BackButton_Click(object sender, RoutedEventArgs e)
         {
             ResetScroll(false);
-
         }
 
+        /// <summary>
+        /// Reset scroll when go next page
+        /// </summary>
         private void PART_ForwardButton_Click(object sender, RoutedEventArgs e)
         {
             ResetScroll(true);
@@ -248,19 +269,7 @@ namespace DirectoryBrowser.Views
             return foundChild as T;
         }
 
-        #endregion
-
-        /// <summary>
-        ///Show hide appbar
-        /// </summary>
-        private void ImageGrid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-            {
-                IsFit = !IsFit;
-                UpdateAdjust(IsFit);
-            }
-        }
+        #endregion        
 
         #region full screen window
 
@@ -280,10 +289,72 @@ namespace DirectoryBrowser.Views
                 if (change)
                     UpdateScreen(_Isfullscreen);
             }
+        }        
+
+        /// <summary>
+        /// Flag fullscreen
+        /// </summary>
+        bool fullscreenactive = false;
+
+        /// <summary>
+        /// Method Update Fullscreen
+        /// </summary>
+        private void UpdateFullScreen()
+        {
+            fullscreenactive = !fullscreenactive;
+            if (fullscreenactive)
+            {
+
+                Isfullscreen = true;
+                UpdateAdjust(false);
+            }
+            else
+            {
+                Isfullscreen = false;
+                UpdateAdjust(true);
+            }
         }
 
         /// <summary>
-        /// Control with keyboard
+        /// Method update screen to full generatin new window or update actual window
+        /// </summary>
+        /// <param name="fullscreen"></param>
+        private void UpdateScreen(bool fullscreen)
+        {
+            if (fullscreen)
+            {
+                this.Hide();
+                Taskbar tb = new Taskbar();
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
+                var rect = screen.WorkingArea;
+                this.Top = rect.Top - 2;
+                this.Left = rect.Left - 2;
+                this.Width = screen.WorkingArea.Width + 3;
+                if (!tb.AutoHide)
+                    this.Height = screen.WorkingArea.Height + tb.Size.Height + 3;
+                else
+                    this.Height = screen.WorkingArea.Height + 4;
+                this.Topmost = false;
+                this.ResizeMode = ResizeMode.NoResize;
+                this.IgnoreTaskbarOnMaximize = true;
+                this.WindowStyle = WindowStyle.None;
+                this.UseNoneWindowStyle = true;
+                this.IsCloseButtonEnabled = false;
+                this.popUpBox.IsPopupOpen = true;
+                this.FvPages.Focus();
+                this.Show();
+            }
+            else
+            {
+                this.Hide();
+                ReaderWindow r = new ReaderWindow();
+                r.Show();
+                this.Close();
+            }
+        }
+
+        /// <summary>
+        /// Control with keyboard to fullscreen (F11)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -349,68 +420,59 @@ namespace DirectoryBrowser.Views
             }
         }
 
+        #endregion
 
-        bool fullscreenactive = false;
+        #region InotifyPropertyChanged
 
-        private void UpdateFullScreen()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessor of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            fullscreenactive = !fullscreenactive;
-            if (fullscreenactive)
+            if (PropertyChanged != null)
             {
-
-                Isfullscreen = true;
-                UpdateAdjust(false);
-            }
-            else
-            {
-                Isfullscreen = false;
-                UpdateAdjust(true);
-            }
-        }
-
-
-        /// <summary>
-        /// Method update screen to full
-        /// </summary>
-        /// <param name="fullscreen"></param>
-        private void UpdateScreen(bool fullscreen)
-        {
-            if (fullscreen)
-            {
-                this.Hide();
-                Taskbar tb = new Taskbar();
-                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.AllScreens[0];
-                var rect = screen.WorkingArea;
-                this.Top = rect.Top - 2;
-                this.Left = rect.Left - 2;
-                this.Width = screen.WorkingArea.Width + 3;
-                if (!tb.AutoHide)
-                    this.Height = screen.WorkingArea.Height + tb.Size.Height + 3;
-                else
-                    this.Height = screen.WorkingArea.Height + 4;
-                this.Topmost = true;
-                this.ResizeMode = ResizeMode.NoResize;
-                this.IgnoreTaskbarOnMaximize = true;
-                this.WindowStyle = WindowStyle.None;
-                this.UseNoneWindowStyle = true;
-                this.IsCloseButtonEnabled = false;
-                this.Show();
-            }
-            else
-            {
-                this.Hide();
-                ReaderWindow r = new ReaderWindow();
-                r.Show();
-                this.Close();
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
         #endregion
 
-        private void FvPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PageNo = App.ViewModel.Pages.IndexOf((ComicTemp)FvPages.SelectedItem)+1;
+        #region Action Buttons
 
+        /// <summary>
+        /// Update fullscreen button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateFullScreen();            
         }
+
+        /// <summary>
+        /// Save image button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void buttonSaveImage_Click(object sender, RoutedEventArgs e)
+        {
+            String path = UtilsApp.SaveFileAndGetPath(((ComicTemp)FvPages.SelectedItem).Image);
+            await App.ViewModel.DisplayPopUp(String.Format("Fichero creado en {0}", path), "ACEPTAR", "RootDialogReader");                        
+        }
+
+        /// <summary>
+        /// About button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void buttonAbout_Click(object sender, RoutedEventArgs e)
+        {
+            await App.ViewModel.DisplayPopUp(String.Format("Created by blopez 2018"), "ACEPTAR", "RootDialogReader");
+        }
+
+        #endregion
+
     }
 }
