@@ -251,5 +251,15 @@ namespace DirectoryBrowser
                 .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
                     TaskScheduler.FromCurrentSynchronizationContext());
         }
+
+        private async void buttonConfiguracion_Click(object sender, RoutedEventArgs e)
+        {
+            String id = "RootDialog";            
+            Views.SetupDialogView view = new Views.SetupDialogView();
+            view.MinWidth = App.Current.MainWindow.Width / 2;
+            view.Margin = new System.Windows.Thickness(0, 0, 0, 0);
+            //show the dialog
+            var result = await MaterialDesignThemes.Wpf.DialogHost.Show(view, id);
+        }
     }
 }

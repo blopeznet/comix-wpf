@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -46,5 +47,28 @@ namespace DirectoryBrowser
             catch { }
             return data;
         }
+
+        /// <summary>
+        /// Obtiene el thumbnail de un fichero
+        /// </summary>
+        /// <param name="fileName">Path del fichero</param>
+        /// <returns>Bitmap</returns>
+        public static Bitmap CreateThumbnail(string fileName)
+        {
+            try
+            {
+                int THUMB_SIZE = 192;
+                Bitmap thumbnail = WindowsThumbnailProvider.GetThumbnail(
+                   fileName, THUMB_SIZE, THUMB_SIZE, ThumbnailOptions.None);
+                return thumbnail;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error en thumbnail: {0}", ex.Message);
+                return null;
+            }
+        }
+
+
     }
 }

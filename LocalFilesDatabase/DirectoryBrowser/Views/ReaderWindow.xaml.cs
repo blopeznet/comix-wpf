@@ -372,8 +372,8 @@ namespace DirectoryBrowser.Views
                     if (e.Key == Key.F11)
                     {
                         UpdateFullScreen();
+                        popUpBox.IsPopupOpen = false;
                     }
-
 
                     if (e.Key == Key.Down)
                     {
@@ -447,7 +447,7 @@ namespace DirectoryBrowser.Views
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonFullScreen_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             UpdateFullScreen();            
         }
 

@@ -273,6 +273,8 @@ namespace DirectoryBrowser.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            //Init setup values
+            InitSetup();
             ///Instance dispatcher timer for update covers
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
@@ -314,7 +316,7 @@ namespace DirectoryBrowser.ViewModel
                 App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar.",count);
                 if (count > 0)
                 {
-                    DBService.Instance.GenerateCoversMemorySteam(App.ViewModel.AllFolders.Where(f => f.CoverExists == false).Take(eachbycomics).OrderBy(f => f.FolderName).ToList());
+                    DBService.Instance.GenerateCoversMemorySteam(App.ViewModel.AllFolders.Where(f => f.CoverExists == false).Take(eachbycomics).OrderBy(f => f.FolderName).ToList(),App.ViewModel.ThumbSourceSelected);
                     if ((count > eachbycomics))
                     App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar...", count-eachbycomics);
                 }

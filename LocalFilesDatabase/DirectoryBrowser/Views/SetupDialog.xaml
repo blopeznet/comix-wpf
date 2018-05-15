@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="DirectoryBrowser.Views.SetupDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Margin="6,0,6,0"             
+             xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters"  
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             x:Name="InfoControl"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <FontFamily x:Key="FontFamily">Microsoft Sans Serif</FontFamily>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource SecondaryAccentBrush}" Margin="0,0,0,0">
+            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="CONFIGURACION" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Margin="0,0,0,0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+          <StackPanel Orientation="Vertical" Margin="12">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="IDIOMA" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox SelectedIndex="{Binding Main.LanguageSelected, Source={StaticResource Locator}}"  Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.Languages, Source={StaticResource Locator}}" Width="300"></ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                <TextBlock Text="LECTOR UTILIZADO" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox SelectedIndex="{Binding Main.ReaderUsedSelected, Source={StaticResource Locator}}" Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ReaderUsed, Source={StaticResource Locator}}" Width="300"></ComboBox>
+            </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBlock Text="ORIGEN MINIATURAS" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox SelectedIndex="{Binding Main.ThumbSourceSelected, Source={StaticResource Locator}}"   Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ThumbnailSources, Source={StaticResource Locator}}" Width="300"></ComboBox>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="buttonSave" Grid.Column="0" IsCancel="True" Margin="8 0 8 0" 
+                Content="GUARDAR"
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="buttonCancel" Grid.Column="1" IsCancel="True" Margin="8 0 8 0" 
+                Content="CANCELAR"
+                Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

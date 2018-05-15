@@ -68,12 +68,21 @@ namespace DirectoryBrowser
         /// Generate cover for list folders
         /// </summary>
         /// <param name="files">Generate cover for list folders</param>
-        public void GenerateCoversMemorySteam(List<FolderComicsInfo> files)
+        public void GenerateCoversMemorySteam(List<FolderComicsInfo> files,int sourcethumb)
         {
             bool updated = false;
             foreach (FolderComicsInfo folder in files.Where(f => f.CoverExists == false).ToList())
             {
-                MemoryStream img = ZipHelper.Instance.UncompressToMemoryStream(folder.FileNameFirst, folder, folder.FolderName);
+
+                MemoryStream img = new MemoryStream();
+
+                if (sourcethumb == 0) //From file
+                    img = ZipHelper.Instance.UncompressToMemoryStream(folder.FileNameFirst, folder, folder.FolderName);
+                else if (sourcethumb == 1)
+                { //From system
+                    System.Drawing.Bitmap bmp = UtilsApp.CreateThumbnail(folder.FileNameFirst);
+                    bmp.Save(img, System.Drawing.Imaging.ImageFormat.Png);
+                }
 
                 try
                 {

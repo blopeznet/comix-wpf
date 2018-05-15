@@ -145,10 +145,15 @@
     <Compile Include="Utils\LogicalDiskInfo.cs" />
     <Compile Include="Utils\SevenZipService.cs" />
     <Compile Include="Utils\UtilsApp.cs" />
+    <Compile Include="Utils\WindowsThumbnailProvider.cs" />
     <Compile Include="Utils\ZipHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ReaderViewModel.cs" />
+    <Compile Include="ViewModel\SetupViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\SetupDialog.xaml.cs">
+      <DependentUpon>SetupDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
@@ -170,6 +175,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\SetupDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\InfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

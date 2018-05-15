@@ -32,7 +32,7 @@ namespace DirectoryBrowser.Views
                 String path = ((TextBlock)(e.OriginalSource)).DataContext.ToString();
                 if (System.IO.File.Exists(path))
                 {                    
-                    if (useexternalapp)
+                    if (App.ViewModel.ReaderUsedSelected == 0)
                         Process.Start(path);
                     else
                     {
