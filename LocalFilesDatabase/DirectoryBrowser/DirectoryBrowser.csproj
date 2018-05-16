@@ -157,9 +157,6 @@
     <Compile Include="Views\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FilesView.xaml.cs">
-      <DependentUpon>FilesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ReaderWindow.xaml.cs">
       <DependentUpon>ReaderWindow.xaml</DependentUpon>
     </Compile>
@@ -182,10 +179,6 @@
     <Page Include="Views\InfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FilesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReaderWindow.xaml">
       <SubType>Designer</SubType>

@@ -262,8 +262,33 @@
                 </ScrollViewer>
             </Grid>
 
+
+            <!--<materialDesign:DialogHost Identifier="RootDialogRight" Grid.RowSpan="3">
+                <materialDesign:DrawerHost IsRightDrawerOpen="True">
+                    <materialDesign:DrawerHost.RightDrawerContent>
+                        <DockPanel Width="212">
+                            <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Files}" Margin="0,0,0,0">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True">
+                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Center" Text="{Binding Converter={StaticResource FilePathToFolderNameConverter}}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </DockPanel>
+                    </materialDesign:DrawerHost.RightDrawerContent>
+                </materialDesign:DrawerHost>
+            </materialDesign:DialogHost>-->
+
             <materialDesign:DialogHost Identifier="RootDialog" Grid.RowSpan="3">
-                <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+                                           IsRightDrawerOpen="{Binding Main.IsShowingFiles, Source={StaticResource Locator}}">
                     <materialDesign:DrawerHost.LeftDrawerContent>
                         <DockPanel MinWidth="212">
                             <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
@@ -298,6 +323,39 @@
                             </StackPanel>
                         </DockPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
+                    <materialDesign:DrawerHost.RightDrawerContent>
+                        <DockPanel Width="350">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <Grid Background="{StaticResource SecondaryAccentBrush}" Margin="0,0,0,0">
+                                    <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding Main.SelectedFolder.FolderName,Converter={StaticResource FolderPathToFolderNameConverter},Source={StaticResource Locator}}" Foreground="White" Margin="24,0,0,0" VerticalAlignment="Center"
+                                               FontFamily="{StaticResource FontFamily}" FontWeight="ExtraLight" />
+                                </Grid>
+                                <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Main.SelectedFolder.Files,Source={StaticResource Locator}}" Margin="0,0,0,0">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True" PreviewMouseDown="GridFile_PreviewMouseDown">
+                                                <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Center" Text="{Binding Converter={StaticResource FilePathToFolderNameConverter}}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <Button x:Name="buttonHideFiles" Click="buttonHideFiles_Click" Grid.Row="2" IsCancel="True" Margin="8 0 8 0" Style="{DynamicResource MaterialDesignFlatButton}">
+                                    CANCELAR
+                                </Button>
+                            </Grid>
+                        </DockPanel>
+                    </materialDesign:DrawerHost.RightDrawerContent>
+
                 </materialDesign:DrawerHost>
             </materialDesign:DialogHost>
         </Grid>

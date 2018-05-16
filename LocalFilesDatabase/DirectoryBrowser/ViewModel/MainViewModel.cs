@@ -209,6 +209,21 @@ namespace DirectoryBrowser.ViewModel
         }
 
         /// <summary>
+        /// Bool flag display files
+        /// </summary>
+        private bool _IsShowingFiles;
+        public bool IsShowingFiles
+        {
+            get => _IsShowingFiles;
+            set
+            {
+
+                _IsShowingFiles = value;
+                RaisePropertyChanged("IsShowingFiles");
+            }
+        }
+        
+        /// <summary>
         /// String message popup progress
         /// </summary>
         private string _WorkingMsg;

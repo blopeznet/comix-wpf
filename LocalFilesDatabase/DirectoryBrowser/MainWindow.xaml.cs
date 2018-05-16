@@ -209,49 +209,14 @@ namespace DirectoryBrowser
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void PreviewFilesButton_Click(object sender, RoutedEventArgs e)
+        private void PreviewFilesButton_Click(object sender, RoutedEventArgs e)
         {
-            await ExecuteRunFilesDialog(sender);
+            App.ViewModel.IsShowingFiles = true;
         }
 
         /// <summary>
-        /// Execute Run Files dialog method
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
-        private async Task ExecuteRunFilesDialog(object o)
-        {
-            //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new FilesView
-            {
-                DataContext = App.ViewModel.SelectedFolder
-            };
-            
-            view.MinWidth = this.Width / 2;
-            view.MaxHeight = this.Height / 2;
-            view.Margin = new Thickness(0,0,0,0);
-            //show the dialog
-            var result = await DialogHost.Show(view, "RootDialog", null, ExtendedClosingEventHandler);
-        }        
-
-        /// <summary>
-        /// Cancel dialog files
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="eventArgs"></param>
-        private void ExtendedClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if ((bool)eventArgs.Parameter == false) return;
-
-            //OK, lets cancel the close...
-            eventArgs.Cancel();           
-
-            //lets run a fake operation for 3 seconds then close this baby.
-            Task.Delay(TimeSpan.FromSeconds(3))
-                .ContinueWith((t, _) => eventArgs.Session.Close(false), null,
-                    TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
+        /// Show Setup dialog
+        /// </summary>      
         private async void buttonConfiguracion_Click(object sender, RoutedEventArgs e)
         {
             String id = "RootDialog";            
@@ -260,6 +225,43 @@ namespace DirectoryBrowser
             view.Margin = new System.Windows.Thickness(0, 0, 0, 0);
             //show the dialog
             var result = await MaterialDesignThemes.Wpf.DialogHost.Show(view, id);
+        }
+
+        /// <summary>
+        /// Event hide list files
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonHideFiles_Click(object sender, RoutedEventArgs e)
+        {
+            App.ViewModel.IsShowingFiles = false;
+        }
+
+        /// <summary>
+        /// On mouse push name, display file content with viewer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                String path = ((TextBlock)(e.OriginalSource)).DataContext.ToString();
+                if (System.IO.File.Exists(path))
+                {
+                    if (App.ViewModel.ReaderUsedSelected == 0)
+                        Process.Start(path);
+                    else
+                    {
+                        App.ViewModel.InitReader(path);
+                        ReaderWindow r = new ReaderWindow();
+                        r.ShowDialog();
+
+                    }
+                }
+            }
+            catch (Exception ex) { App.ViewModel.StatusMsg = ex.Message; }
+
         }
     }
 }
