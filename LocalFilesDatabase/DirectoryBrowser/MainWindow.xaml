@@ -18,7 +18,7 @@
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         WindowTitleBrush="{StaticResource SecondaryAccentBrush}"
-        Title="Comic Directory Browser"
+        Title="Comic Directory Explorer"
         >
       <Window.Resources>
         <Converters:DoubleToMbConverter x:Key="DoubleToMbConverter"/>

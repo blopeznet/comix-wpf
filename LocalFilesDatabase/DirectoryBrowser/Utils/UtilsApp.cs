@@ -7,6 +7,13 @@ namespace DirectoryBrowser
 {
     public static class UtilsApp
     {
+
+        public static String GetDocsPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CBDExplorer\\";
+        }
+
+
         /// <summary>
         /// Save bitmap image to file into Pictures Folder
         /// </summary>

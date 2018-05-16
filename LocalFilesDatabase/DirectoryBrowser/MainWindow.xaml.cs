@@ -73,6 +73,7 @@ namespace DirectoryBrowser
             
             System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
             openFileDialog.Filter = "Comic Database File (.cdb)|*.cdb";
+            openFileDialog.InitialDirectory = UtilsApp.GetDocsPath();
             System.Windows.Forms.DialogResult res = openFileDialog.ShowDialog();
             string path = openFileDialog.FileName;
             if (!String.IsNullOrEmpty(path) && res == System.Windows.Forms.DialogResult.OK)

@@ -7,7 +7,7 @@ using System.Windows;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("Comic Directory Browser")]
+[assembly: AssemblyTitle("Comic Directory Explorer")]
 [assembly: AssemblyDescription("Explorador directorios con archivos *.cbr y *.cbz")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("blopez")]

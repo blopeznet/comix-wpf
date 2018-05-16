@@ -373,10 +373,10 @@ namespace DirectoryBrowser.ViewModel
                 DateTime.Now.ToString("yyyyddMM_HHmm"));
 
 
-            String filename = System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\" + namedbfile;
+            String filename = UtilsApp.GetDocsPath() + namedbfile;
             App.ViewModel.FilterMsg = String.Empty;
             App.ViewModel.StatusMsg = String.Empty;
-            System.IO.Directory.CreateDirectory(System.AppDomain.CurrentDomain.BaseDirectory + "MyData\\");
+            System.IO.Directory.CreateDirectory(UtilsApp.GetDocsPath());
             App.ViewModel.IsWorking = true;
             App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";
             DBService.Instance.Path = filename;
