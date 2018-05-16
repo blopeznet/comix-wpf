@@ -13,7 +13,25 @@ namespace DirectoryBrowser.Views
         public SetupDialogView()
         {
             InitializeComponent();
-        }        
+            SaveBackup();
+        }
+
+        Config backup;
+
+        private void SaveBackup()
+        {
+            backup = new Config();
+            backup.LanguageSelected = App.ViewModel.LanguageSelected;
+            backup.ReaderUsedSelected = App.ViewModel.ReaderUsedSelected;
+            backup.ThumbSourceSelected = App.ViewModel.ThumbSourceSelected;
+        }
+
+        private void RestoreBackup()
+        {            
+            App.ViewModel.ReaderUsedSelected = backup.ReaderUsedSelected;
+            App.ViewModel.LanguageSelected = backup.LanguageSelected;
+            App.ViewModel.ThumbSourceSelected = backup.ThumbSourceSelected;
+        }
 
         #region InotifyPropertyChanged
 
@@ -31,5 +49,21 @@ namespace DirectoryBrowser.Views
         }
 
         #endregion
+
+        private void buttonSave_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.ViewModel.ReaderUsedSelected = cbReader.SelectedIndex;
+            App.ViewModel.LanguageSelected = cbLanguage.SelectedIndex;
+            App.ViewModel.ThumbSourceSelected = cbThumbnails.SelectedIndex;               
+            App.ViewModel.SaveSetup(cbReader.SelectedIndex,cbLanguage.SelectedIndex,cbThumbnails.SelectedIndex);
+
+            App.ViewModel.LoadLanguage();
+            App.ViewModel.RestartApp();
+        }
+
+        private void buttonCancel_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            RestoreBackup();
+        }
     }
 }

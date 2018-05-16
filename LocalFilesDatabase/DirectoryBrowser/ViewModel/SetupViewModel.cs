@@ -1,8 +1,12 @@
-﻿using System;
+﻿using DirectoryBrowser.Internationalization;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DirectoryBrowser.ViewModel
@@ -10,23 +14,75 @@ namespace DirectoryBrowser.ViewModel
     partial class MainViewModel
     {
 
-        private void InitSetup()
+        public void InitSetup()
         {
+            //Load values for settings
+
             _ReaderUsed = new ObservableCollection<string>();
-            _ReaderUsed.Add("Sistema");
-            _ReaderUsed.Add("Aplicación");
+            _ReaderUsed.Add(DirectoryBrowser.Internationalization.Resources.TxtSystem);
+            _ReaderUsed.Add(DirectoryBrowser.Internationalization.Resources.TxtApp);
 
             _Languages = new ObservableCollection<string>();
-            _Languages.Add("Español");
-            _Languages.Add("Inglés");
+            _Languages.Add(DirectoryBrowser.Internationalization.Resources.TxtLanguageES);
+            _Languages.Add(DirectoryBrowser.Internationalization.Resources.TxtLanguageEN);
 
             _ThumbnailSources = new ObservableCollection<string>();
-            _ThumbnailSources.Add("Desde fichero");
-            _ThumbnailSources.Add("Desde sistema");
+            _ThumbnailSources.Add(DirectoryBrowser.Internationalization.Resources.TxtFromFile);
+            _ThumbnailSources.Add(DirectoryBrowser.Internationalization.Resources.TxtFromSystem);            
+        }
 
-            ReaderUsedSelected = 1;
-            LanguageSelected = 0;
-            _ThumbSourceSelected = 1;
+        /// <summary>
+        /// Load language start
+        /// </summary>
+        public void LoadLanguage()
+        {
+
+            String IsoLanguage = String.Empty;
+
+            switch (App.ViewModel.LanguageSelected)
+            {
+                case 0:
+                    IsoLanguage = "es-ES";                   
+                    break;
+                case 1:
+                    IsoLanguage = "en-US";
+                    CultureResources crusa = new CultureResources();
+                    crusa.SetCulture(new CultureInfo(IsoLanguage));
+                    break;
+            }
+            
+        }
+
+        /// <summary>
+        /// Restart App
+        /// </summary>
+        public void RestartApp()
+        {
+            System.Windows.Forms.Application.Restart();
+            App.Current.Shutdown();
+        }
+    
+
+        public void LoadSetup()
+        {
+            Config.Load();            
+            ReaderUsedSelected = Config.Instance.ReaderUsedSelected;
+            LanguageSelected = Config.Instance.LanguageSelected;
+            ThumbSourceSelected = Config.Instance.ThumbSourceSelected;
+        }
+
+        /// <summary>
+        /// Save setup values
+        /// </summary>
+        /// <param name="readerused"></param>
+        /// <param name="languageused"></param>
+        /// <param name="thumbused"></param>
+        public void SaveSetup(int readerused,int languageused,int thumbused)
+        {
+            Config.Instance.ReaderUsedSelected = readerused;
+            Config.Instance.LanguageSelected = languageused;
+            Config.Instance.ThumbSourceSelected = thumbused;
+            Config.Instance.Save();
         }
 
         private ObservableCollection<String> _ReaderUsed;

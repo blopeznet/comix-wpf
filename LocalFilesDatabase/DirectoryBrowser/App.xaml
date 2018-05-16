@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:DirectoryBrowser" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:DirectoryBrowser.ViewModel"
+             xmlns:localization="clr-namespace:DirectoryBrowser.Internationalization"
              Startup="Application_Startup"
              d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
   <Application.Resources>
@@ -27,6 +28,9 @@
             <SolidColorBrush x:Key="BackgroundBrush2" Color="#FFE2E259"/>
             <SolidColorBrush x:Key="HeaderColorBrush" Color="#d50000"/>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True"  />
-    </ResourceDictionary>
+            <ObjectDataProvider x:Key="Resources" 
+                    ObjectType="{x:Type localization:CultureResources}" 
+                    MethodName="GetResourceInstance"/>
+        </ResourceDictionary>
   </Application.Resources>
 </Application>

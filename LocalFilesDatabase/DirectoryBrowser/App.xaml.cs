@@ -18,7 +18,13 @@ namespace DirectoryBrowser
         /// <param name="e"></param>
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            
+            //Setup files and language
+            Config.FileName = UtilsApp.GetDocsPath() + Config.FileName;
+            App.ViewModel.LoadSetup();
+            App.ViewModel.LoadLanguage();
+            //Init setup values
+            App.ViewModel.InitSetup();
+
             var mainWindow = new MainWindow();            
             mainWindow.Show();
 

@@ -20,7 +20,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource SecondaryAccentBrush}" Margin="0,0,0,0">
-            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="CONFIGURACION" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
+            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding TxtSetupTitle, Source={StaticResource Resources}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
         </Grid>
         <Grid Margin="0,0,0,0" Grid.Row="1">
             <Grid.RowDefinitions>
@@ -29,16 +29,16 @@
             </Grid.RowDefinitions>
           <StackPanel Orientation="Vertical" Margin="12">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="IDIOMA" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
-                    <ComboBox SelectedIndex="{Binding Main.LanguageSelected, Source={StaticResource Locator}}"  Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.Languages, Source={StaticResource Locator}}" Width="300"></ComboBox>
+                    <TextBlock Text="{Binding TxtLanguageTitle, Source={StaticResource Resources}}" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox x:Name="cbLanguage" SelectedIndex="{Binding Main.LanguageSelected, Source={StaticResource Locator}}"  Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.Languages, Source={StaticResource Locator}}" Width="300"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                <TextBlock Text="LECTOR UTILIZADO" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
-                    <ComboBox SelectedIndex="{Binding Main.ReaderUsedSelected, Source={StaticResource Locator}}" Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ReaderUsed, Source={StaticResource Locator}}" Width="300"></ComboBox>
+                    <TextBlock Text="{Binding TxtReaderUseTitle, Source={StaticResource Resources}}" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox x:Name="cbReader" SelectedIndex="{Binding Main.ReaderUsedSelected, Source={StaticResource Locator}}" Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ReaderUsed, Source={StaticResource Locator}}" Width="300"></ComboBox>
             </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                    <TextBlock Text="ORIGEN MINIATURAS" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
-                    <ComboBox SelectedIndex="{Binding Main.ThumbSourceSelected, Source={StaticResource Locator}}"   Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ThumbnailSources, Source={StaticResource Locator}}" Width="300"></ComboBox>
+                    <TextBlock Text="{Binding TxtSourceThumbsTitle, Source={StaticResource Resources}}" FontWeight="Bold" Width="300" Margin="6,12,6,6"></TextBlock>
+                    <ComboBox x:Name="cbThumbnails" SelectedIndex="{Binding Main.ThumbSourceSelected, Source={StaticResource Locator}}"   Style="{StaticResource MaterialDesignComboBox}" ItemsSource="{Binding Main.ThumbnailSources, Source={StaticResource Locator}}" Width="300"></ComboBox>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -48,7 +48,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button x:Name="buttonSave" Grid.Column="0" IsCancel="True" Margin="8 0 8 0" 
-                Content="GUARDAR"
+                Content="{Binding TxtSaveTitle, Source={StaticResource Resources}}" Click="buttonSave_Click"
                 Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
@@ -56,7 +56,7 @@
                 </Button.CommandParameter>
             </Button>
             <Button x:Name="buttonCancel" Grid.Column="1" IsCancel="True" Margin="8 0 8 0" 
-                Content="CANCELAR"
+                Content="{Binding TxtCancelTitle, Source={StaticResource Resources}}" Click="buttonCancel_Click"
                 Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>

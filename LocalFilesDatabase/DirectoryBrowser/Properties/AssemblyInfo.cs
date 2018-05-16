@@ -8,7 +8,7 @@ using System.Windows;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("Comic Directory Explorer")]
-[assembly: AssemblyDescription("Explorador directorios con archivos *.cbr y *.cbz")]
+[assembly: AssemblyDescription("Explorer folder with files *.cbr y *.cbz")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("blopez")]
 [assembly: AssemblyProduct("DirectoryBrowser")]
@@ -53,3 +53,5 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.5.0.0")]
 [assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: NeutralResourcesLanguage("en-US")]
+

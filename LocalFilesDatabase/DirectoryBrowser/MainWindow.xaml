@@ -106,7 +106,7 @@
 
 
                 <ComboBox x:Name="comboSearch" HorizontalAlignment="Right" Width="240" Margin="0,0,24,0" VerticalAlignment="Center" Foreground="White"
-  materialDesign:HintAssist.Hint="Buscar" ItemsSource="{Binding Main.SearchedFolders ,Source={StaticResource Locator}}" SelectionChanged="comboSearch_SelectionChanged"
+  materialDesign:HintAssist.Hint="{Binding TxtSearch, Source={StaticResource Resources}}" ItemsSource="{Binding Main.SearchedFolders ,Source={StaticResource Locator}}" SelectionChanged="comboSearch_SelectionChanged"
   IsEditable="True" 
                           KeyUp="comboSearch_KeyUp"
                           materialDesign:ColorZoneAssist.Mode="Accent"
@@ -140,7 +140,7 @@
                             <HierarchicalDataTemplate DataType="{x:Type entities:MyTreeViewItem}" ItemsSource="{Binding SubItems}">
                                 <Grid Background="Transparent" Cursor="Hand">
                                     <TextBlock TextTrimming="WordEllipsis" Text="{Binding Name}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
-                                 </Grid>
+                                </Grid>
                             </HierarchicalDataTemplate>
                         </TreeView.Resources>
                         <TreeView.ItemContainerStyle>
@@ -148,17 +148,17 @@
                                 <Setter Property="IsExpanded" Value="{Binding Show}" />
                             </Style>
                         </TreeView.ItemContainerStyle>
-                  </TreeView>
+                    </TreeView>
                     <StackPanel 
                         Visibility="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}"
                         Margin="12,0,0,12" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Vertical" >
                         <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Fichero: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
-                        <TextBlock Text="{Binding Main.CurrentFileNameDB ,Source={StaticResource Locator}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
+                            <TextBlock Text="Fichero: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding Main.CurrentFileNameDB ,Source={StaticResource Locator}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
                         </StackPanel>
                         <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                        <TextBlock Text="Tamaño: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
-                        <TextBlock Text="{Binding Main.TotalFolderSize ,Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
+                            <TextBlock Text="Tamaño: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding Main.TotalFolderSize ,Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
                         </StackPanel>
                         <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
                             <TextBlock Text="Carpetas: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
@@ -182,11 +182,11 @@
 
                         <Grid>
 
-                        <Rectangle  Margin="0,0,-12,-12" Fill="Black" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}"
+                            <Rectangle  Margin="0,0,-12,-12" Fill="Black" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}"
                            Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"                           
                      />
 
-                        <Image x:Name="BigImage" Style="{StaticResource BigImageStyle}"
+                            <Image x:Name="BigImage" Style="{StaticResource BigImageStyle}"
                            Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"
                            Source="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}" 
                      />
@@ -210,7 +210,7 @@
                             <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="ULTIMA ACTUALIZACIÓN: "/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.LastUpdate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
                         </StackPanel>
-                        
+
                         <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Margin="0,12,0,0">
                             <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="TOMOS: "/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.NumberFiles, Source={StaticResource Locator}}"/>
@@ -262,30 +262,6 @@
                 </ScrollViewer>
             </Grid>
 
-
-            <!--<materialDesign:DialogHost Identifier="RootDialogRight" Grid.RowSpan="3">
-                <materialDesign:DrawerHost IsRightDrawerOpen="True">
-                    <materialDesign:DrawerHost.RightDrawerContent>
-                        <DockPanel Width="212">
-                            <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Files}" Margin="0,0,0,0">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True">
-                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Center" Text="{Binding Converter={StaticResource FilePathToFolderNameConverter}}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </DockPanel>
-                    </materialDesign:DrawerHost.RightDrawerContent>
-                </materialDesign:DrawerHost>
-            </materialDesign:DialogHost>-->
-
             <materialDesign:DialogHost Identifier="RootDialog" Grid.RowSpan="3">
                 <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                                            IsRightDrawerOpen="{Binding Main.IsShowingFiles, Source={StaticResource Locator}}">
@@ -299,25 +275,25 @@
                                 <Button x:Name="buttonAbrir" Click="buttonAbrir_Click" Style="{StaticResource MaterialDesignFlatAccentButton}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" MinWidth="212" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" Height="48">
                                         <materialDesign:PackIcon Width="26" Height="26" Margin="12,0,0,0" Kind="FolderOpen" Foreground="Black"/>
-                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Abrir Fichero"/>
+                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="{Binding TxtOpenFile, Source={StaticResource Resources}}"/>
                                     </StackPanel>
                                 </Button>
                                 <Button x:Name="buttonCrear" Click="buttonCrear_Click" Style="{StaticResource MaterialDesignFlatAccentButton}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" MinWidth="212" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" Height="48">
                                         <materialDesign:PackIcon Width="26" Height="26" Margin="12,0,0,0" Kind="NewBox" Foreground="Black"/>
-                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Crear Fichero"/>
+                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="{Binding TxtCreateFile, Source={StaticResource Resources}}"/>
                                     </StackPanel>
                                 </Button>
                                 <Button x:Name="buttonConfiguracion" Focusable="False"  Click="buttonConfiguracion_Click" Style="{StaticResource MaterialDesignFlatAccentButton}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" MinWidth="212" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" Height="48">
                                         <TextBlock Margin="16,-6,0,0" VerticalAlignment="Top" Width="26" Height="26" FontFamily="Segoe UI Symbol" Text="" FontSize="23" Foreground="Black"/>
-                                        <TextBlock Margin="8,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Configuración"/>
+                                        <TextBlock Margin="8,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="{Binding SetupMenu, Source={StaticResource Resources}}"/>
                                     </StackPanel>
                                 </Button>
                                 <Button x:Name="buttonCerrar" Click="buttonCerrar_Click" Style="{StaticResource MaterialDesignFlatAccentButton}" HorizontalContentAlignment="Stretch" Background="Transparent" BorderBrush="Transparent" MinWidth="212" HorizontalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal" Height="48">
                                         <materialDesign:PackIcon Width="26" Height="26" Margin="12,0,0,0" Kind="CloseBox"  Foreground="Black"/>
-                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="Cerrar Fichero"/>
+                                        <TextBlock Margin="12,4,0,0" HorizontalAlignment="Stretch" Style="{StaticResource SubtitleStyle}" Text="{Binding CloseFile, Source={StaticResource Resources}}"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

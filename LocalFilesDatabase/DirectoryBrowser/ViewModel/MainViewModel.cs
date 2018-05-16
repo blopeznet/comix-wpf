@@ -287,9 +287,7 @@ namespace DirectoryBrowser.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public MainViewModel()
-        {
-            //Init setup values
-            InitSetup();
+        {           
             ///Instance dispatcher timer for update covers
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 10);

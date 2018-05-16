@@ -136,9 +136,22 @@
     <Compile Include="Common\FolderComicsInfoToBitmapImageConverter.cs" />
     <Compile Include="Common\TouchScrolling.cs" />
     <Compile Include="Entities\ComicTemp.cs" />
+    <Compile Include="Entities\Config.cs" />
     <Compile Include="Entities\FileInfo.cs" />
     <Compile Include="Entities\MyTreeView.cs" />
     <Compile Include="Entities\TaskBarcs.cs" />
+    <Compile Include="Internationalization\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Internationalization\Resources.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.en.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Services\PShellHelper.cs" />
     <Compile Include="Services\DBService.cs" />
     <Compile Include="Utils\DirectoryHelper.cs" />
@@ -146,6 +159,7 @@
     <Compile Include="Utils\SevenZipService.cs" />
     <Compile Include="Utils\UtilsApp.cs" />
     <Compile Include="Utils\WindowsThumbnailProvider.cs" />
+    <Compile Include="Internationalization\CultureResources.cs" />
     <Compile Include="Utils\ZipHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ReaderViewModel.cs" />
@@ -204,6 +218,16 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\Scripts\list.ps1" />
+    <EmbeddedResource Include="Internationalization\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Internationalization\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="DirectoryBrowser_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
