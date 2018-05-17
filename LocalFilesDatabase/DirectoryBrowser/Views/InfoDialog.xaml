@@ -20,7 +20,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource SecondaryAccentBrush}" Margin="0,0,0,0">
-            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="INFORMACIÓN" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
+            <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding TxtInfoTItle, Source={StaticResource Resources}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" />
         </Grid>
         <Grid Margin="0,0,0,0" Grid.Row="1">
             <TextBlock x:Name="tbInfo" Margin="4,8,4,4" Text="{Binding Info, ElementName=InfoControl}" HorizontalAlignment="Center" FontSize="18" FontFamily="{StaticResource FontFamily}"  VerticalAlignment="Center" />

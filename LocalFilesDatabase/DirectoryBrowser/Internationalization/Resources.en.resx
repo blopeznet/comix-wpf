@@ -117,26 +117,65 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllThumbsText" xml:space="preserve">
+    <value>All thumbnails have been generated.</value>
+  </data>
   <data name="CloseFile" xml:space="preserve">
     <value>Close File</value>
   </data>
   <data name="SetupMenu" xml:space="preserve">
     <value>Setup</value>
   </data>
+  <data name="ThumbsLeftText" xml:space="preserve">
+    <value>There are {0} thumbnails left to generate.</value>
+  </data>
+  <data name="TxtAboutBy" xml:space="preserve">
+    <value>By blopez 2018</value>
+  </data>
   <data name="TxtApp" xml:space="preserve">
     <value>Application</value>
+  </data>
+  <data name="TxtBooks" xml:space="preserve">
+    <value>Books : </value>
+  </data>
+  <data name="TxtBooksUpper" xml:space="preserve">
+    <value>BOOKS :  </value>
   </data>
   <data name="TxtCancelTitle" xml:space="preserve">
     <value>CANCEL</value>
   </data>
+  <data name="TxtCancelUpper" xml:space="preserve">
+    <value>CANCEL</value>
+  </data>
+  <data name="TxtCreatedAtUpper" xml:space="preserve">
+    <value>CREATED AT :  </value>
+  </data>
   <data name="TxtCreateFile" xml:space="preserve">
     <value>Create File</value>
+  </data>
+  <data name="TxtExplore" xml:space="preserve">
+    <value>Explore</value>
+  </data>
+  <data name="TxtFile" xml:space="preserve">
+    <value>File : </value>
+  </data>
+  <data name="TxtFileCreatedAt" xml:space="preserve">
+    <value>File created at {0}</value>
+  </data>
+  <data name="TxtFolderNotFound" xml:space="preserve">
+    <value>Folder not found.</value>
+  </data>
+  <data name="TxtFolders" xml:space="preserve">
+    <value>Folders : </value>
   </data>
   <data name="TxtFromFile" xml:space="preserve">
     <value>From file</value>
   </data>
   <data name="TxtFromSystem" xml:space="preserve">
     <value>From system</value>
+  </data>
+  <data name="TxtGenaratingLibraryTitle" xml:space="preserve">
+    <value>GENERATING LIBRARY...</value>
   </data>
   <data name="TxtLanguageEN" xml:space="preserve">
     <value>English</value>
@@ -147,8 +186,26 @@
   <data name="TxtLanguageTitle" xml:space="preserve">
     <value>LANGUAGE</value>
   </data>
+  <data name="TxtLastComicsUpdatedUpper" xml:space="preserve">
+    <value> LAST UPDATED COMICS</value>
+  </data>
+  <data name="TxtLastUpdatedUpper" xml:space="preserve">
+    <value>LAST UPDATE :  </value>
+  </data>
+  <data name="TxtMyComicsTitle" xml:space="preserve">
+    <value>MY COMICS</value>
+  </data>
+  <data name="TxtOkUpper" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="TxtOpenFile" xml:space="preserve">
     <value>Open File</value>
+  </data>
+  <data name="TxtProcessing" xml:space="preserve">
+    <value>Processing {0} of {1} folders, {2} of {3} files.</value>
+  </data>
+  <data name="TxtProcessTitle" xml:space="preserve">
+    <value>PROCESSING...</value>
   </data>
   <data name="TxtReaderUseTitle" xml:space="preserve">
     <value>READER USED</value>
@@ -162,10 +219,37 @@
   <data name="TxtSetupTitle" xml:space="preserve">
     <value>SETUP</value>
   </data>
+  <data name="TxtSize" xml:space="preserve">
+    <value>Size : </value>
+  </data>
   <data name="TxtSourceThumbsTitle" xml:space="preserve">
     <value>THUMBNAIL SOURCES</value>
   </data>
   <data name="TxtSystem" xml:space="preserve">
     <value>System</value>
+  </data>
+  <data name="TxtTitleUpper" xml:space="preserve">
+    <value>TITLE :   </value>
+  </data>
+  <data name="TxtAboutOf" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="TxtFileNotFound" xml:space="preserve">
+    <value>File not found.</value>
+  </data>
+  <data name="TxtFilter" xml:space="preserve">
+    <value>Filter ({0})</value>
+  </data>
+  <data name="TxtFullScreen" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="TxtInfoTItle" xml:space="preserve">
+    <value>INFORMATION</value>
+  </data>
+  <data name="TxtLoadingUpper" xml:space="preserve">
+    <value>LOADING...</value>
+  </data>
+  <data name="TxtSavePage" xml:space="preserve">
+    <value>Save page</value>
   </data>
 </root>

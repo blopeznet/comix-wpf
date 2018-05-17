@@ -102,7 +102,7 @@
             <DockPanel Background="Black">
                 <ToggleButton Foreground="White" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding Main.showMenu ,Source={StaticResource Locator}}"
                                         x:Name="MenuToggleButton" Margin="4,0,0,0" Unchecked="MenuToggleButton_Unchecked"/>
-                <TextBlock HorizontalAlignment="Left" Text="MIS COMICS" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="22"/>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding TxtMyComicsTitle, Source={StaticResource Resources}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="22"/>
 
 
                 <ComboBox x:Name="comboSearch" HorizontalAlignment="Right" Width="240" Margin="0,0,24,0" VerticalAlignment="Center" Foreground="White"
@@ -153,17 +153,17 @@
                         Visibility="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}"
                         Margin="12,0,0,12" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Vertical" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Fichero: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding TxtFile, Source={StaticResource Resources}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
                             <TextBlock Text="{Binding Main.CurrentFileNameDB ,Source={StaticResource Locator}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
                         </StackPanel>
                         <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                            <TextBlock Text="Tamaño: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding TxtSize, Source={StaticResource Resources}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
                             <TextBlock Text="{Binding Main.TotalFolderSize ,Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
                         </StackPanel>
                         <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                            <TextBlock Text="Carpetas: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding TxtFolders, Source={StaticResource Resources}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
                             <TextBlock Text="{Binding Main.TotalFolderCount ,Source={StaticResource Locator}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
-                            <TextBlock Text="Tomos: " Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
+                            <TextBlock Text="{Binding TxtBooks, Source={StaticResource Resources}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" Margin="12,0,0,0" />
                             <TextBlock Text="{Binding Main.TotalFilesCount ,Source={StaticResource Locator}}" Foreground="#4d4d4d" FontSize="14" FontWeight="Bold" FontFamily="Sans-serif" />
                         </StackPanel>
                     </StackPanel>
@@ -176,51 +176,40 @@
                         Margin="0,0,0,12" 
                         TextWrapping="Wrap" TextAlignment="Center" TextTrimming="WordEllipsis"
                             Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
-
-
-
-
                         <Grid>
-
                             <Rectangle  Margin="0,0,-12,-12" Fill="Black" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}"
-                           Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"                           
-                     />
-
+                           Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             <Image x:Name="BigImage" Style="{StaticResource BigImageStyle}"
                            Visibility="{Binding Main.SelectedFolder.CoverExists, Source={StaticResource Locator}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                           Source="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}" 
-                     />
-
+                           Source="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource FolderComicsInfoToBitmapImageConverter}}" />
                             <Button Focusable="False" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" x:Name="PreviewFilesButton" Click="PreviewFilesButton_Click" Margin="0,0,0,0" Opacity="0.1"></Button>
-
-
                         </Grid>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="TITULO: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="{Binding TxtTitleUpper, Source={StaticResource Resources}}"/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="CREADO EL: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="{Binding TxtCreatedAtUpper, Source={StaticResource Resources}}"/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.CreationDate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter},ConverterParameter=short}"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="ULTIMA ACTUALIZACIÓN: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="{Binding TxtLastUpdatedUpper, Source={StaticResource Resources}}"/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.LastUpdate, Source={StaticResource Locator}, Converter={StaticResource RelativeTimeConverter}}"/>
                         </StackPanel>
 
                         <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Margin="0,12,0,0">
-                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="TOMOS: "/>
+                            <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="{Binding TxtBooksUpper, Source={StaticResource Resources}}"/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.NumberFiles, Source={StaticResource Locator}}"/>
                             <TextBlock Margin="12,0,0,0" Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.TotalSize, Source={StaticResource Locator},Converter={StaticResource DoubleToMbConverter}}"/>
                         </StackPanel>
 
-                        <Button x:Name="buttonExplore" Style="{StaticResource BigButton}" Content="Explorar" Click="buttonExplore_Click"  Margin="0,12,0,0"/>
+                        <Button x:Name="buttonExplore" Style="{StaticResource BigButton}" Content="{Binding TxtExplore, Source={StaticResource Resources}}" Click="buttonExplore_Click"  Margin="0,12,0,0"/>
 
 
-                        <TextBlock Text=" ÚLTIMOS COMICS ACTUALIZADOS"
+                        <TextBlock Text="{Binding TxtLastComicsUpdatedUpper, Source={StaticResource Resources}}"
                                Visibility="{Binding Main.LasFolders, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}"
                                FontFamily="{StaticResource FontFamily}"
                                FontSize="{StaticResource FontSizeTitle}"
@@ -325,8 +314,8 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                                <Button x:Name="buttonHideFiles" Click="buttonHideFiles_Click" Grid.Row="2" IsCancel="True" Margin="8 0 8 0" Style="{DynamicResource MaterialDesignFlatButton}">
-                                    CANCELAR
+                                <Button x:Name="buttonHideFiles" Click="buttonHideFiles_Click" Grid.Row="2" IsCancel="True" Margin="8 0 8 0" Style="{DynamicResource MaterialDesignFlatButton}"
+                                       Content="{Binding TxtCancelUpper, Source={StaticResource Resources}}">
                                 </Button>
                             </Grid>
                         </DockPanel>
@@ -349,7 +338,7 @@
     Padding="32">
                 <StackPanel Margin="6" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <ProgressBar x:Name="progressBar" Width="48" Height="48" Style="{DynamicResource MaterialDesignCircularProgressBar}" Foreground="{StaticResource SecondaryAccentBrush}" HorizontalAlignment="Center" Margin="4" IsIndeterminate="True" Value="0" />
-                    <TextBlock Margin="0,4,0,0" Style="{StaticResource SubtitleStyle}" Text="PROCESANDO..." Foreground="{StaticResource SecondaryAccentBrush}"/>
+                    <TextBlock Margin="0,4,0,0" Style="{StaticResource SubtitleStyle}" Text="{Binding TxtProcessTitle, Source={StaticResource Resources}}" Foreground="{StaticResource SecondaryAccentBrush}"/>
                 </StackPanel>
             </materialDesign:Card>
 

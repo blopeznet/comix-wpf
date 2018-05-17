@@ -459,7 +459,10 @@ namespace DirectoryBrowser.Views
         private async void buttonSaveImage_Click(object sender, RoutedEventArgs e)
         {
             String path = UtilsApp.SaveFileAndGetPath(((ComicTemp)FvPages.SelectedItem).Image);
-            await App.ViewModel.DisplayPopUp(String.Format("Fichero creado en {0}", path), "ACEPTAR", "RootDialogReader");                        
+            await App.ViewModel.DisplayPopUp(
+                String.Format(DirectoryBrowser.Internationalization.Resources.TxtFileCreatedAt, path), 
+                DirectoryBrowser.Internationalization.Resources.TxtOkUpper, 
+                "RootDialogReader");                        
         }
 
         /// <summary>
@@ -469,7 +472,10 @@ namespace DirectoryBrowser.Views
         /// <param name="e"></param>
         private async void buttonAbout_Click(object sender, RoutedEventArgs e)
         {
-            await App.ViewModel.DisplayPopUp(String.Format("Created by blopez 2018"), "ACEPTAR", "RootDialogReader");
+            await App.ViewModel.DisplayPopUp(
+                String.Format(DirectoryBrowser.Internationalization.Resources.TxtAboutBy), 
+                DirectoryBrowser.Internationalization.Resources.TxtOkUpper, 
+                "RootDialogReader");
         }
 
         #endregion

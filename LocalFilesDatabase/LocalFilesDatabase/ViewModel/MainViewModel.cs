@@ -13,7 +13,7 @@ using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using System.Windows.Controls;
 
-namespace LocalFilesDatabase.ViewModel
+namespace DirectoryBrowser.ViewModel
 {
     /// <summary>
     /// This class contains properties that the main View can data bind to.
@@ -68,8 +68,9 @@ namespace LocalFilesDatabase.ViewModel
                     App.Current.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() => {
                         file.CoverByteArray = MainUtils.BitmapImageToByteArray(MainUtils.CreateThumbnailBitmapImage(file.Path,file));
                     }));
-                    processedfiles += 1;                                        
-                    WorkingMsg = String.Format("Procesando {0} de {1} carpetas, {2} de {3} ficheros.", processedfolders, totalfolders+1, processedfiles, totalfiles+1);
+                    processedfiles += 1;
+                    String txt = DirectoryBrowser.Internationalization.Resources.TxtProcessing;
+                    WorkingMsg = String.Format(, processedfolders, totalfolders+1, processedfiles, totalfiles+1);
                 }
                 DBService.Instance.AddItemFiles(f.Files);
                 DBService.Instance.AddItemFolder(f);

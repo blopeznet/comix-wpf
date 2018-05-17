@@ -330,8 +330,8 @@
                              Value="50" Margin="0,0,0,0"
                              IsIndeterminate="True"
                              x:Name="IndeterminateToDeterminateCircularProgress"/>
-                            
-                            <TextBlock Text="CARGANDO..." HorizontalAlignment="Center" FontSize="24" Foreground="White" Margin="0,12,0,12"></TextBlock>
+
+                            <TextBlock Text="{Binding TxtLoadingUpper, Source={StaticResource Resources}}" HorizontalAlignment="Center" FontSize="24" Foreground="White" Margin="0,12,0,12"></TextBlock>
                         </StackPanel>
                         <ScrollViewer x:Name="scrollView"                                
                                   CanContentScroll="True" 
@@ -365,7 +365,7 @@
                  Height="12" Value="{Binding Main.ProgressLoad,Source={StaticResource Locator}}"                            
                  x:Name="ProgressLoadBar">
                 </ProgressBar>
-                <TextBlock Text="Cargando..." HorizontalAlignment="Center" Foreground="White" Margin="2"></TextBlock>
+                <TextBlock Text="{Binding TxtLoadingUpper, Source={StaticResource Resources}}" HorizontalAlignment="Center" Foreground="White" Margin="2"></TextBlock>
             </StackPanel>
         </Grid>
         
@@ -383,15 +383,15 @@
                                  Focusable="False"
                                  Margin="32" Grid.Row="1">
             <StackPanel>
-                <Button ToolTip="Pantalla completa" x:Name="buttonFullScreen" Click="buttonFullScreen_Click">
+                <Button ToolTip="{Binding TxtFullScreen, Source={StaticResource Resources}}" x:Name="buttonFullScreen" Click="buttonFullScreen_Click">
                     <materialDesign:PackIcon Kind="Fullscreen" Height="20" Width="20" />
                 </Button>
-                <Button ToolTip="Guardar página" x:Name="buttonSaveImage" Click="buttonSaveImage_Click"
+                <Button ToolTip="{Binding TxtSavePage, Source={StaticResource Resources}}" x:Name="buttonSaveImage" Click="buttonSaveImage_Click"
                         Background="{DynamicResource PrimaryHueMidBrush}"
                         Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
                     <materialDesign:PackIcon Kind="ContentSave" />
                 </Button>
-                <Button ToolTip="Acerca de" x:Name="buttonAbout" Click="buttonAbout_Click">
+                <Button ToolTip="{Binding TxtAboutOf, Source={StaticResource Resources}}" x:Name="buttonAbout" Click="buttonAbout_Click">
                     <Button.Background>
                         <SolidColorBrush Color="{StaticResource RedPrimary500}" />
                     </Button.Background>

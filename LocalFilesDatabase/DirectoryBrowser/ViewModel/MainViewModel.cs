@@ -326,15 +326,15 @@ namespace DirectoryBrowser.ViewModel
             {
 
                 int count = App.ViewModel.AllFolders.Count(f => f.CoverExists == false);
-                App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar.",count);
+                App.ViewModel.StatusMsg = String.Format(DirectoryBrowser.Internationalization.Resources.ThumbsLeftText, count);
                 if (count > 0)
                 {
                     DBService.Instance.GenerateCoversMemorySteam(App.ViewModel.AllFolders.Where(f => f.CoverExists == false).Take(eachbycomics).OrderBy(f => f.FolderName).ToList(),App.ViewModel.ThumbSourceSelected);
                     if ((count > eachbycomics))
-                    App.ViewModel.StatusMsg = String.Format("Quedan {0} miniaturas por generar...", count-eachbycomics);
+                    App.ViewModel.StatusMsg = String.Format(DirectoryBrowser.Internationalization.Resources.ThumbsLeftText, count-eachbycomics);
                 }
                 else
-                    App.ViewModel.StatusMsg = String.Format("Todas las miniaturas han sido generadas.");
+                    App.ViewModel.StatusMsg = String.Format(DirectoryBrowser.Internationalization.Resources.AllThumbsText);
             }
         }
 
@@ -376,7 +376,7 @@ namespace DirectoryBrowser.ViewModel
             App.ViewModel.StatusMsg = String.Empty;
             System.IO.Directory.CreateDirectory(UtilsApp.GetDocsPath());
             App.ViewModel.IsWorking = true;
-            App.ViewModel.WorkingMsg = "GENERANDO LIBRERIA...";
+            App.ViewModel.WorkingMsg = DirectoryBrowser.Internationalization.Resources.TxtGenaratingLibraryTitle;
             DBService.Instance.Path = filename;
             List<FolderComicsInfo> items = new List<FolderComicsInfo>();
             items = PShellHelper.Instance.GenerateIndexCollection(path);

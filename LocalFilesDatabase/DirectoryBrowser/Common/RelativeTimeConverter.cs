@@ -21,8 +21,12 @@ namespace DirectoryBrowser.Common.Converters
                 }
             }
 
-            if (value == null) return "";            
-            return TimeFormatESP(System.Convert.ToDateTime(value));            
+            if (value == null) return "";        
+            if (App.ViewModel.LanguageSelected == 0)
+             return TimeFormatESP(System.Convert.ToDateTime(value));     
+            else
+                return TimeFormat(System.Convert.ToDateTime(value));
+
         }
 
 

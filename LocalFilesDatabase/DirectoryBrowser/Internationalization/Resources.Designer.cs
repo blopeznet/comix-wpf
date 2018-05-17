@@ -61,6 +61,15 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Todas las miniaturas han sido generadas..
+        /// </summary>
+        public static string AllThumbsText {
+            get {
+                return ResourceManager.GetString("AllThumbsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Cerrar Fichero.
         /// </summary>
         public static string CloseFile {
@@ -79,11 +88,56 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Quedan {0} miniaturas por generar..
+        /// </summary>
+        public static string ThumbsLeftText {
+            get {
+                return ResourceManager.GetString("ThumbsLeftText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Creado por blopez 2018.
+        /// </summary>
+        public static string TxtAboutBy {
+            get {
+                return ResourceManager.GetString("TxtAboutBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acerca de.
+        /// </summary>
+        public static string TxtAboutOf {
+            get {
+                return ResourceManager.GetString("TxtAboutOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Aplicación.
         /// </summary>
         public static string TxtApp {
             get {
                 return ResourceManager.GetString("TxtApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tomos : .
+        /// </summary>
+        public static string TxtBooks {
+            get {
+                return ResourceManager.GetString("TxtBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a TOMOS: .
+        /// </summary>
+        public static string TxtBooksUpper {
+            get {
+                return ResourceManager.GetString("TxtBooksUpper", resourceCulture);
             }
         }
         
@@ -97,11 +151,92 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a CANCELAR.
+        /// </summary>
+        public static string TxtCancelUpper {
+            get {
+                return ResourceManager.GetString("TxtCancelUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a CREADO EL: .
+        /// </summary>
+        public static string TxtCreatedAtUpper {
+            get {
+                return ResourceManager.GetString("TxtCreatedAtUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Crear Fichero.
         /// </summary>
         public static string TxtCreateFile {
             get {
                 return ResourceManager.GetString("TxtCreateFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Explorar.
+        /// </summary>
+        public static string TxtExplore {
+            get {
+                return ResourceManager.GetString("TxtExplore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fichero : .
+        /// </summary>
+        public static string TxtFile {
+            get {
+                return ResourceManager.GetString("TxtFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Fichero creado en {0}.
+        /// </summary>
+        public static string TxtFileCreatedAt {
+            get {
+                return ResourceManager.GetString("TxtFileCreatedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El fichero no se encuentra disponible..
+        /// </summary>
+        public static string TxtFileNotFound {
+            get {
+                return ResourceManager.GetString("TxtFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Filtro ({0}).
+        /// </summary>
+        public static string TxtFilter {
+            get {
+                return ResourceManager.GetString("TxtFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a El directorio no se encuentra disponible..
+        /// </summary>
+        public static string TxtFolderNotFound {
+            get {
+                return ResourceManager.GetString("TxtFolderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Carpetas : .
+        /// </summary>
+        public static string TxtFolders {
+            get {
+                return ResourceManager.GetString("TxtFolders", resourceCulture);
             }
         }
         
@@ -120,6 +255,33 @@ namespace DirectoryBrowser.Internationalization {
         public static string TxtFromSystem {
             get {
                 return ResourceManager.GetString("TxtFromSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Pantalla completa.
+        /// </summary>
+        public static string TxtFullScreen {
+            get {
+                return ResourceManager.GetString("TxtFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a GENERANDO LIBRERIA....
+        /// </summary>
+        public static string TxtGenaratingLibraryTitle {
+            get {
+                return ResourceManager.GetString("TxtGenaratingLibraryTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a INFORMACIÓN.
+        /// </summary>
+        public static string TxtInfoTItle {
+            get {
+                return ResourceManager.GetString("TxtInfoTItle", resourceCulture);
             }
         }
         
@@ -151,6 +313,51 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a  ÚLTIMOS COMICS ACTUALIZADOS.
+        /// </summary>
+        public static string TxtLastComicsUpdatedUpper {
+            get {
+                return ResourceManager.GetString("TxtLastComicsUpdatedUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ULTIMA ACTUALIZACIÓN: .
+        /// </summary>
+        public static string TxtLastUpdatedUpper {
+            get {
+                return ResourceManager.GetString("TxtLastUpdatedUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a CARGANDO....
+        /// </summary>
+        public static string TxtLoadingUpper {
+            get {
+                return ResourceManager.GetString("TxtLoadingUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a MIS COMICS.
+        /// </summary>
+        public static string TxtMyComicsTitle {
+            get {
+                return ResourceManager.GetString("TxtMyComicsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a ACEPTAR.
+        /// </summary>
+        public static string TxtOkUpper {
+            get {
+                return ResourceManager.GetString("TxtOkUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Abrir Fichero.
         /// </summary>
         public static string TxtOpenFile {
@@ -160,11 +367,38 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Procesando {0} de {1} carpetas, {2} de {3} ficheros..
+        /// </summary>
+        public static string TxtProcessing {
+            get {
+                return ResourceManager.GetString("TxtProcessing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a PROCESANDO....
+        /// </summary>
+        public static string TxtProcessTitle {
+            get {
+                return ResourceManager.GetString("TxtProcessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a LECTOR UTILIZADO.
         /// </summary>
         public static string TxtReaderUseTitle {
             get {
                 return ResourceManager.GetString("TxtReaderUseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Guardar página.
+        /// </summary>
+        public static string TxtSavePage {
+            get {
+                return ResourceManager.GetString("TxtSavePage", resourceCulture);
             }
         }
         
@@ -196,6 +430,15 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Tamaño : .
+        /// </summary>
+        public static string TxtSize {
+            get {
+                return ResourceManager.GetString("TxtSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ORIGEN MINIATURAS.
         /// </summary>
         public static string TxtSourceThumbsTitle {
@@ -210,6 +453,15 @@ namespace DirectoryBrowser.Internationalization {
         public static string TxtSystem {
             get {
                 return ResourceManager.GetString("TxtSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a TITULO: .
+        /// </summary>
+        public static string TxtTitleUpper {
+            get {
+                return ResourceManager.GetString("TxtTitleUpper", resourceCulture);
             }
         }
     }

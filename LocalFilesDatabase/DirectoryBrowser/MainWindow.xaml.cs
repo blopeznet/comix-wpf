@@ -131,7 +131,8 @@ namespace DirectoryBrowser
             if (System.IO.Directory.Exists(System.IO.Path.GetDirectoryName(App.ViewModel.SelectedFolder.FolderName)))            
                 Process.Start(App.ViewModel.SelectedFolder.FolderName);            
             else            
-                await App.ViewModel.DisplayPopUp("El directorio no se encuentra disponible.", "ACEPTAR");                          
+                await App.ViewModel.DisplayPopUp(DirectoryBrowser.Internationalization.Resources.TxtFolderNotFound, 
+                    DirectoryBrowser.Internationalization.Resources.TxtOkUpper);                          
         }
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace DirectoryBrowser
                 App.ViewModel.sourceCollection =
                     await App.ViewModel.PopulateTreeView(App.ViewModel.SearchedFolders, '\\');
                 App.ViewModel.SelectedFolder = App.ViewModel.SearchedFolders.FirstOrDefault();                
-                App.ViewModel.FilterMsg = String.Format("Filtro ({0})",comboSearch.Text);
+                App.ViewModel.FilterMsg = String.Format(DirectoryBrowser.Internationalization.Resources.TxtFilter, comboSearch.Text);
                 comboSearch.Text = String.Empty;
                 App.ViewModel.IsWorking = false;
             }
@@ -243,7 +244,7 @@ namespace DirectoryBrowser
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private async void GridFile_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             try
             {
@@ -259,6 +260,12 @@ namespace DirectoryBrowser
                         r.ShowDialog();
 
                     }
+                }
+                else
+                {
+                    
+                await App.ViewModel.DisplayPopUp(DirectoryBrowser.Internationalization.Resources.TxtFileNotFound,
+                    DirectoryBrowser.Internationalization.Resources.TxtOkUpper);
                 }
             }
             catch (Exception ex) { App.ViewModel.StatusMsg = ex.Message; }
