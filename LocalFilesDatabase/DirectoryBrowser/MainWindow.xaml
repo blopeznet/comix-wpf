@@ -105,6 +105,7 @@
                 <TextBlock HorizontalAlignment="Left" Text="{Binding TxtMyComicsTitle, Source={StaticResource Resources}}" Foreground="White" FontFamily="{StaticResource FontFamily}" Margin="24,0,0,0" VerticalAlignment="Center" FontSize="22"/>
 
 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <ComboBox x:Name="comboSearch" HorizontalAlignment="Right" Width="240" Margin="0,0,24,0" VerticalAlignment="Center" Foreground="White"
   materialDesign:HintAssist.Hint="{Binding TxtSearch, Source={StaticResource Resources}}" ItemsSource="{Binding Main.SearchedFolders ,Source={StaticResource Locator}}" SelectionChanged="comboSearch_SelectionChanged"
   IsEditable="True" 
@@ -113,7 +114,15 @@
   Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                 </ComboBox>
 
-
+                    <Button x:Name="buttonConfig" Focusable="False"  Click="buttonConfiguracion_Click"                             
+                            Style="{StaticResource ButtonStyleWithoutOver}" HorizontalContentAlignment="Stretch" 
+                            Background="Transparent" BorderBrush="Transparent" Width="48" HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Height="48" Margin="0,0,0,0"
+                            FontFamily="Segoe UI Symbol" Content="" FontSize="23" Foreground="White">
+                    </Button>
+                    
+                </StackPanel>
             </DockPanel>
 
             <Grid x:Name="statusGrid" Background="Black" Grid.Row="2">
@@ -135,7 +144,7 @@
                         <RowDefinition/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TreeView  ItemsSource="{Binding Main.sourceCollection ,Source={StaticResource Locator}}"  Margin="12" BorderBrush="Transparent" Background="Transparent" x:Name="tv" xmlns:entities="clr-namespace:DirectoryBrowser.Entities" SelectedItemChanged="tv_SelectedItemChanged">
+                    <TreeView Visibility="{Binding Main.sourceCollection, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}" BorderBrush="Black" BorderThickness="0.1" ItemsSource="{Binding Main.sourceCollection ,Source={StaticResource Locator}}"  Margin="12" x:Name="tv" xmlns:entities="clr-namespace:DirectoryBrowser.Entities" SelectedItemChanged="tv_SelectedItemChanged">
                         <TreeView.Resources>
                             <HierarchicalDataTemplate DataType="{x:Type entities:MyTreeViewItem}" ItemsSource="{Binding SubItems}">
                                 <Grid Background="Transparent" Cursor="Hand">
@@ -148,6 +157,9 @@
                                 <Setter Property="IsExpanded" Value="{Binding Show}" />
                             </Style>
                         </TreeView.ItemContainerStyle>
+                        <TreeView.Background>
+                            <SolidColorBrush Color="LightGray" Opacity=".3" />
+                        </TreeView.Background>
                     </TreeView>
                     <StackPanel 
                         Visibility="{Binding Main.SelectedFolder, Source={StaticResource Locator}, Converter={StaticResource NullToVisibilityConverter}}"
@@ -185,7 +197,7 @@
                             <Button Focusable="False" Width="{Binding ActualWidth, ElementName=BigImage}" Height="{Binding ActualHeight, ElementName=BigImage}" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" x:Name="PreviewFilesButton" Click="PreviewFilesButton_Click" Margin="0,0,0,0" Opacity="0.1"></Button>
                         </Grid>
 
-                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,12,0,0">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,18,0,0">
                             <TextBlock Style="{StaticResource SubtitleStyle}" FontWeight="Bold" Text="{Binding TxtTitleUpper, Source={StaticResource Resources}}"/>
                             <TextBlock Style="{StaticResource SubtitleStyle}" Text="{Binding Main.SelectedFolder.FolderName, Source={StaticResource Locator},Converter={StaticResource FolderPathToFolderNameConverter}}"/>
                         </StackPanel>
@@ -289,18 +301,21 @@
                         </DockPanel>
                     </materialDesign:DrawerHost.LeftDrawerContent>
                     <materialDesign:DrawerHost.RightDrawerContent>
-                        <DockPanel Width="350">
-                            <Grid>
+                        <DockPanel MinWidth="350">
+
+                            <Grid Margin="-1,0,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
+
+                                
                                 <Grid Background="{StaticResource SecondaryAccentBrush}" Margin="0,0,0,0">
                                     <TextBlock HorizontalAlignment="Center" FontSize="18" Text="{Binding Main.SelectedFolder.FolderName,Converter={StaticResource FolderPathToFolderNameConverter},Source={StaticResource Locator}}" Foreground="White" Margin="24,0,0,0" VerticalAlignment="Center"
                                                FontFamily="{StaticResource FontFamily}" FontWeight="ExtraLight" />
                                 </Grid>
-                                <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderBrush="Transparent" Grid.Row="1" ItemsSource="{Binding Main.SelectedFolder.Files,Source={StaticResource Locator}}" Margin="0,0,0,0">
+                                <ListView x:Name="LvFiles" Style="{StaticResource MaterialDesignListView}" BorderThickness="0.1" BorderBrush="LightGray" Grid.Row="1" ItemsSource="{Binding Main.SelectedFolder.Files,Source={StaticResource Locator}}" Margin="12">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -308,11 +323,14 @@
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True" PreviewMouseDown="GridFile_PreviewMouseDown">
+                                            <Grid Margin="12,12,12,12" Cursor="Hand" x:Name="GridFile" IsHitTestVisible="True" PreviewMouseDown="GridFile_PreviewMouseDown">
                                                 <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Center" Text="{Binding Converter={StaticResource FilePathToFolderNameConverter}}" Foreground="Black" FontSize="16" FontWeight="SemiBold" FontFamily="Sans-serif" />
                                             </Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
+                                    <ListView.Background>
+                                        <SolidColorBrush Color="LightGray" Opacity=".3" />
+                                    </ListView.Background>
                                 </ListView>
                                 <Button x:Name="buttonHideFiles" Click="buttonHideFiles_Click" Grid.Row="2" IsCancel="True" Margin="8 0 8 0" Style="{DynamicResource MaterialDesignFlatButton}"
                                        Content="{Binding TxtCancelUpper, Source={StaticResource Resources}}">

@@ -39,9 +39,7 @@ namespace DirectoryBrowser.ViewModel
         public List<MyTreeViewItem> sourceCollection
         {
             get
-            {
-                if (_sourceCollection == null)
-                    _sourceCollection = new List<MyTreeViewItem>();
+            {                
                 return _sourceCollection;
             }
 
