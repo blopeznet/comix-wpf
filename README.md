@@ -1,3 +1,4 @@
+
 # COMIC DIRECTORY EXPLORER
 
 Comic Directory Explorer is a file indexer for cbz and cbr files, created with
@@ -26,3 +27,5 @@ clickonce.
   
 This is a personal project to use .NET technologies. They will be implemented
 improvements soon ... :D
+
+Valladolid, 2018
