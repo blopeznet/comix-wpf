@@ -8,6 +8,8 @@
         xmlns:Converters="clr-namespace:DirectoryBrowser.Common.Converters" 
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowTitleBrush="{StaticResource SecondaryAccentBrush}"
         Background="#FF464646"
         WindowStartupLocation="CenterOwner"
         x:Name="CurrentReaderWindow"
@@ -393,10 +395,10 @@
                 </Button>
                 <Button ToolTip="{Binding TxtAboutOf, Source={StaticResource Resources}}" x:Name="buttonAbout" Click="buttonAbout_Click">
                     <Button.Background>
-                        <SolidColorBrush Color="{StaticResource RedPrimary500}" />
+                        <SolidColorBrush Color="{StaticResource Primary500}" />
                     </Button.Background>
                     <Button.Foreground>
-                        <SolidColorBrush Color="{StaticResource RedPrimary500Foreground}" />
+                        <SolidColorBrush Color="{StaticResource Primary500Foreground}" />
                     </Button.Foreground>
                     <materialDesign:PackIcon Kind="CommentQuestion" />
                 </Button>

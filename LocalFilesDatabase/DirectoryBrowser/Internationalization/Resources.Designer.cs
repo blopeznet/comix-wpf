@@ -241,6 +241,15 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Elige una carpeta con los ficheros cbr/cbz : .
+        /// </summary>
+        public static string TxtFolderSelect {
+            get {
+                return ResourceManager.GetString("TxtFolderSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Desde fichero.
         /// </summary>
         public static string TxtFromFile {
@@ -394,6 +403,15 @@ namespace DirectoryBrowser.Internationalization {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a REFRESCAR.
+        /// </summary>
+        public static string TxtRefreshUpper {
+            get {
+                return ResourceManager.GetString("TxtRefreshUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Guardar página.
         /// </summary>
         public static string TxtSavePage {
@@ -417,6 +435,15 @@ namespace DirectoryBrowser.Internationalization {
         public static string TxtSearch {
             get {
                 return ResourceManager.GetString("TxtSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ruta seleccionada : .
+        /// </summary>
+        public static string TxtSelectedPath {
+            get {
+                return ResourceManager.GetString("TxtSelectedPath", resourceCulture);
             }
         }
         

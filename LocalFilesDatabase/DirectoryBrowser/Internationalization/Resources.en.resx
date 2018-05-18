@@ -252,4 +252,13 @@
   <data name="TxtSavePage" xml:space="preserve">
     <value>Save page</value>
   </data>
+  <data name="TxtFolderSelect" xml:space="preserve">
+    <value>Choose folder with cbr/cbz files : </value>
+  </data>
+  <data name="TxtRefreshUpper" xml:space="preserve">
+    <value>REFRESH</value>
+  </data>
+  <data name="TxtSelectedPath" xml:space="preserve">
+    <value>Selected Path : </value>
+  </data>
 </root>
