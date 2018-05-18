@@ -83,6 +83,10 @@ namespace DirectoryBrowser
             }
             else
             {
+                
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(Config.FileName)))                
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Config.FileName));
+                
 
                 Default();
                 var serializer = new XmlSerializer(typeof(Config));
