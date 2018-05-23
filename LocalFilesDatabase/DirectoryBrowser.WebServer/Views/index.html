@@ -1,0 +1,120 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>Comic Server</title>
+
+    <script type='text/javascript' src='content/scripts/jquery.min.js'></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.blImagjtef').fadeTo('slow', 0.5);
+            $('.blImagjtef').hover(function () {
+                $(this).fadeTo('slow', 1.0);
+            }, function () {
+                $(this).fadeTo('slow', 0.5);
+            });
+        });
+    </script>
+    <script type="text/javascript" src="scripts/jquery-1.7.1.min.js"></script>
+    <script type='text/javascript' src='content/scripts/jquery.fancybox.pack.js'></script>
+    <link rel="stylesheet" type="text/css" href="content/scripts/jquery.fancybox.css" />
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".ejemplo_6").fancybox({
+                'autoScale': false,
+                'transitionIn': 'none',
+                'transitionOut': 'none',
+                'width': 300,
+                'height': 500,
+                'type': 'iframe'
+            });
+
+            $(".ejemplo_5").fancybox({
+                'autoScale': false,
+                'transitionIn': 'none',
+                'transitionOut': 'none',
+                'width': 740,
+                'height': 520,
+                'type': 'iframe'
+            });
+
+        });
+
+    </script>
+
+    <style type="text/css">
+
+        .header {
+            font-family: "Trebuchet MS";
+            font-size: 2px;
+            color: #000000;
+        }
+
+        .Estilo3 {
+            font-family: "Trebuchet MS";
+            font-size: 12px;
+            color: #990000;
+            max-width: 120px; /* add this */
+            vertical-align: top;
+            align-content: center;
+        }
+    </style>
+
+</head>
+
+<body style="background-image: url('content/images/back-gray.jpg');">
+
+    <table width="100%" cellspacing="0" cellpadding="0" align="center">
+        <tbody>
+            <tr><td height="50" bgcolor="#000000"><h1 class="header">Comic Browser</h1></td></tr>
+            <tr><td height="6"></td></tr>
+            <tr>
+                <td valign="top" align="center">
+                    <table cellspacing="0" cellpadding="0">
+
+                        <tbody>
+                            <tr>
+                                <td width="350"><img src="content/images/main_left.png" width="350" height="200" border="0"></td>
+                                <td width="750"><img src="content/images/main_right.png" width="750" height="200"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" align="center">
+        <tbody>
+            <tr><td colspan="15" height="10"></td></tr>
+            @Each
+            @If.Start
+            <tr>
+                @EndIf
+                <td height="200px">
+                    <table>
+                        <tbody>
+                            <tr class="Estilo3">
+                                <a href="@Current.TitleHtml" class="ejemplo_6" title="@Current.Title">
+                                    <img src="@Current.Base64String" alt="@Current.Title"
+                                         width="120" height="182" border="0">
+                                </a>
+                            </tr>
+                            <tr>
+                                <td colspan="15" height="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="Estilo3" width="120px" align="center">@Current.Title</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td></td>
+                @If.End
+            </tr>
+            @EndIf
+            @EndEach
+            <tr><td colspan="15" height="10"></td></tr>
+        </tbody>
+    </table>   
+</body>
+</html>

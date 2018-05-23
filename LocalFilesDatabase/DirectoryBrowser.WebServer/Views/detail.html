@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>Comic Server</title>
+
+    <style type="text/css">
+
+        .EstiloCabecera {
+            font-family: "Trebuchet MS";
+            font-size: 18px;
+            color: #ECECEC;
+        }
+
+        .EstiloItemLista {
+            font-family: "Trebuchet MS";
+            font-size: 14px;
+            color: #990000;            
+        }
+
+        div.scroll {
+            width: 280px;
+            height: 430px;
+            overflow: auto;
+            border: 0px;
+        }
+    </style>
+
+</head>
+
+
+<body style="background-image: url('content/images/back-gray.jpg');">
+    <table cellpadding="0" cellspacing="0" width="100%" align="center">
+        <tr>
+            <td height="50" width="100%" valign="top" style="background-color:black" align="center">
+                <table cellpadding="0" cellspacing="0">
+                    <tr><td class="EstiloCabecera" height="50" align="center">@Model.Title</td></tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td height="10"></td></tr>
+        <tr>
+        <tr class="Estilo3">
+            <td>
+                <img src="@Model.Base64String" alt="@Model.Title"
+                     width="192" style="margin-bottom:12px;margin:0 auto;display:block;" border="0">
+            </td>
+        </tr>
+        <td align="center" valign="top">
+            <div class=scroll style="margin-top:24px!important;overflow-x: hidden!important;overflow-y: hidden!important;max-width:270px">
+                <table cellpadding="0" cellspacing="0">                   
+                    <tr>
+                        <td class="EstiloItemLista" width="220px" align="center"><b>CREATION DATE:</b> @Model.CreationDateHtml</td>
+                    </tr>
+                    <tr>
+                        <td class="EstiloItemLista" width="220px" align="center"><b>LAST UPDATE:</b> @Model.LastUpdateHtml</td>
+                    </tr>
+                    <tr>
+                        <td class="EstiloItemLista" width="220px" align="center"><b>FILES:</b> @Model.NumberFiles</td>
+                    </tr>
+                    <tr>
+                        <td class="EstiloItemLista" width="220px" align="center"><b>SIZE:</b> @Model.TotalSizeHtml</td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+        </tr>
+    </table>
+</body>
+</html>
+
