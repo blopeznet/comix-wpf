@@ -14,6 +14,7 @@ namespace DirectoryBrowser.WebServer.Entities
     {
         public String FileName { get; set; }
         public String Path { get; set; }
+        public bool FileExist { get; set; }
     }
 
 

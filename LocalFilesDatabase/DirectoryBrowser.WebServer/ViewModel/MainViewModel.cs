@@ -4,6 +4,7 @@ using System.Text;
 using DirectoryBrowser.WebServer.Entities;
 using System.Linq;
 using Nancy.Hosting.Self;
+using Nancy.Helpers;
 
 namespace DirectoryBrowser.WebServer.ViewModel
 {
@@ -67,8 +68,9 @@ namespace DirectoryBrowser.WebServer.ViewModel
                 foreach (String p in f.Files)
                 {
                     FileDetail d = new FileDetail();
-                    d.Path = p;
-                    d.FileName = System.IO.Path.GetFileNameWithoutExtension(p);
+                    d.FileExist = System.IO.File.Exists(p);
+                    d.Path = String.Format("/comics/{0}", p.Replace("\\","//"));
+                    d.FileName = System.IO.Path.GetFileNameWithoutExtension(p);                    
                     f.FilesDetailed.Add(d);
                 }
             }

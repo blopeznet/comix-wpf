@@ -18,6 +18,28 @@ namespace DirectoryBrowser.WebServer
         /// </summary>
         internal string InitAssembly = "DirectoryBrowser.WebServer.";
 
+        #region favicon
+
+        private byte[] favicon;
+
+        protected override byte[] FavIcon
+        {
+            get { return this.favicon ?? (this.favicon = LoadFavIcon()); }
+        }
+
+        private byte[] LoadFavIcon()
+        {
+            //TODO: remember to replace 'AssemblyName' with the prefix of the resource
+            using (var resourceStream = GetType().Assembly.GetManifestResourceStream(InitAssembly+ "Resources.Mattahan-Ultrabuuf-Comics-Ironman-Folder.ico"))
+            {
+                var memoryStream = new MemoryStream();
+                resourceStream.CopyTo(memoryStream);
+                return memoryStream.GetBuffer();
+            }
+        }
+
+        #endregion
+
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);

@@ -13,7 +13,7 @@
         .EstiloItemLista {
             font-family: "Trebuchet MS";
             font-size: 14px;
-            color: #990000;            
+            color: #990000;                
         }
 
         div.scroll {
@@ -21,14 +21,15 @@
             height: 430px;
             overflow: auto;
             border: 0px;
+            overflow-y: hidden !important;
         }
     </style>
 
 </head>
 
 
-<body style="background-image: url('content/images/back-gray.jpg');">
-    <table cellpadding="0" cellspacing="0" width="100%" align="center">
+<body style="background-image: url('content/images/back-gray.jpg');overflow-y: hidden!important;">
+    <table cellpadding="0" cellspacing="0" width="100%" align="center" style="overflow-y: hidden!important;">  
         <tr>
             <td height="50" width="100%" valign="top" style="background-color:black" align="center">
                 <table cellpadding="0" cellspacing="0">
@@ -36,17 +37,17 @@
                 </table>
             </td>
         </tr>
-        <tr><td height="10"></td></tr>
-        <tr>
-        <tr class="Estilo3">
-            <td>
-                <img src="@Model.Base64String" alt="@Model.Title"
-                     width="192" style="margin-bottom:12px;margin:0 auto;display:block;" border="0">
-            </td>
-        </tr>
         <td align="center" valign="top">
-            <div class=scroll style="margin-top:24px!important;overflow-x: hidden!important;overflow-y: hidden!important;max-width:270px">
-                <table cellpadding="0" cellspacing="0">                   
+            <div class=scroll style="margin-top:6px!important;overflow-x: hidden!important;overflow-y: auto!important;max-width:270px">
+                <table cellpadding="3" cellspacing="3">                    
+                    <tr><td height="10"></td></tr>
+                    <tr>
+                    <tr class="Estilo3">
+                        <td>
+                            <img src="@Model.Base64String" alt="@Model.Title"
+                                 width="192" style="margin-bottom:12px;margin:0 auto;display:block;" border="0">
+                        </td>
+                    </tr>
                     <tr>
                         <td class="EstiloItemLista" width="220px" align="center"><b>CREATION DATE:</b> @Model.CreationDateHtml</td>
                     </tr>
@@ -59,7 +60,19 @@
                     <tr>
                         <td class="EstiloItemLista" width="220px" align="center"><b>SIZE:</b> @Model.TotalSizeHtml</td>
                     </tr>
-                </table>
+                    @Each.Model.FilesDetailed
+                    <tr>
+                        <td class="EstiloItemLista" width="120px" align="center">@Current.FileName</td>
+                        @If.FileExist
+                        <td width="48px" align="center">
+                            <a href="@Current.Path">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAE/SURBVGhD7ZhfDsFAEMZ7Dl5chAQJ4TYiEQmv4iSuIQ4gbsIbDyrhm6RNPNDd7sz+KSOZiHZn+vtmPmybZbzXEulPZix4CLxsFYD+6QQ4JlILqYU4/kGuWkgtpBbSrYT+E7O+BY3/GZ0zt9K0FZ+xWvghuY1jHQS9V0UL57cCAjaoQbVM1yuZjHp7WHFB5IhbRVxx7i4ggGpQraprEcsZ0TXSFwvGhQDu3ZZUPokc2cKX6wZFV6QgXOvQdPp14cv1w8giWPCxRYjAx7KTKHzoSXiBDyXCK7xvOwWB9zWJoPDSIqLAS9kpKjx3EknAu4pICr6unZKEt51E0vAmEY2A/2anRsG/T+KBDxTO+3nX+wCpvCkKTaSKaR3tgHbgTzqwhs5dorGymcEJi1yf4fjOO9oIOCQsYK8CIk/n9ybwAiRwgnp0FPWTAAAAAElFTkSuQmCC" width="32" height="32" style="vertical-align:central">
+                            </a>
+                        </td>
+                        @EndIf
+                    </tr>
+                    @EndEach
+                </table>                
             </div>
         </td>
         </tr>

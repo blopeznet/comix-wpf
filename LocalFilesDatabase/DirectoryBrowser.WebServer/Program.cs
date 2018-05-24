@@ -30,7 +30,7 @@ namespace DirectoryBrowser.WebServerServer
         {                        
             //Instantiate the logger
             string[] args = Environment.GetCommandLineArgs();
-                        
+            
             //Para no abrir la app dos veces
             bool alreadyopened = IsAppAlreadyOpenedKill();
             if (alreadyopened)
