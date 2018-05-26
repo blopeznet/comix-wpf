@@ -103,6 +103,20 @@ namespace DirectoryBrowser.WebServer.Entities
         public string Title { get { return new DirectoryInfo(FolderName).Name; } }
 
         /// <summary>
+        /// Title Folder
+        /// </summary>
+        public string TitleShort {
+            get
+            {
+                String shorttitle =  new DirectoryInfo(FolderName).Name;
+                shorttitle = Nancy.Helpers.HttpUtility.HtmlEncode(shorttitle);
+                if (shorttitle.Length > 50)
+                    shorttitle = shorttitle.Substring(0, 50) + "...";
+                return shorttitle;
+            }
+        }
+
+        /// <summary>
         /// Simulate URL for view detail
         /// </summary>
         public string TitleHtml { get { return "/views/" + Id + ".html"; } }

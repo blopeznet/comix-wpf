@@ -29,6 +29,12 @@ namespace DirectoryBrowser.WebServer
                 return View["detail.html", info];
             });
 
+            Get("/Search/{term*}", x => {
+                String searchby = x.term.ToString().Replace(".html", "");
+                var result = Program.ViewModel.Items.Where(f => f.FolderName.Contains(searchby)).ToList();
+                return View["index.html",result];
+            });
+
             //Download File
             Get("/comics/{uri*}" , p =>
             {

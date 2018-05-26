@@ -68,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\CustomBootstrapper.cs" />
     <Compile Include="Server\MainModule.cs" />
+    <Compile Include="Server\PageNotFoundHandler.cs" />
     <Compile Include="Services\DBService.cs" />
     <Compile Include="Utils\NetAclChecker.cs" />
     <Compile Include="Utils\SimpleLogger.cs" />
@@ -106,12 +107,6 @@
     <EmbeddedResource Include="Views\content\images\back-gray.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\content\images\main_left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\content\images\main_right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Views\content\scripts\fancybox_sprite.png" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="if_server_6185.ico" />
+    <EmbeddedResource Include="Views\PageNotFound.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
