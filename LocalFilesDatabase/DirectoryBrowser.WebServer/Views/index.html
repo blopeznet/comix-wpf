@@ -14,7 +14,7 @@
             });
         });
     </script>
-    <script type="text/javascript" src="scripts/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="content/scripts/jquery-1.7.1.min.js"></script>
     <script type='text/javascript' src='content/scripts/jquery.fancybox.pack.js'></script>
     <link rel="stylesheet" type="text/css" href="content/scripts/jquery.fancybox.css" />
     <script type="text/javascript">
@@ -91,7 +91,7 @@
 
 <body style="background-image: url('content/images/back-gray.jpg');">
 
-    <table cellspacing="0" cellpadding="0" align="center" style="width:100%">
+    <table class="table" cellspacing="0" cellpadding="0" align="center" style="border:none;width:100%;">
         <tbody>
             <tr>
                 <td height="50" bgcolor="#000000">
@@ -99,21 +99,24 @@
                         <div class="widget Header" data-version="2" id="Header1">
                             <div class="header-widget">
                                 <div>
-                                    <h1 style="color:white;font-size:24px;font-weight:lighter;margin-left:14px;margin-top:10px">
+                                    <h1 style="color:white;font-size:34px;font-weight:lighter;margin-left:14px">
                                         Comic Server
-                                    </h1>                                    
-                                </div>                                
-                            </div>                           
+                                    </h1>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </td>
                 <td height="50" bgcolor="#000000">
                     <div style="text-align:right;vertical-align:central;margin-right:12px;margin-bottom:12px">
-                            <input id="mySearchInput" type="text" placeholder="Type here.." style="vertical-align:top;margin-top:12px;">
-                            <button id="mySearchButton" onclick="Search()" style="background-color:transparent;border-color:transparent;margin-top:12px;color:white">Search</button>
+                        <input id="mySearchInput" type="text" placeholder="Type here.." style="width: 50%;padding: 16px 20px;box-sizing: border-box;">
+                        <button id="mySearchButton" onclick="Search()"
+                                style="background-color:#4CAF50;border:none;margin-top:12px;color:white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;">
+                            Search
+                        </button>
                     </div>
                 </td>
-            </tr>            
+            </tr>
         </tbody>
     </table>
     <table class="table" cellpadding="0" cellspacing="0" align="center">
